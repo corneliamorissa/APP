@@ -28,14 +28,12 @@ import java.util.ArrayList;
 public class LoginActivity extends AppCompatActivity {
 
     private RequestQueue requestQueue;
-    private static final String LOGIN_URL  = "https://studev.groept.be/api/a21pt103/login/";
-    private static final String PASS_URL  = "https://studev.groept.be/api/a21pt103/getpassword/";
-    private EditText userName,password;
+    private static final String LOGIN_URL = "https://studev.groept.be/api/a21pt103/login/";
+    private static final String PASS_URL = "https://studev.groept.be/api/a21pt103/getpasword/";
+    private EditText userName, password;
     private Button btn_log_in;
     private String euserName;
     private String epassword;
-
-
 
 
     @Override
@@ -43,39 +41,80 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         requestQueue = Volley.newRequestQueue(this);
-        Button btn = (Button)findViewById(R.id.btn_register1);
+        Button btn = (Button) findViewById(R.id.btn_register1);
         userName = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
-        btn_log_in = (Button)findViewById(R.id.btn_login);
+        btn_log_in = (Button) findViewById(R.id.btn_login);
 
     }
 
-    public void onBtnRegister_Clicked(View caller)
-    {
+    public void onBtnRegister_Clicked(View caller) {
         startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
         finish();
     }
 
-    public void onBtnLogIn_Clicked(View caller)
-    {
-         euserName = userName.getText().toString();
-         epassword = password.getText().toString();
+    public void onBtnLogIn_Clicked(View caller) {
+        euserName = userName.getText().toString();
+        epassword = password.getText().toString();
 
         if (TextUtils.isEmpty(euserName) && TextUtils.isEmpty(epassword)) {
             Toast.makeText(LoginActivity.this, "Please enter user name and password", Toast.LENGTH_SHORT).show();
         }
+        else {
 
-        loginUser(euserName, epassword);
-    }
+            String pass = PASS_URL + "/" + euserName;
+            System.out.println(pass);
+            JSONObject p = new JSONObject();
 
-    private void loginUser(String userName, String password) {
+            JsonArrayRequest queueRequest = new JsonArrayRequest(Request.Method.GET,
+                    pass,
+                    null,
+                    new Response.Listener<JSONArray>() {
+                        @Override
+                        public void onResponse(JSONArray response) {
+                            String p = "";
+                            for (int i = 0; i < response.length(); ++i) {
+                                JSONObject o = null;
+                                try {
+                                    o = response.getJSONObject(i);
+                                    p = o.get("pass").toString();
+
+                                    if (p.equals(epassword)) {
+                                        setContentView(R.layout.activity_main_page);
+                                        Toast.makeText(LoginActivity.this, "Login Succesful", Toast.LENGTH_LONG).show();
+                                    }
+                                    else
+                                    {
+
+                                        Toast.makeText(LoginActivity.this, "Wrong Password", Toast.LENGTH_LONG).show();
+
+                                    }
+
+
+                                    System.out.println(p);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+
+
+                        }
+                    },
+                    error -> Toast.makeText(LoginActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show());
+
+            requestQueue.add(queueRequest);
+        }
+
+   /* private void loginUser() {
 
 
                 String checkpass;
                 String pass = PASS_URL + "/" + euserName;
                 System.out.println(pass);
                 JSONObject p = new JSONObject();
-        JsonArrayRequest queueRequest = new JsonArrayRequest(Request.Method.GET,
+
+                JsonArrayRequest queueRequest = new JsonArrayRequest(Request.Method.GET,
                 pass,
                 null,
                 new Response.Listener<JSONArray>() {
@@ -86,24 +125,39 @@ public class LoginActivity extends AppCompatActivity {
                             JSONObject o = null;
                             try {
                                 o = response.getJSONObject(i);
-                                p = (String) o.get("pass");
+                                p = o.get("pass").toString();
+
+                                if(p.equals(epassword))
+                                {
+                                    setContentView(R.layout.activity_main_page);
+                                    Toast.makeText(LoginActivity.this, "Login Succesful", Toast.LENGTH_LONG).show();
+                                }
+
+                                else
+                                {
+
+                                    Toast.makeText(LoginActivity.this, "Wrong Password", Toast.LENGTH_LONG).show();
+                                    setContentView(R.layout.activity_login);
+
+                                }
+
 
                                 System.out.println(p);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
+
                         }
-                        setContentView(R.layout.activity_main_page);
-                        Toast.makeText(LoginActivity.this, "Login Succesful", Toast.LENGTH_LONG).show();
-                        Intent i = new Intent(LoginActivity.this, MainPageActivity.class);
-                        startActivity(i);
+
+
                     }
                 },
                 error -> Toast.makeText(LoginActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show());
 
-        requestQueue.add(queueRequest);
+                requestQueue.add(queueRequest);
 
 
+/*
                 if(password.equals(pass)) {
                     String requestURL = LOGIN_URL + "/" + euserName + "/" + epassword;
                     JsonArrayRequest log = new JsonArrayRequest(Request.Method.GET,
@@ -140,8 +194,9 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 else{
                     Toast.makeText(LoginActivity.this, "Wrong Password", Toast.LENGTH_LONG).show();
-                }
-            }
+                }*/
+
 
     }
+}
 
