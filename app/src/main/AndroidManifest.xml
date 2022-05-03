@@ -13,6 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NotesApp" >
         <activity
+            android:name=".Topic_Activity"
+            android:exported="false" />
+        <activity
+            android:name=".Topic_Main_Page"
+            android:exported="false" />
+        <activity
             android:name=".NavigationSettingsActivity"
             android:exported="false"
             android:label="@string/title_activity_navigation_settings"
