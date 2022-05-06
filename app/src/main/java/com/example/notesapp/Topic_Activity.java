@@ -51,7 +51,7 @@ public class Topic_Activity extends AppCompatActivity {
 
         btn_nav.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public   void onClick(View v) {
 
                 startActivity(new Intent(Topic_Activity.this, NavigationSettingsActivity.class));
                 finish();
