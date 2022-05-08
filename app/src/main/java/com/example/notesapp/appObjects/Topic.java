@@ -5,14 +5,14 @@ public class Topic {
 
     private int id;
     private String name;
-    private int a_id;
+
     private int g_id;
 
-    public Topic(int i, String n,int a,int g)
+    public Topic(int i, String n,int g)
     {
         id = i;
         name = n;
-        a_id = a;
+
         g_id = g;
     }
 
@@ -32,13 +32,6 @@ public class Topic {
         this.name = name;
     }
 
-    public int getA_id() {
-        return a_id;
-    }
-
-    public void setA_id(int a_id) {
-        this.a_id = a_id;
-    }
 
     public int getG_id() {
         return g_id;

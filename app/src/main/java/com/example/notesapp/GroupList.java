@@ -10,6 +10,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.notesapp.appObjects.Group;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,20 +18,24 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+
 public class GroupList extends AppCompatActivity {
-    private ArrayList<Integer> groups;
-    private ArrayList<Integer> my_groups;
+    private ArrayList<Group> groups;
+    private ArrayList<Group> my_groups;
     private RequestQueue requestQueue;
     private static final String GROUP_URL = "https://studev.groept.be/api/a21pt103/grab_Groups";
     private static final String MYGROUP_URL = "https://studev.groept.be/api/a21pt103/my_groups/";
     private static final String ADDGROUP_URL = "https://studev.groept.be/api/a21pt103/add_Group/";
 
+    public GroupList() {
+       groups = new ArrayList<Group>();
+       my_groups = new ArrayList<Group>();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_list);
-        ArrayList<Integer> groups = new ArrayList<Integer>();
-        ArrayList<Integer> my_groups = new ArrayList<Integer>();
         requestQueue = Volley.newRequestQueue(this);
 
     }
@@ -53,8 +58,15 @@ public class GroupList extends AppCompatActivity {
                             JSONObject o = null;
                             try {
                                 int id = Integer.parseInt((String) o.get("group_id"));
-                                groups.add(id);
-                                System.out.println(id);
+                                String name = (String) o.get("group_name");
+                                String date =  (String) o.get("add_date");
+                                int a_id = Integer.parseInt((String) o.get("admin_id"));
+                                Group g = new Group(id,name,a_id,date);
+                                groups.add(g);
+                                for(Group m : groups)
+                                {
+                                    System.out.println(m);
+                                }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -86,9 +98,17 @@ public class GroupList extends AppCompatActivity {
                         for (int i = 0; i < response.length(); ++i) {
                             JSONObject o = null;
                             try {
+
                                 int id = Integer.parseInt((String) o.get("group_id"));
-                                my_groups.add(id);
-                                System.out.println(id);
+                                String name = (String) o.get("group_name");
+                                String date =  (String) o.get("add_date");
+                                int a_id = Integer.parseInt((String) o.get("admin_id"));
+                                Group g = new Group(id,name,a_id,date);
+                                my_groups.add(g);
+                                for(Group m : my_groups)
+                                {
+                                    System.out.println(m);
+                                }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -105,7 +125,7 @@ public class GroupList extends AppCompatActivity {
 
     //TODO method to add a group
 
-    public void add_groups()
+    /*public void add_groups()
     {
         String pass = ADDGROUP_URL;
 
@@ -121,9 +141,8 @@ public class GroupList extends AppCompatActivity {
                         for (int i = 0; i < response.length(); ++i) {
                             JSONObject o = null;
                             try {
-                                int id = Integer.parseInt((String) o.get("group_id"));
-                                my_groups.add(id);
-                                System.out.println(id);
+                                System.out.println(2);
+
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -137,6 +156,6 @@ public class GroupList extends AppCompatActivity {
 
         requestQueue.add(queueRequest);
     }
-
+*/
     //TODO method to join a group
 }
