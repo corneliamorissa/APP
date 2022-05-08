@@ -75,7 +75,7 @@ public class Topic_Main_Page extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                startActivity(new Intent(Topic_Main_Page.this, NavigationSettingsActivity.class));
+                startActivity(new Intent(Topic_Main_Page.this, NavigationDrawerActivity.class));
                 finish();
 
             }
@@ -125,6 +125,6 @@ public class Topic_Main_Page extends AppCompatActivity {
             requestQueue.add(queueRequest);
         }
     }
-
+//TODO add topic page  layout
 
 

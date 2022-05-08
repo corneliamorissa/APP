@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private RequestQueue requestQueue;
     private static final String LOGIN_URL = "https://studev.groept.be/api/a21pt103/login/";
-    private static final String PASS_URL = "https://studev.groept.be/api/a21pt103/getpasword/";
+    private static final String PASS_URL = "https://studev.groept.be/api/a21pt103/password_check";
     private EditText userName, password;
     private Button btn_log_in;
     private String euserName;
@@ -51,6 +51,8 @@ public class LoginActivity extends AppCompatActivity {
         userName = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
         btn_log_in = (Button) findViewById(R.id.btn_login);
+        getSupportActionBar().setTitle("Log In");
+
 
     }
 
@@ -65,8 +67,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if (TextUtils.isEmpty(euserName) && TextUtils.isEmpty(epassword)) {
             Toast.makeText(LoginActivity.this, "Please enter user name and password", Toast.LENGTH_SHORT).show();
-        }
-        else {
+        } else {
 
             String pass = PASS_URL + "/" + euserName;
             System.out.println(pass);
@@ -86,11 +87,10 @@ public class LoginActivity extends AppCompatActivity {
                                     p = o.get("pass").toString();
 
                                     if (p.equals(epassword)) {
-                                        setContentView(R.layout.activity_main_page);
+                                        startActivity(new Intent(LoginActivity.this, NavigationDrawerActivity.class));
                                         Toast.makeText(LoginActivity.this, "Login Succesful", Toast.LENGTH_LONG).show();
-                                    }
-                                    else
-                                    {
+                                        finish();
+                                    } else {
 
                                         Toast.makeText(LoginActivity.this, "Wrong Password", Toast.LENGTH_LONG).show();
 
@@ -111,6 +111,7 @@ public class LoginActivity extends AppCompatActivity {
 
             requestQueue.add(queueRequest);
         }
+    }
 
    /* private void loginUser() {
 
@@ -203,6 +204,6 @@ public class LoginActivity extends AppCompatActivity {
                 }*/
 
 
-    }
+
 }
 

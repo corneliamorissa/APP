@@ -53,7 +53,7 @@ public class Topic_Activity extends AppCompatActivity {
             @Override
             public   void onClick(View v) {
 
-                startActivity(new Intent(Topic_Activity.this, NavigationSettingsActivity.class));
+                startActivity(new Intent(Topic_Activity.this, NavigationDrawerActivity.class));
                 finish();
 
             }

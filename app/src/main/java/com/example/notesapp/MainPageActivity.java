@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toolbar;
 
 public class MainPageActivity extends AppCompatActivity {
 
@@ -17,6 +18,7 @@ public class MainPageActivity extends AppCompatActivity {
         Button btn_docs = (Button) findViewById(R.id.button5);
         Button btn_upload = (Button) findViewById(R.id.button);
         Button btn_nav = (Button) findViewById(R.id.button7);
+
 
         btn_group.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,7 +54,7 @@ public class MainPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                startActivity(new Intent(MainPageActivity.this, NavigationSettingsActivity.class));
+                startActivity(new Intent(MainPageActivity.this, NavigationDrawerActivity.class));
                 finish();
 
             }

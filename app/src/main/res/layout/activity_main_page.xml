@@ -84,7 +84,6 @@
         android:layout_marginBottom="52dp"
         android:background="#00FFFFFF"
         app:icon="@drawable/ic_dashboard_black_24dp"
-        app:iconGravity="textTop"
         app:iconSize="70dp"
         app:iconTint="#000000"
         app:layout_constraintBottom_toBottomOf="@+id/fragmentContainerView2"
@@ -92,5 +91,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
         tools:ignore="SpeakableTextPresentCheck" />
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

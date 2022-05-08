@@ -23,8 +23,8 @@
     <string name="register" />
     <string name="password">Password</string>
     <string name="username">Username</string>
-    <string name="name">LastName</string>
-    <string name="firstname">FirstName</string>
+    <string name="name">Last Name</string>
+    <string name="firstname">First Name</string>
     <string name="email">Email</string>
     <string name="re_type_password">Re-Type Password</string>
     <string name="or">----- OR -----</string>
@@ -60,4 +60,76 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+
+    <string name="remind_to_take_a_break">Remind me to take a break</string>
+    <string name="key_upload_quality">key_upload_quality</string>
+    <string name="remind_me">Remind me to take a break</string>
+    <string name="remind_me_for_bed_time">remind_me_for_bed_time</string>
+    <string name="remind_for_bed_time">Remind me for bed time</string>
+    <string name="limit_data_usage">prefs_limit_data_usage</string>
+    <string name="stream_video">Only stream HD video on Wi-Fi</string>
+    <string name="limit_mobile_usage">Limit mobile data usage</string>
+    <string name="double_tap_to_seek">Double-tap to seek</string>
+    <string name="pref_seek_val">pref_seek_val</string>
+    <string name="seconds">seconds</string>
+    <string name="uploads">Uploads</string>
+    <string name="pref_uploads">pref_uploads</string>
+    <string name="specify_network_prefs">Specify network preferences for uploads</string>
+    <string name="prefs_restricted_mode">prefs_restricted_mode</string>
+    <string name="restricated_mode">Restricted Mode can help to hide videos with potentially mature content.No filter is 100% accurate, but it should help you to avoid most of this type of content.</string>
+    <string name="restricated_mode_description">Restricted Mode</string>
+    <string name="prefs_enable_stats">prefs_enable_stats</string>
+    <string name="enable_stats">Enable stats for nerds</string>
+    <string name="account">Account</string>
+    <string name="manage_account">Manage Account</string>
+    <string name="general">General</string>
+    <string name="support">Support</string>
+    <string name="feedback">Report a question or problem</string>
+    <string name="log_out">Log out</string>
+    <string name="change_password">Change Password</string>
+    <string name="delete_acc">Delete Account</string>
+    <string name="upload">Upload</string>
+    <string name="mygroups">My Groups</string>
+    <string name="group_name">Group Name</string>
+    <string name="addGroup">Create a Group</string>
+    <string name="my_docs">My Docs</string>
+
+    <string-array name="pref_upload_quality_entries">
+        <item>360p</item>
+        <item>480p</item>
+        <item>720p</item>
+        <item>1080p</item>
+        <item>Original</item>
+    </string-array>
+
+    <string-array name="pref_remind_me_to_take_a_break">
+        <item>1 hours</item>
+        <item>2 hours</item>
+        <item>3 hours</item>
+        <item>5 hours</item>
+        <item>10 hours</item>
+    </string-array>
+
+    <string-array name="pref_seek_values">
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>30</item>
+    </string-array>
+
+    <string-array name="pref_duration">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
+    <string-array name="pref_uploads">
+        <item>Only when on Wi-Fi</item>
+        <item>On any network</item>
+    </string-array>
+    <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
+
 </resources>

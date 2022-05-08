@@ -158,4 +158,6 @@ public class GroupList extends AppCompatActivity {
     }
 */
     //TODO method to join a group
+
+    //TODO creating a group page
 }

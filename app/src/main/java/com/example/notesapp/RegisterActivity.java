@@ -39,6 +39,8 @@ public class RegisterActivity extends AppCompatActivity {
         EditText eEmail = (EditText) findViewById(R.id.email);
         Button bRegister = findViewById(R.id.btn_register);
 
+       getSupportActionBar().setTitle("Register");
+
     }
 
     public void onBtnReg_click(View caller){

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:foregroundTint="#000000"
+    tools:context=".CreateGroupActivity">
+
+    <EditText
+        android:id="@+id/group_name"
+        android:layout_width="163dp"
+        android:layout_height="48dp"
+        android:backgroundTint="#000000"
+        android:drawableTint="#000000"
+        android:ems="10"
+        android:foregroundTint="#000000"
+        android:hint="@string/group_name"
+        android:inputType="textPersonName"
+        android:textColor="#000000"
+        android:textColorHighlight="#FF9800"
+        android:textColorHint="#858585"
+        android:textColorLink="#FF9800"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.249" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="79dp"
+        android:layout_height="83dp"
+        app:layout_constraintBottom_toTopOf="@+id/group_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/user" />
+
+    <SearchView
+        android:id="@+id/searchView"
+        style="@android:style/Widget.Material.SearchView"
+        android:layout_width="222dp"
+        android:layout_height="48dp"
+        android:foregroundTint="#000000"
+        android:queryBackground="?android:attr/actionModeWebSearchDrawable"
+        android:searchHintIcon="?android:attr/actionModeWebSearchDrawable"
+        android:searchIcon="?android:attr/actionModeWebSearchDrawable"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.366" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/users_added"
+        android:layout_width="242dp"
+        android:layout_height="186dp"
+        android:layout_marginTop="44dp"
+        android:background="#FFFFFF"
+        android:backgroundTint="#FFFFFF"
+        android:foregroundTint="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchView"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/createGroup"
+        android:layout_width="221dp"
+        android:layout_height="57dp"
+        android:backgroundTint="#000000"
+        android:text="ADD GROUP"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.489"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/users_added"
+        app:layout_constraintVertical_bias="0.272" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

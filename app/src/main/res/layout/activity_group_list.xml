@@ -27,6 +27,7 @@
         android:id="@+id/scrollView2"
         android:layout_width="362dp"
         android:layout_height="457dp"
+        android:layout_marginBottom="4dp"
         android:background="#FFFFFF"
         android:backgroundTint="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -69,20 +70,17 @@
     </com.google.android.material.tabs.TabLayout>
 
     <Button
-        android:id="@+id/addGroup"
-        android:layout_width="368dp"
-        android:layout_height="60dp"
+        android:id="@+id/createGroup"
+        android:layout_width="221dp"
+        android:layout_height="57dp"
         android:backgroundTint="#000000"
-        android:text="Create a Group"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
+        android:text="ADD GROUP"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintHorizontal_bias="0.489"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/scrollView2"
-        app:layout_constraintVertical_bias="1.0"
-        app:rippleColor="#FFFFFF" />
+        app:layout_constraintVertical_bias="0.950" />
 
     <SearchView
         android:layout_width="358dp"
