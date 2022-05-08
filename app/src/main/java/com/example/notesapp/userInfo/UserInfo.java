@@ -7,11 +7,7 @@ public class UserInfo  {
     private int id;
     private String name;
     private String pass;
-
-
     private String email;
-
-
     private String user;
 
     private UserInfo() {};
