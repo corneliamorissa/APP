@@ -5,7 +5,6 @@ public class Topic {
 
     private int id;
     private String name;
-
     private int g_id;
 
     public Topic(int i, String n,int g)
