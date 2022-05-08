@@ -24,6 +24,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import com.example.notesapp.userInfo.UserInfo;
+
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -34,6 +38,8 @@ public class LoginActivity extends AppCompatActivity {
     private Button btn_log_in;
     private String euserName;
     private String epassword;
+    private UserInfo user;
+
 
 
     @Override
