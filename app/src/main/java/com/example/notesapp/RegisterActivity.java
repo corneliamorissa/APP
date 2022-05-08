@@ -1,13 +1,17 @@
 package com.example.notesapp;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -39,9 +43,14 @@ public class RegisterActivity extends AppCompatActivity {
         EditText eEmail = (EditText) findViewById(R.id.email);
         Button bRegister = findViewById(R.id.btn_register);
 
-       getSupportActionBar().setTitle("Register");
+       ActionBar actionBar = getSupportActionBar();
 
-    }
+       // showing the back button in action bar
+       actionBar.setDisplayHomeAsUpEnabled(true);
+
+
+   }
+
 
     public void onBtnReg_click(View caller){
         EditText elastName = (EditText) findViewById(R.id.name);
@@ -81,5 +90,15 @@ public class RegisterActivity extends AppCompatActivity {
                 error -> Toast.makeText(RegisterActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show());
 
         requestQueue.add(queueRequest);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

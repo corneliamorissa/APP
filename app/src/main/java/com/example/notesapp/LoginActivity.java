@@ -87,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                                     p = o.get("pass").toString();
 
                                     if (p.equals(epassword)) {
-                                        startActivity(new Intent(LoginActivity.this, NavigationDrawerActivity.class));
+                                        startActivity(new Intent(LoginActivity.this, MainPageActivity.class));
                                         Toast.makeText(LoginActivity.this, "Login Succesful", Toast.LENGTH_LONG).show();
                                         finish();
                                     } else {

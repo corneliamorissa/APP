@@ -1,5 +1,6 @@
 package com.example.notesapp.ui.gallery;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.notesapp.GroupList;
+import com.example.notesapp.MainPageActivity;
 import com.example.notesapp.databinding.FragmentGalleryBinding;
 
 public class GalleryFragment extends Fragment {
@@ -26,6 +29,8 @@ public class GalleryFragment extends Fragment {
 
         final TextView textView = binding.textGallery;
         galleryViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        Intent intent = new Intent(getContext(), GroupList.class);
+        startActivity(intent);
         return root;
     }
 
