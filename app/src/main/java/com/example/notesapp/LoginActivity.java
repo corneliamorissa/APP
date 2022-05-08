@@ -26,6 +26,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.example.notesapp.appObjects.Group;
 import com.example.notesapp.userInfo.UserInfo;
 
 
@@ -70,6 +72,7 @@ public class LoginActivity extends AppCompatActivity {
         } else {
 
             String pass = PASS_URL + "/" + euserName;
+
             System.out.println(pass);
             JSONObject p = new JSONObject();
 
@@ -87,8 +90,7 @@ public class LoginActivity extends AppCompatActivity {
                                     p = o.get("pass").toString();
 
                                     if (p.equals(epassword)) {
-                                        startActivity(new Intent(LoginActivity.this, MainPageActivity.class));
-                                        Toast.makeText(LoginActivity.this, "Login Succesful", Toast.LENGTH_LONG).show();
+                                        loginUser();
                                         finish();
                                     } else {
 
@@ -98,7 +100,8 @@ public class LoginActivity extends AppCompatActivity {
 
 
                                     System.out.println(p);
-                                } catch (JSONException e) {
+                                }
+                                catch (JSONException e) {
                                     e.printStackTrace();
                                 }
 
@@ -111,6 +114,50 @@ public class LoginActivity extends AppCompatActivity {
 
             requestQueue.add(queueRequest);
         }
+    }
+
+    public void loginUser()
+    {
+        String login = LOGIN_URL + "/" +  euserName + "/" + epassword;
+        JSONObject p = new JSONObject();
+
+        JsonArrayRequest queueRequest = new JsonArrayRequest(Request.Method.GET,
+                login,
+                null,
+                new Response.Listener<JSONArray>()
+                {
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        for (int i = 0; i < response.length(); ++i) {
+                            JSONObject o = null;
+                            try{
+                            o = response.getJSONObject(i);
+
+                            int id = Integer.parseInt((String) o.get("user_id"));
+                            String f_name = (String) o.get("first_name");
+                            String l_name =  (String) o.get("last_name");
+                            String email =  (String) o.get("email");
+                            user = new UserInfo(id,f_name,l_name,epassword,euserName,email);
+
+                            startActivity(new Intent(LoginActivity.this, MainPageActivity.class));
+                            Toast.makeText(LoginActivity.this, "Login Succesful", Toast.LENGTH_LONG).show();
+
+                            }
+                            catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+
+                        }
+
+
+                    }
+                },
+                error -> Toast.makeText(LoginActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show());
+
+        requestQueue.add(queueRequest);
+
     }
 
    /* private void loginUser() {
@@ -202,6 +249,7 @@ public class LoginActivity extends AppCompatActivity {
                 else{
                     Toast.makeText(LoginActivity.this, "Wrong Password", Toast.LENGTH_LONG).show();
                 }*/
+
 
 
 

@@ -5,16 +5,25 @@ public class UserInfo  {
     private static UserInfo INSTANCE = null;
 
     private int id;
-    private String name;
+    private String first_name;
+    private String last_name;
     private String pass;
     private String email;
     private String user;
 
-    private UserInfo() {};
+    public UserInfo(int i, String fn, String ln, String p, String u, String e)
+    {
+        id = i;
+        first_name = fn;
+        last_name = ln;
+        pass = p;
+        user =u;
+        email =e;
+    };
 
     public static synchronized UserInfo getInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new UserInfo();
+            INSTANCE = new UserInfo(getInstance().getId(), getInstance().first_name, getInstance().last_name, getInstance().getPass(), getInstance().getUser(), getInstance().getEmail());
         }
         return(INSTANCE);
     }
@@ -33,12 +42,12 @@ public class UserInfo  {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirst_name() {
+        return first_name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
     }
 
     public String getPass() {
