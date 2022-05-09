@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,9 +51,18 @@ public class GroupList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_list);
         requestQueue = Volley.newRequestQueue(this);
-        get_groups();
-        my_groups();
+        Button btn_creategroup = (Button) findViewById(R.id.createGroup);
 
+    }
+
+    public void onBtnMain_Clicked(View caller) {
+        startActivity(new Intent(GroupList.this, MainPageActivity.class));
+        finish();
+    }
+
+    public void onBtnCreateGroup_Clicked(View caller) {
+        startActivity(new Intent(GroupList.this, CreateGroupActivity.class));
+        finish();
     }
 
     //TODO method to grab all Groups
