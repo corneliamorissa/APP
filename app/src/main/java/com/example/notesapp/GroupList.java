@@ -42,8 +42,7 @@ public class GroupList extends AppCompatActivity {
     RecyclerView recyclerView;
 
     public GroupList() {
-       groups = new ArrayList<Group>();
-       my_groups = new ArrayList<Group>();
+
     }
 
     @Override
@@ -52,8 +51,10 @@ public class GroupList extends AppCompatActivity {
         setContentView(R.layout.activity_group_list);
         requestQueue = Volley.newRequestQueue(this);
         Button btn_creategroup = (Button) findViewById(R.id.createGroup);
+        groups = new ArrayList<Group>();
+        my_groups = new ArrayList<Group>();
         my_groups();
-        get_groups();
+        //get_groups();
 
     }
 

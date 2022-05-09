@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NotesApp">
         <activity
+            android:name=".UserDocument"
+            android:exported="false" />
+        <activity
             android:name=".DrawerActivity"
             android:exported="false" />
         <activity

@@ -24,13 +24,13 @@ public class MainPageActivity extends AppCompatActivity {
         Button btn_nav = (Button) findViewById(R.id.button7);
 
 
-
+/*
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .setReorderingAllowed(true)
                     .add(R.id.fragmentContainerView, HomeFragment.class, null)
                     .commit();
-        }
+        }*/
 
 
         btn_group.setOnClickListener(new View.OnClickListener() {
@@ -47,7 +47,7 @@ public class MainPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                startActivity(new Intent(MainPageActivity.this, MainPageActivity.class));
+                startActivity(new Intent(MainPageActivity.this, UserDocument.class));
                 finish();
 
             }

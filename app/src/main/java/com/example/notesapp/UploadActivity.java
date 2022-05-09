@@ -113,6 +113,8 @@ public class UploadActivity extends AppCompatActivity {
 
                 progressDialog.dismiss();
                 Toast.makeText(UploadActivity.this, "Post request executed", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(UploadActivity.this, UserDocument.class));
+                finish();
             }
         }, new Response.ErrorListener() {
             @Override
