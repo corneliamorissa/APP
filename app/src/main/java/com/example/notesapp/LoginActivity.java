@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(LoginActivity.this, "Please enter user name and password", Toast.LENGTH_SHORT).show();
         } else {
 
-            String pass = PASS_URL + "/" + euserName;
+            String pass = LOGIN_URL + "/" +  euserName;
 
             System.out.println(pass);
             JSONObject p = new JSONObject();
@@ -90,8 +90,12 @@ public class LoginActivity extends AppCompatActivity {
                                     p = o.get("pass").toString();
 
                                     if (p.equals(epassword)) {
-                                        loginUser();
-                                        finish();
+                                        int id = Integer.parseInt((String) o.get("user_id"));
+                                        String f_name = (String) o.get("first_name");
+                                        String l_name =  (String) o.get("last_name");
+                                        String email =  (String) o.get("email");
+                                        user = new UserInfo(id,f_name,l_name,epassword,euserName,email);
+
                                     } else {
 
                                         Toast.makeText(LoginActivity.this, "Wrong Password", Toast.LENGTH_LONG).show();
@@ -106,6 +110,8 @@ public class LoginActivity extends AppCompatActivity {
                                 }
 
                             }
+                            startActivity(new Intent(LoginActivity.this, MainPageActivity.class));
+                            Toast.makeText(LoginActivity.this, "Login Succesful", Toast.LENGTH_LONG).show();
 
 
                         }
@@ -116,7 +122,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    public void loginUser()
+    /* public void loginUser()
     {
         String login = LOGIN_URL + "/" +  euserName + "/" + epassword;
         JSONObject p = new JSONObject();
@@ -159,7 +165,7 @@ public class LoginActivity extends AppCompatActivity {
         requestQueue.add(queueRequest);
 
     }
-
+*/
    /* private void loginUser() {
 
 
