@@ -108,7 +108,7 @@ public class GroupList extends AppCompatActivity {
 
         requestQueue.add(queueRequest);
 
-        startActivity(new Intent(GroupList.this, GroupList.class));
+
     }
 public void print_groups()
 {
@@ -170,7 +170,7 @@ public void print_groups()
         requestQueue.add(queueRequest);
 
 
-        startActivity(new Intent(GroupList.this, GroupList.class));
+
     }
 public void print_my_groups()
 {
@@ -178,7 +178,7 @@ public void print_my_groups()
         Button b = new Button(this);
         recyclerView = findViewById(R.id.recyclerView);
 
-        b.setText("join");
+
         b.setLayoutParams(new
                 RecyclerView.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
