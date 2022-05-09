@@ -1,8 +1,15 @@
 package com.example.notesapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -11,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.notesapp.appObjects.Group;
+import com.example.notesapp.userInfo.UserInfo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,6 +34,8 @@ public class GroupList extends AppCompatActivity {
     private static final String GROUP_URL = "https://studev.groept.be/api/a21pt103/grab_Groups";
     private static final String MYGROUP_URL = "https://studev.groept.be/api/a21pt103/my_groups/";
     private static final String ADDGROUP_URL = "https://studev.groept.be/api/a21pt103/add_Group/";
+    private UserInfo user;
+    ConstraintLayout cl;
 
     public GroupList() {
        groups = new ArrayList<Group>();
@@ -82,9 +92,11 @@ public class GroupList extends AppCompatActivity {
     }
 
     // TODO method to gab MY GROUPS
+    @SuppressLint("SetTextI18n")
     public void my_groups()
     {
-        String pass = MYGROUP_URL;
+        int id = user.getId();
+        String pass = MYGROUP_URL +"/" + id;
 
         JSONObject p = new JSONObject();
 
@@ -121,13 +133,27 @@ public class GroupList extends AppCompatActivity {
                 error -> Toast.makeText(GroupList.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show());
 
         requestQueue.add(queueRequest);
+
+        for(Group g: groups) {
+            Button b = new Button(this);
+            cl = findViewById(R.id.constraint);
+
+            b.setText("join");
+            b.setLayoutParams(new
+                    RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT));
+            if (cl!= null) {
+                cl.addView(b);
+            }
+        }
     }
 
     //TODO method to add a group
 
     /*public void add_groups()
     {
-        String pass = ADDGROUP_URL;
+
+        String pass = ADDGROUP_URL + "/" + g_name + "/" + user.getId();;
 
         JSONObject p = new JSONObject();
 
