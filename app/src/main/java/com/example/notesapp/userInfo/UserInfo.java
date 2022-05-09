@@ -1,9 +1,6 @@
 package com.example.notesapp.userInfo;
 
 public class UserInfo  {
-
-    private static UserInfo INSTANCE = null;
-
     private int id;
     private String first_name;
     private String last_name;
@@ -11,7 +8,10 @@ public class UserInfo  {
     private String email;
     private String user;
 
-    public UserInfo(int i, String fn, String ln, String p, String u, String e)
+    private static UserInfo INSTANCE = new UserInfo();
+
+   /*
+    private UserInfo(int i, String fn, tring ln, String p, String u, String e)
     {
         id = i;
         first_name = fn;
@@ -19,11 +19,12 @@ public class UserInfo  {
         pass = p;
         user =u;
         email =e;
-    };
+    };*/
 
     public static synchronized UserInfo getInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new UserInfo(getInstance().getId(), getInstance().first_name, getInstance().last_name, getInstance().getPass(), getInstance().getUser(), getInstance().getEmail());
+            INSTANCE = new UserInfo();
+            //getInstance().getId(), getInstance().first_name, getInstance().last_name, getInstance().getPass(), getInstance().getUser(), getInstance().getEmail());
         }
         return(INSTANCE);
     }

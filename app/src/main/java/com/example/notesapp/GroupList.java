@@ -34,7 +34,7 @@ public class GroupList extends AppCompatActivity {
     private ArrayList<Group> groups;
     private ArrayList<Group> my_groups;
     private RequestQueue requestQueue;
-    private static final String GROUP_URL = "https://studev.groept.be/api/a21pt103/grab_Groups";
+    private static final String GROUP_URL = "https://studev.groept.be/api/a21pt103/grab_Groups/";
     private static final String MYGROUP_URL = "https://studev.groept.be/api/a21pt103/my_groups/";
     private static final String ADDGROUP_URL = "https://studev.groept.be/api/a21pt103/add_Group/";
     private UserInfo user;
@@ -52,6 +52,8 @@ public class GroupList extends AppCompatActivity {
         setContentView(R.layout.activity_group_list);
         requestQueue = Volley.newRequestQueue(this);
         Button btn_creategroup = (Button) findViewById(R.id.createGroup);
+        my_groups();
+        get_groups();
 
     }
 
@@ -92,6 +94,7 @@ public class GroupList extends AppCompatActivity {
                                 {
                                     System.out.println(m.getName());
                                 }
+                                print_groups();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -104,26 +107,28 @@ public class GroupList extends AppCompatActivity {
                 error -> Toast.makeText(GroupList.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show());
 
         requestQueue.add(queueRequest);
-        for(Group g: groups) {
-            Button b = new Button(this);
-            recyclerView = findViewById(R.id.recyclerView);
-            recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-            recyclerView.setHasFixedSize(true);
-            b.setText("join");
-            b.setLayoutParams(new
-                    RecyclerView.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT));
-            if (recyclerView!= null) {
-                recyclerView.addView(b);
-            }
+
+        startActivity(new Intent(GroupList.this, GroupList.class));
+    }
+public void print_groups()
+{
+    for(Group g: groups) {
+        Button b = new Button(this);
+
+        b.setText("join");
+        b.setLayoutParams(new
+                RecyclerView.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+        if (recyclerView!= null) {
+            recyclerView.addView(b);
         }
     }
-
+}
     // TODO method to gab MY GROUPS
-    @SuppressLint("SetTextI18n")
+
     public void my_groups()
     {
-        int id = user.getId();
+        int id = UserInfo.getInstance().getId();
         String pass = MYGROUP_URL +"/" + id;
 
         JSONObject p = new JSONObject();
@@ -145,10 +150,12 @@ public class GroupList extends AppCompatActivity {
                                 int a_id = Integer.parseInt((String) o.get("admin_id"));
                                 Group g = new Group(id,name,a_id,date);
                                 my_groups.add(g);
+                                System.out.println(my_groups);
                                 for(Group m : my_groups)
                                 {
                                     System.out.println(m);
                                 }
+                                print_my_groups();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -162,21 +169,24 @@ public class GroupList extends AppCompatActivity {
 
         requestQueue.add(queueRequest);
 
-        for(Group g: my_groups) {
-            Button b = new Button(this);
-            recyclerView = findViewById(R.id.recyclerView);
-            recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-            recyclerView.setHasFixedSize(true);
-            b.setText("join");
-            b.setLayoutParams(new
-                    RecyclerView.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT));
-            if (recyclerView!= null) {
-                recyclerView.addView(b);
-            }
+
+        startActivity(new Intent(GroupList.this, GroupList.class));
+    }
+public void print_my_groups()
+{
+    for(Group g: my_groups) {
+        Button b = new Button(this);
+        recyclerView = findViewById(R.id.recyclerView);
+
+        b.setText("join");
+        b.setLayoutParams(new
+                RecyclerView.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+        if (recyclerView!= null) {
+            recyclerView.addView(b);
         }
     }
-
+}
     //TODO method to add a group
 
     /*public void add_groups()

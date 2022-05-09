@@ -94,7 +94,13 @@ public class LoginActivity extends AppCompatActivity {
                                         String f_name = (String) o.get("first_name");
                                         String l_name =  (String) o.get("last_name");
                                         String email =  (String) o.get("email");
-                                        user = new UserInfo(id,f_name,l_name,epassword,euserName,email);
+                                        user = UserInfo.getInstance();
+                                        user.setId(id);
+                                        user.setUser(euserName);
+                                        user.setFirst_name(f_name);
+                                        user.setEmail(email);
+                                        user.setPass(epassword);
+
 
                                     } else {
 
