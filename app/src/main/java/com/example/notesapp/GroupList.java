@@ -2,6 +2,8 @@ package com.example.notesapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -36,6 +38,7 @@ public class GroupList extends AppCompatActivity {
     private static final String ADDGROUP_URL = "https://studev.groept.be/api/a21pt103/add_Group/";
     private UserInfo user;
     ConstraintLayout cl;
+    RecyclerView recyclerView;
 
     public GroupList() {
        groups = new ArrayList<Group>();
@@ -91,16 +94,17 @@ public class GroupList extends AppCompatActivity {
                 error -> Toast.makeText(GroupList.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show());
 
         requestQueue.add(queueRequest);
-        for(Group g: my_groups) {
+        for(Group g: groups) {
             Button b = new Button(this);
-            cl = findViewById(R.id.constraint);
-
+            recyclerView = findViewById(R.id.recyclerView);
+            recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+            recyclerView.setHasFixedSize(true);
             b.setText("join");
             b.setLayoutParams(new
-                    RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                    RecyclerView.LayoutParams((ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT));
-            if (cl!= null) {
-                cl.addView(b);
+            if (recyclerView!= null) {
+                recyclerView.addView(b);
             }
         }
     }
@@ -148,16 +152,17 @@ public class GroupList extends AppCompatActivity {
 
         requestQueue.add(queueRequest);
 
-        for(Group g: groups) {
+        for(Group g: my_groups) {
             Button b = new Button(this);
-            cl = findViewById(R.id.constraint);
-
+            recyclerView = findViewById(R.id.recyclerView);
+            recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+            recyclerView.setHasFixedSize(true);
             b.setText("join");
             b.setLayoutParams(new
-                    RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                    RecyclerView.LayoutParams((ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT));
-            if (cl!= null) {
-                cl.addView(b);
+            if (recyclerView!= null) {
+                recyclerView.addView(b);
             }
         }
     }
