@@ -80,7 +80,7 @@ public class GroupList extends AppCompatActivity {
                                 groups.add(g);
                                 for(Group m : groups)
                                 {
-                                    System.out.println(m);
+                                    System.out.println(m.getName());
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
