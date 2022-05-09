@@ -101,7 +101,7 @@ public class GroupList extends AppCompatActivity {
             recyclerView.setHasFixedSize(true);
             b.setText("join");
             b.setLayoutParams(new
-                    RecyclerView.LayoutParams((ViewGroup.LayoutParams.WRAP_CONTENT,
+                    RecyclerView.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT));
             if (recyclerView!= null) {
                 recyclerView.addView(b);
@@ -159,7 +159,7 @@ public class GroupList extends AppCompatActivity {
             recyclerView.setHasFixedSize(true);
             b.setText("join");
             b.setLayoutParams(new
-                    RecyclerView.LayoutParams((ViewGroup.LayoutParams.WRAP_CONTENT,
+                    RecyclerView.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT));
             if (recyclerView!= null) {
                 recyclerView.addView(b);
