@@ -47,6 +47,8 @@ public class GroupList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_list);
         requestQueue = Volley.newRequestQueue(this);
+        get_groups();
+        my_groups();
 
     }
 
@@ -89,6 +91,18 @@ public class GroupList extends AppCompatActivity {
                 error -> Toast.makeText(GroupList.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show());
 
         requestQueue.add(queueRequest);
+        for(Group g: my_groups) {
+            Button b = new Button(this);
+            cl = findViewById(R.id.constraint);
+
+            b.setText("join");
+            b.setLayoutParams(new
+                    RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT));
+            if (cl!= null) {
+                cl.addView(b);
+            }
+        }
     }
 
     // TODO method to gab MY GROUPS
