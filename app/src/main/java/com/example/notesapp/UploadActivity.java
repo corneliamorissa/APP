@@ -38,8 +38,8 @@ public class UploadActivity extends AppCompatActivity {
     private ImageView image;
     private ImageView imageRetrieved;
     private RequestQueue requestQueue;
-    private static final String POST_URL = "https://studev.groept.be/api/a21pt103/insertImage";
-    private static final String GET_IMAGE_URL = "https://studev.groept.be/api/a21pt103/getLastImage";
+    private static final String POST_URL = "https://studev.groept.be/api/a21pt103/insertImage/";
+    private static final String GET_IMAGE_URL = "https://studev.groept.be/api/a21pt103/getLastImage/";
     private int PICK_IMAGE_REQUEST = 111;
     private Bitmap bitmap;
     private ProgressDialog progressDialog;
@@ -98,6 +98,7 @@ public class UploadActivity extends AppCompatActivity {
         progressDialog.setMessage("Uploading, please wait...");
         progressDialog.show();
 
+        String upload = POST_URL + image;
         //convert image to base64 string
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
@@ -105,10 +106,11 @@ public class UploadActivity extends AppCompatActivity {
         final String imageString = Base64.encodeToString(imageBytes, Base64.DEFAULT);
 
         //Execute the Volley call. Note that we are not appending the image string to the URL, that happens further below
-        StringRequest  submitRequest = new StringRequest(Request.Method.POST, POST_URL,  new Response.Listener<String>() {
+        StringRequest  submitRequest = new StringRequest(Request.Method.POST, upload,  new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //Turn the progress widget off
+
                 progressDialog.dismiss();
                 Toast.makeText(UploadActivity.this, "Post request executed", Toast.LENGTH_SHORT).show();
             }
