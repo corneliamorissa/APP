@@ -13,6 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NotesApp">
         <activity
+            android:name=".myGroups"
+            android:exported="false" />
+        <activity
+            android:name=".test"
+            android:exported="false" />
+        <activity
             android:name=".UserDocument"
             android:exported="false" />
         <activity

@@ -37,7 +37,7 @@ public class MainPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                startActivity(new Intent(MainPageActivity.this, GroupList.class));
+                startActivity(new Intent(MainPageActivity.this, myGroups.class));
                 finish();
 
             }

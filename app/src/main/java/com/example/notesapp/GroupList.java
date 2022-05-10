@@ -2,17 +2,13 @@ package com.example.notesapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -53,8 +49,9 @@ public class GroupList extends AppCompatActivity {
         Button btn_creategroup = (Button) findViewById(R.id.createGroup);
         groups = new ArrayList<Group>();
         my_groups = new ArrayList<Group>();
-        my_groups();
-        //get_groups();
+        //my_groups();
+        get_groups();
+        RecyclerView r = (RecyclerView) findViewById(R.id.groupView);
 
     }
 
@@ -125,7 +122,7 @@ public void print_groups()
         }
     }
 }
-    // TODO method to gab MY GROUPS
+ /*   // TODO method to gab MY GROUPS
 
     public void my_groups()
     {
@@ -156,7 +153,7 @@ public void print_groups()
                                 {
                                     System.out.println(m);
                                 }
-                                print_my_groups();
+                                //print_my_groups();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -177,7 +174,7 @@ public void print_my_groups()
 {
     for(Group g: my_groups) {
         Button b = new Button(this);
-        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.groupView);
 
 
         b.setLayoutParams(new
@@ -187,7 +184,7 @@ public void print_my_groups()
             recyclerView.addView(b);
         }
     }
-}
+}*/
     //TODO method to add a group
 
     /*public void add_groups()

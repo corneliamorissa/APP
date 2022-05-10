@@ -8,7 +8,7 @@
     android:background="#000000"
     android:backgroundTint="#000000"
     android:foregroundTint="#00FFFFFF"
-    tools:context=".GroupList">
+    tools:context=".myGroups">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/groupView"
