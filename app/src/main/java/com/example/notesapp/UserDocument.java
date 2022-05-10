@@ -42,8 +42,7 @@ public class UserDocument extends AppCompatActivity {
         requestQueue = Volley.newRequestQueue(this);
     }
 
-    public void onBtnRetrieveClicked( View caller )
-    {
+
         //Standard Volley request. We don't need any parameters for this one
         JsonArrayRequest retrieveImageRequest = new JsonArrayRequest(Request.Method.GET, GET_IMAGE_URL, null,
                 new Response.Listener<JSONArray>() {
@@ -81,7 +80,6 @@ public class UserDocument extends AppCompatActivity {
                 }
         );
 
-        requestQueue.add(retrieveImageRequest);
-    }
+
 
 }
