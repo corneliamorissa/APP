@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -17,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.notesapp.userInfo.UserInfo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,6 +34,8 @@ public class UserDocument extends AppCompatActivity {
     private int PICK_IMAGE_REQUEST = 111;
     private Bitmap bitmap;
     private ProgressDialog progressDialog;
+    private UserInfo user;
+    private String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +44,15 @@ public class UserDocument extends AppCompatActivity {
         image = (ImageView)findViewById(R.id.image);
         imageRetrieved = (ImageView)findViewById(R.id.imageRetrieved);
         requestQueue = Volley.newRequestQueue(this);
+        userName = user.getUser();
+        Button button1 = (Button)findViewById(R.id.btnRetrieve);
+        button1.setSelected(true);
     }
 
-
+    public void onBtnRetrievedImg (View caller)
+    {
         //Standard Volley request. We don't need any parameters for this one
-        JsonArrayRequest retrieveImageRequest = new JsonArrayRequest(Request.Method.GET, GET_IMAGE_URL, null,
+        JsonArrayRequest retrieveImageRequest = new JsonArrayRequest(Request.Method.GET, GET_IMAGE_URL + userName, null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -79,6 +87,10 @@ public class UserDocument extends AppCompatActivity {
                     }
                 }
         );
+    }
+
+
+
 
 
 

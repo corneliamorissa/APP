@@ -24,6 +24,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.notesapp.userInfo.UserInfo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,6 +44,8 @@ public class UploadActivity extends AppCompatActivity {
     private int PICK_IMAGE_REQUEST = 111;
     private Bitmap bitmap;
     private ProgressDialog progressDialog;
+    private UserInfo user;
+    private String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,7 @@ public class UploadActivity extends AppCompatActivity {
         image = (ImageView)findViewById(R.id.image);
         imageRetrieved = (ImageView)findViewById(R.id.imageRetrieved);
         requestQueue = Volley.newRequestQueue(this);
+        userName = user.getUser();
 
     }
 
@@ -98,7 +102,7 @@ public class UploadActivity extends AppCompatActivity {
         progressDialog.setMessage("Uploading, please wait...");
         progressDialog.show();
 
-        String upload = POST_URL + image;
+        String upload = POST_URL + image + "/" + userName;;
         //convert image to base64 string
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
