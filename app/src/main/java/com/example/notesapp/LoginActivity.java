@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
         else {
 
 
-            String pass = LOGIN_URL + "/" +  euserName;
+            String pass = LOGIN_URL  +  euserName;
 
             System.out.println(pass);
 
