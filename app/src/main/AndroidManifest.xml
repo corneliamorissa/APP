@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NotesApp">
         <activity
+            android:name=".Group_main_page"
+            android:exported="false" />
+        <activity
             android:name=".myGroups"
             android:exported="false" />
         <activity
@@ -74,7 +77,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

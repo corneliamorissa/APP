@@ -47,9 +47,6 @@ public class myGroups extends AppCompatActivity  implements View.OnClickListener
     private UserInfo user;
     RecyclerView recyclerView;
     Button buttonAdd;
-    ScrollView t;
-    TableRow j;
-    TableRow n;
     private RequestQueue requestQueue;
 
     @Override
@@ -69,6 +66,7 @@ public class myGroups extends AppCompatActivity  implements View.OnClickListener
         System.out.println(pass);
         //String pass = GROUP_URL;1
 
+
         JSONObject p = new JSONObject();
 
         JsonArrayRequest queueRequest = new JsonArrayRequest(Request.Method.GET,
@@ -77,16 +75,17 @@ public class myGroups extends AppCompatActivity  implements View.OnClickListener
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        int p;
+
                         for (int i = 0; i < response.length(); ++i) {
-                            JSONObject o = null;
+                        JSONObject o = null;
                             try {
+                                o = response.getJSONObject(i);
 
                                 int id = Integer.parseInt((String) o.get("group_id"));
                                 System.out.println(id);
-                                String name = (String) o.get("group_name");
+                                String name =  o.get("group_name").toString();
                                 System.out.println(name);
-                                String date =  (String) o.get("add_date");
+                                String date =   o.get("add_date").toString();
                                 System.out.println(date);
                                 int a_id = Integer.parseInt((String) o.get("admin_id"));
                                 Group g = new Group(id,name,a_id,date);
@@ -109,8 +108,7 @@ public class myGroups extends AppCompatActivity  implements View.OnClickListener
 
         requestQueue.add(queueRequest);
 
-        //my_groups();
-        addView();
+        recyclerView.setAdapter(new GroupAdapter(myGroups));
 
 
 
@@ -126,15 +124,8 @@ public class myGroups extends AppCompatActivity  implements View.OnClickListener
         startActivity(new Intent(myGroups.this, CreateGroupActivity.class));
         finish();
     }
-    // TODO method to gab MY GROUPS
-
-    public void my_groups()
-    {
-        int id = UserInfo.getInstance().getId();
 
 
-
-    }
 
     /*public void print_my_groups()
     {
@@ -159,8 +150,8 @@ public class myGroups extends AppCompatActivity  implements View.OnClickListener
 
     private void addView() {
 
-        recyclerView.setAdapter(new GroupAdapter(myGroups));
-        
+
+
         /*View groupView = getLayoutInflater().inflate(R.layout.row_add_group,null,false);
 
         AppCompatSpinner spinnerTeam = (AppCompatSpinner) groupView.findViewById(R.id.spinner_team);
@@ -170,8 +161,13 @@ public class myGroups extends AppCompatActivity  implements View.OnClickListener
         layoutList.addView(groupView); */
 
     }
-    private void removeView(View v){
+    public void groupClick()
+    {
 
+
+
+        startActivity(new Intent(myGroups.this, Group_main_page.class));
+        finish();
     }
 
     @Override

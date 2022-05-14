@@ -33,7 +33,10 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.GroupsView> 
     public void onBindViewHolder(@NonNull GroupsView holder, int position) {
         Group group = GroupList.get(position);
         holder.textGroupName.setText(group.getName());
+
     }
+
+
 
 
 
