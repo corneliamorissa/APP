@@ -23,7 +23,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -69,55 +71,73 @@ public class LoginActivity extends AppCompatActivity {
 
         if (TextUtils.isEmpty(euserName) && TextUtils.isEmpty(epassword)) {
             Toast.makeText(LoginActivity.this, "Please enter user name and password", Toast.LENGTH_SHORT).show();
-        } else {
+        }
+        else {
+
 
             String pass = LOGIN_URL + "/" +  euserName;
 
             System.out.println(pass);
+
             JSONObject p = new JSONObject();
+
+            System.out.println("0");
 
             JsonArrayRequest queueRequest = new JsonArrayRequest(Request.Method.GET,
                     pass,
                     null,
+
                     new Response.Listener<JSONArray>() {
                         @Override
                         public void onResponse(JSONArray response) {
                             String p = "";
-                            for (int i = 0; i < response.length(); ++i) {
-                                JSONObject o = null;
-                                try {
-                                    o = response.getJSONObject(i);
-                                    p = o.get("pass").toString();
+                            String u = "";
+                          System.out.println("1");
+                            if(response.length()==0)
+                            {
+                                System.out.println("1b");
 
-                                    if (p.equals(epassword)) {
-                                        int id = Integer.parseInt((String) o.get("user_id"));
-                                        String f_name = (String) o.get("first_name");
-                                        String l_name =  (String) o.get("last_name");
-                                        String email =  (String) o.get("email");
-                                        user = UserInfo.getInstance();
-                                        user.setId(id);
-                                        user.setUser(euserName);
-                                        user.setFirst_name(f_name);
-                                        user.setEmail(email);
-                                        user.setPass(epassword);
-
-
-                                    } else {
-
-                                        Toast.makeText(LoginActivity.this, "Wrong Password", Toast.LENGTH_LONG).show();
-
-                                    }
-
-
-                                    System.out.println(p);
-                                }
-                                catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
+                                Toast.makeText(LoginActivity.this, "No such account exists", Toast.LENGTH_LONG).show();
 
                             }
-                            startActivity(new Intent(LoginActivity.this, MainPageActivity.class));
-                            Toast.makeText(LoginActivity.this, "Login Succesful", Toast.LENGTH_LONG).show();
+                            else {
+                                for (int i = 0; i < response.length(); ++i) {
+                                    JSONObject o = null;
+                                    System.out.println("2");
+
+                                    try {
+                                        o = response.getJSONObject(i);
+                                        p = o.get("pass").toString();
+                                        u = o.get("user_name").toString();
+                                        if (p.equals(epassword)) {
+                                            int id = Integer.parseInt((String) o.get("user_id"));
+                                            String f_name = (String) o.get("first_name");
+                                            String l_name = (String) o.get("last_name");
+                                            String email = (String) o.get("email");
+                                            user = UserInfo.getInstance();
+                                            user.setId(id);
+                                            user.setUser(euserName);
+                                            user.setFirst_name(f_name);
+                                            user.setEmail(email);
+                                            user.setPass(epassword);
+                                            startActivity(new Intent(LoginActivity.this, MainPageActivity.class));
+                                            Toast.makeText(LoginActivity.this, "Login Succesful", Toast.LENGTH_LONG).show();
+
+
+                                        } else {
+
+                                            Toast.makeText(LoginActivity.this, "Wrong Password", Toast.LENGTH_LONG).show();
+
+                                        }
+
+
+                                        System.out.println(p);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                }
+                            }
 
 
                         }
