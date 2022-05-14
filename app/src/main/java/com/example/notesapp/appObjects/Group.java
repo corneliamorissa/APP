@@ -1,6 +1,8 @@
 package com.example.notesapp.appObjects;
 
-public class Group {
+import java.io.Serializable;
+
+public class Group implements Serializable {
     private int id;
     private String name;
     private int a_id;

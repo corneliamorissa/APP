@@ -35,7 +35,7 @@ public class GroupList extends AppCompatActivity {
     private static final String ADDGROUP_URL = "https://studev.groept.be/api/a21pt103/add_Group/";
     private UserInfo user;
     ConstraintLayout cl;
-    RecyclerView recyclerView;
+    RecyclerView r;
 
     public GroupList() {
 
@@ -117,8 +117,8 @@ public void print_groups()
         b.setLayoutParams(new
                 RecyclerView.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
-        if (recyclerView!= null) {
-            recyclerView.addView(b);
+        if (r!= null) {
+            r.addView(b);
         }
     }
 }

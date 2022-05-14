@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/edit_group"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        ></EditText>
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/spinner_team"
+        android:layout_width="100dp"
+        android:layout_height="40dp"></androidx.appcompat.widget.AppCompatSpinner>
+
+    <androidx.constraintlayout.utils.widget.ImageFilterView
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src ="@drawable/ic_close"></androidx.constraintlayout.utils.widget.ImageFilterView>
+
+</LinearLayout>
