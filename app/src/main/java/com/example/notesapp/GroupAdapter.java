@@ -56,7 +56,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.GroupsView> 
         public GroupsView(@NonNull View itemView) {
             super(itemView);
 
-            textGroupName = (Button) itemView.findViewById(R.id.text_group_name);
+            textGroupName = (Button) itemView.findViewById(R.id.button_name);
 
     }
 }}

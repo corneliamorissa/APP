@@ -14,6 +14,13 @@ public class Topic {
 
         g_id = g;
     }
+    public Topic( String n,int g)
+    {
+
+        name = n;
+
+        g_id = g;
+    }
 
     public int getId() {
         return id;

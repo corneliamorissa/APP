@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.os.Bundle;
 
 
@@ -43,62 +44,94 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class myGroups extends AppCompatActivity  implements View.OnClickListener{
+public class myGroups extends AppCompatActivity {
     private ArrayList<Group> myGroups;
     private static final String MYGROUP_URL = "https://studev.groept.be/api/a21pt103/my_groups/";
     private static final String GROUP_URL = "https://studev.groept.be/api/a21pt103/grab_Groups/";
     private UserInfo user;
-    RecyclerView recyclerView;
-    Button buttonAdd;
     private RequestQueue requestQueue;
+    LinearLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_groups);
         requestQueue = Volley.newRequestQueue(this);
-        recyclerView = findViewById(R.id.rec_view);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
-        
-        recyclerView.setLayoutManager(layoutManager);
+        //recyclerView = findViewById(R.id.rec_view);
+        ////LinearLayoutManager layoutManager = new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
+
+        //recyclerView.setLayoutManager(layoutManager);
         myGroups = new ArrayList<Group>();
-        Group me = new Group(10,"mae",2222,"ok");
-        myGroups.add(me);
-        Group de = new Group(12,"dee",2222,"ok");
-        myGroups.add(de);
-        String pass = MYGROUP_URL + 1;
-        System.out.println(pass);
-        //String pass = GROUP_URL;1
+        //Group me = new Group(10, "mae", 2222, "ok");
+        //myGroups.add(me);
+        //Group de = new Group(12, "dee", 2222, "ok");
+        //myGroups.add(de);
+
+        grabGroups();
 
 
+        layout = findViewById(R.id.container);
+        for (Group m : myGroups) {
+            final View view = getLayoutInflater().inflate(R.layout.row_group, null);
+            Button g = view.findViewById(R.id.button_name);
+
+            g.setText(m.getName());
+            System.out.println(m.getName());
+
+            g.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(myGroups.this, Group_main_page.class)
+                            .putExtra("name", m.getName())
+                            .putExtra("id", m.getId()));
+                }
+            });
+
+            layout.addView(view);
+        }
+    }
+
+
+    public void onBtnMain_Clicked(View caller) {
+        startActivity(new Intent(myGroups.this, MainPageActivity.class));
+        finish();
+    }
+
+    public void onBtnCreateGroup_Clicked(View caller) {
+        startActivity(new Intent(myGroups.this, CreateGroupActivity.class));
+        finish();
+    }
+
+    public void grabGroups() {
+        String url = MYGROUP_URL + '1';
+        System.out.println(url);
         JSONObject p = new JSONObject();
-
+        requestQueue = Volley.newRequestQueue(this);
         JsonArrayRequest queueRequest = new JsonArrayRequest(Request.Method.GET,
-                pass,
+                url,
                 null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
 
                         for (int i = 0; i < response.length(); ++i) {
-                        JSONObject o = null;
+                            JSONObject o = null;
                             try {
                                 o = response.getJSONObject(i);
 
-                                int id = Integer.parseInt((String) o.get("group_id"));
+                                int id = (int) o.get("group_id");
                                 System.out.println(id);
-                                String name =  o.get("group_name").toString();
+                                String name = o.get("group_name").toString();
                                 System.out.println(name);
-                                String date =   o.get("add_date").toString();
+                                String date = o.get("add_date").toString();
                                 System.out.println(date);
-                                int a_id = Integer.parseInt((String) o.get("admin_id"));
-                                Group g = new Group(id,name,a_id,date);
+                                int a_id = (int) o.get("admin_id");
+                                Group g = new Group(id, name, a_id, date);
                                 myGroups.add(g);
-                                for(Group m : myGroups)
-                                {
+                                for (Group m : myGroups) {
                                     System.out.println(m.getName());
                                 }
-                                //print_my_groups();
+
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -112,26 +145,41 @@ public class myGroups extends AppCompatActivity  implements View.OnClickListener
 
         requestQueue.add(queueRequest);
 
+    }
+}
+
+/*
         recyclerView.setAdapter(new GroupAdapter(myGroups));
+        View view = getLayoutInflater().inflate(R.layout.row_group, null);
+
+
+        Button name = view.findViewById(R.id.text_group_name);
+
+
+
+        name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(myGroups.this, Group_main_page.class)
+                        .putExtra("name",name.getText()));
+            }
+        });
+
+
+*/
 
 
 
 
 
-    }
-
-    public void onBtnMain_Clicked(View caller) {
-        startActivity(new Intent(myGroups.this, MainPageActivity.class));
-        finish();
-    }
-    public void onBtnCreateGroup_Clicked(View caller) {
-        startActivity(new Intent(myGroups.this, CreateGroupActivity.class));
-        finish();
-    }
 
 
 
 
+
+
+
+/*
 
     public void groupClick()
     {
@@ -152,4 +200,5 @@ public class myGroups extends AppCompatActivity  implements View.OnClickListener
         //intent.putExtra("name",button.getText());
 
     }
-}
+
+ */
