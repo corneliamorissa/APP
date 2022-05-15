@@ -1,12 +1,12 @@
 package com.example.notesapp.userInfo;
 
 public class UserInfo  {
-    private int id;
-    private String first_name;
-    private String last_name;
-    private String pass;
-    private String email;
-    private String user;
+    protected int id;
+    protected String first_name;
+    protected String last_name;
+    protected String pass;
+    protected String email;
+    protected String user;
 
     private static UserInfo INSTANCE = new UserInfo();
 

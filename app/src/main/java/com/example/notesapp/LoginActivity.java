@@ -31,6 +31,7 @@ import java.util.Map;
 
 import com.example.notesapp.appObjects.Group;
 import com.example.notesapp.userInfo.UserInfo;
+import com.example.notesapp.userInfo.UserLog;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -73,9 +74,7 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(LoginActivity.this, "Please enter user name and password", Toast.LENGTH_SHORT).show();
         }
         else {
-
-
-            String pass = LOGIN_URL  +  euserName;
+            String pass = LOGIN_URL +  euserName;
 
             System.out.println(pass);
 
@@ -95,10 +94,8 @@ public class LoginActivity extends AppCompatActivity {
                           System.out.println("1");
                             if(response.length()==0)
                             {
-                                System.out.println("1b");
 
                                 Toast.makeText(LoginActivity.this, "No such account exists", Toast.LENGTH_LONG).show();
-
                             }
                             else {
                                 for (int i = 0; i < response.length(); ++i) {
@@ -114,19 +111,30 @@ public class LoginActivity extends AppCompatActivity {
                                             String f_name = (String) o.get("first_name");
                                             String l_name = (String) o.get("last_name");
                                             String email = (String) o.get("email");
-                                            user = UserInfo.getInstance();
-                                            user.setId(id);
-                                            user.setUser(euserName);
-                                            user.setFirst_name(f_name);
+                                            UserLog user = new UserLog(euserName,epassword,f_name,l_name,email);
+                                            //user = new UserInfo()
                                             user.setEmail(email);
-                                            user.setPass(epassword);
+                                            user.setFirstname(f_name);
+                                            user.setPassword(epassword);
+                                            user.setUserName(euserName);
+                                            user.setLastname(l_name);
+                                            System.out.println(email +","+ f_name +","+ l_name+ ","+ euserName+"," + epassword);
+                                            System.out.println(user.getEmail() +","+ user.getFirstName() +","+ user.getLastname()+ ","+ user.getUserName()+"," + user.getPassword());
+                                            //user = UserInfo.getInstance();
+                                            //user.setId(id);
+                                            //user.setUser(euserName);
+                                            //user.setFirst_name(f_name);
+                                            //user.setEmail(email);
+                                            //user.setPass(epassword);
                                             startActivity(new Intent(LoginActivity.this, MainPageActivity.class));
+                                            Intent intent = new Intent(LoginActivity.this, MainPageActivity.class);
+                                            intent.putExtra("User Info", user);
                                             Toast.makeText(LoginActivity.this, "Login Succesful", Toast.LENGTH_LONG).show();
 
 
                                         } else {
 
-                                            Toast.makeText(LoginActivity.this, "Wrong Password", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(LoginActivity.this, "Wrong Password or username", Toast.LENGTH_LONG).show();
 
                                         }
 

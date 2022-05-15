@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +20,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.notesapp.userInfo.UserLog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,6 +30,7 @@ public class RegisterActivity extends AppCompatActivity {
     private RequestQueue requestQueue;
     private TextView txtInfo;
     private Button bRegister;
+    private EditText lastName, firstName,userName, password, email;
 
    private static final String Register_URL  = "https://studev.groept.be/api/a21pt103/registration/";
     private static final String test_URL  = "ttps://studev.groept.be/api/a21pt103/email";
@@ -36,11 +40,11 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         requestQueue = Volley.newRequestQueue(this);
-        EditText elastName = (EditText) findViewById(R.id.name);
-        EditText efirstName = (EditText) findViewById(R.id.firstname);
-        EditText euserName = (EditText) findViewById(R.id.username);
-        EditText epassword = (EditText) findViewById(R.id.password);
-        EditText eEmail = (EditText) findViewById(R.id.email);
+        lastName = (EditText) findViewById(R.id.name);
+        firstName = (EditText) findViewById(R.id.firstname);
+        userName = (EditText) findViewById(R.id.username);
+        password = (EditText) findViewById(R.id.password);
+        email = (EditText) findViewById(R.id.email);
         Button bRegister = findViewById(R.id.btn_register);
 
        ActionBar actionBar = getSupportActionBar();
@@ -53,14 +57,13 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     public void onBtnReg_click(View caller){
-        EditText elastName = (EditText) findViewById(R.id.name);
-        EditText efirstName = (EditText) findViewById(R.id.firstname);
-        EditText euserName = (EditText) findViewById(R.id.username);
-        EditText epassword = (EditText) findViewById(R.id.password);
-        EditText eEmail = (EditText) findViewById(R.id.email);
-
-
-        String requestURL = Register_URL + "/" + elastName.getText() + "/" + efirstName.getText() + "/" + euserName.getText() + "/"  + epassword.getText() + "/"  + eEmail.getText();
+        String elastName = lastName.getText().toString();
+        String efirstName = firstName.getText().toString();
+        String eEmail = email.getText().toString();
+        String ePass = password.getText().toString();
+        String eUserName = userName.getText().toString();
+        UserLog user = new UserLog(eUserName, ePass,efirstName,elastName,eEmail);
+        String requestURL = Register_URL + "/" + lastName.getText() + "/" + firstName.getText() + "/" + userName.getText() + "/"  + password.getText() + "/"  + email.getText();
         System.out.println(requestURL);
         JsonArrayRequest queueRequest = new JsonArrayRequest(Request.Method.GET,
                 requestURL,
@@ -82,7 +85,8 @@ public class RegisterActivity extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                         }
-                        setContentView(R.layout.activity_main_page);
+                        startActivity(new Intent(RegisterActivity.this, MainPageActivity.class));
+                        getIntent().putExtra("User Info", user);
                         Toast.makeText(RegisterActivity.this, "Successfully Registered", Toast.LENGTH_LONG).show();
 
                     }

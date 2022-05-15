@@ -2,6 +2,8 @@ package com.example.notesapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.notesapp.userInfo.UserLog;
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -12,7 +14,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -25,6 +26,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.notesapp.userInfo.UserInfo;
+import com.example.notesapp.userInfo.UserLog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,8 +46,7 @@ public class UploadActivity extends AppCompatActivity {
     private int PICK_IMAGE_REQUEST = 111;
     private Bitmap bitmap;
     private ProgressDialog progressDialog;
-    private UserInfo user;
-    private String userName;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,6 @@ public class UploadActivity extends AppCompatActivity {
         image = (ImageView)findViewById(R.id.image);
         imageRetrieved = (ImageView)findViewById(R.id.imageRetrieved);
         requestQueue = Volley.newRequestQueue(this);
-        userName = user.getUser();
 
     }
 
@@ -97,12 +97,14 @@ public class UploadActivity extends AppCompatActivity {
      */
     public void onBtnPostClicked(View caller)
     {
+
+
         //Start an animating progress widget
         progressDialog = new ProgressDialog(UploadActivity.this);
         progressDialog.setMessage("Uploading, please wait...");
         progressDialog.show();
 
-        String upload = POST_URL + image + "/" + userName;;
+        String upload = POST_URL;
         //convert image to base64 string
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
@@ -130,6 +132,7 @@ public class UploadActivity extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("image", imageString);
+                params.put("un", "mae");
                 return params;
             }
         };
