@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".myGroups">
+    tools:context=".Group_main_page">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar2"
@@ -36,13 +36,15 @@
         android:layout_marginBottom="420dp"
         android:lineSpacingExtra="8sp"
         android:text="TextView"
+        android:textColor="@color/black"
         android:textAlignment="center"
         android:textSize="16sp" />
 
     <Button
-        android:id="@+id/button14"
+        android:id="@+id/topics"
         android:layout_width="310dp"
         android:layout_height="70dp"
+        android:background="@drawable/round_primary"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="25dp"
@@ -53,9 +55,10 @@
         tools:ignore="OnClick" />
 
     <Button
-        android:id="@+id/button15"
+        android:id="@+id/Members"
         android:layout_width="310dp"
         android:layout_height="70dp"
+        android:background="@drawable/round_primary"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="25dp"
@@ -68,6 +71,7 @@
         android:id="@+id/button16"
         android:layout_width="310dp"
         android:layout_height="70dp"
+        android:background="@drawable/round_primary"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="23dp"

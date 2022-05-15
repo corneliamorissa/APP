@@ -7,10 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 
 public class Group_main_page extends AppCompatActivity {
-    public Group_main_page(String name)
-    {
-
-    }
+    String name;
+    int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

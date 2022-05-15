@@ -108,7 +108,14 @@ public class GroupList extends AppCompatActivity {
         startActivity(new Intent(GroupList.this, CreateGroupActivity.class));
         finish();
     }
+    public void groupClick()
+    {
 
+
+
+        startActivity(new Intent(GroupList.this, Group_main_page.class));
+        finish();
+    }
 
 }
  /*   // TODO method to gab MY GROUPS

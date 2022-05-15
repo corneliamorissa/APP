@@ -1,8 +1,10 @@
 package com.example.notesapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.os.Bundle;
 
 
@@ -15,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -56,6 +59,7 @@ public class myGroups extends AppCompatActivity  implements View.OnClickListener
         requestQueue = Volley.newRequestQueue(this);
         recyclerView = findViewById(R.id.rec_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
+        
         recyclerView.setLayoutManager(layoutManager);
         myGroups = new ArrayList<Group>();
         Group me = new Group(10,"mae",2222,"ok");
@@ -127,51 +131,25 @@ public class myGroups extends AppCompatActivity  implements View.OnClickListener
 
 
 
-    /*public void print_my_groups()
-    {
-
-        for(Group g: my_groups) {
-            System.out.println(g.getName());
-            
-            addView();
-            Button b = new Button(this);
-            b.setId(g.getId());
-            b.setText("join");
-            t.addView(b);
-
-            TextView name = new TextView(this);
-            name.setText(g.getName());
-            t.addView(name);
 
 
-
-        }
-    }*/
-
-    private void addView() {
-
-
-
-        /*View groupView = getLayoutInflater().inflate(R.layout.row_add_group,null,false);
-
-        AppCompatSpinner spinnerTeam = (AppCompatSpinner) groupView.findViewById(R.id.spinner_team);
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item,my_groups);
-        spinnerTeam.setAdapter(arrayAdapter);
-
-        layoutList.addView(groupView); */
-
-    }
     public void groupClick()
     {
 
 
+        Button button = (Button) findViewById(R.id.text_group_name);
+        Intent intent = new Intent(this, Group_main_page.class);
+        intent.putExtra("name",button.getText());
 
-        startActivity(new Intent(myGroups.this, Group_main_page.class));
-        finish();
     }
 
     @Override
-    public void onClick(View view) {
+    public void onClick(@NonNull View view) {
+         ;
+
+       // Button button = (Button) itemView.findViewById(R.id.text_group_name);
+        Intent intent = new Intent(this, Group_main_page.class);
+        //intent.putExtra("name",button.getText());
 
     }
 }
