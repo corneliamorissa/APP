@@ -122,7 +122,7 @@ public class GroupList extends AppCompatActivity {
                                 for (Group m : groups) {
                                     System.out.println(m.getName());
                                 }
-
+                                //test
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
