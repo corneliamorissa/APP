@@ -14,7 +14,9 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -46,6 +48,8 @@ public class UploadActivity extends AppCompatActivity {
     private int PICK_IMAGE_REQUEST = 111;
     private Bitmap bitmap;
     private ProgressDialog progressDialog;
+    private TextView title, desc;
+    private CheckBox check_g, check_p;
 
 
     @Override
@@ -55,6 +59,10 @@ public class UploadActivity extends AppCompatActivity {
         image = (ImageView)findViewById(R.id.image);
         imageRetrieved = (ImageView)findViewById(R.id.imageRetrieved);
         requestQueue = Volley.newRequestQueue(this);
+        title = (TextView) findViewById(R.id.title_img);
+        desc = (TextView) findViewById(R.id.desc_img);
+        check_g = (CheckBox) findViewById(R.id.checkBoxg);
+        check_p = (CheckBox) findViewById(R.id.checkBoxp);
 
     }
 
