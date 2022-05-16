@@ -20,9 +20,9 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView2"
-        android:layout_width="411dp"
-        android:layout_height="76dp"
-        android:background="#97BFBDBD"
+        android:layout_width="367dp"
+        android:layout_height="52dp"
+        android:background="#000000"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -77,22 +77,15 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <Button
-        android:id="@+id/button7"
-        android:layout_width="84dp"
-        android:layout_height="77dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="52dp"
-        android:background="#00FFFFFF"
-        app:icon="@drawable/ic_dashboard_black_24dp"
-        app:iconSize="70dp"
-        app:iconTint="#000000"
-        app:layout_constraintBottom_toBottomOf="@+id/fragmentContainerView2"
-        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/button2"
+        android:layout_width="92dp"
+        android:layout_height="51dp"
+        android:layout_marginEnd="268dp"
+        android:drawableTop="@drawable/ic_baseline_view_headline_24"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
         tools:ignore="SpeakableTextPresentCheck" />
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

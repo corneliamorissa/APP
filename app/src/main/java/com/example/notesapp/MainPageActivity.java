@@ -24,7 +24,7 @@ public class MainPageActivity extends AppCompatActivity {
         Button btn_group = (Button)findViewById(R.id.button9);
         Button btn_docs = (Button) findViewById(R.id.button5);
         Button btn_upload = (Button) findViewById(R.id.button);
-        Button btn_nav = (Button) findViewById(R.id.button7);
+        Button btn_nav = (Button) findViewById(R.id.button2);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             user_name = extras.getString("user name");
@@ -74,7 +74,7 @@ public class MainPageActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(MainPageActivity.this, UploadActivity.class);
                 intent.putExtra("user id", user_id );
-                intent.putExtra("user name", user_id);
+                intent.putExtra("user name", user_name);
                 startActivity(intent);
                 finish();
 
@@ -85,7 +85,10 @@ public class MainPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                startActivity(new Intent(MainPageActivity.this, NavigationDrawerActivity.class));
+                Intent intent = new Intent(MainPageActivity.this, NaviagtionPage.class);
+                intent.putExtra("user id", user_id);
+                intent.putExtra("user name", user_name);
+                startActivity(intent);
                 finish();
 
             }
