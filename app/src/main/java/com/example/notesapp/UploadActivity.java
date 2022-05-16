@@ -2,8 +2,10 @@ package com.example.notesapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.notesapp.userInfo.UserLog;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -14,8 +16,12 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,10 +41,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.sql.SQLOutput;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UploadActivity extends AppCompatActivity {
+public class UploadActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
     private ImageView image;
     private ImageView imageRetrieved;
@@ -48,8 +56,19 @@ public class UploadActivity extends AppCompatActivity {
     private int PICK_IMAGE_REQUEST = 111;
     private Bitmap bitmap;
     private ProgressDialog progressDialog;
-    private TextView title, desc;
+    private EditText title, desc;
     private CheckBox check_g, check_p;
+    private String etitle, edesc;
+    private int isGroup = 0 ;
+    private Spinner stopic, sgroup;
+    ArrayList<String> topicList = new ArrayList<>();
+    ArrayList<Integer> groupIdList = new ArrayList<>();
+    ArrayList<String> groupList = new ArrayList<>();
+    ArrayAdapter<String> topicAdapter;
+    ArrayAdapter<String> groupAdapter;
+    private String selectedTopic;
+    private int groupId = 1;
+
 
 
     @Override
@@ -59,12 +78,50 @@ public class UploadActivity extends AppCompatActivity {
         image = (ImageView)findViewById(R.id.image);
         imageRetrieved = (ImageView)findViewById(R.id.imageRetrieved);
         requestQueue = Volley.newRequestQueue(this);
-        title = (TextView) findViewById(R.id.title_img);
-        desc = (TextView) findViewById(R.id.desc_img);
+        title = (EditText) findViewById(R.id.title_img);
+        desc = (EditText) findViewById(R.id.desc_img);
         check_g = (CheckBox) findViewById(R.id.checkBoxg);
         check_p = (CheckBox) findViewById(R.id.checkBoxp);
+        stopic = (Spinner) findViewById(R.id.spinner_topic);
+        sgroup = (Spinner) findViewById(R.id.spinner_group);
+        String url = "https://studev.groept.be/api/a21pt103/grabGroupName";
+        JsonArrayRequest queueRequest = new JsonArrayRequest(Request.Method.GET,
+                url, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        for(int i=0; i<response.length();i++){
+                            try {
+                                JSONObject o = null;
+                                o = response.getJSONObject(i);
+                                String groupName = o.get("group_name").toString();
+                                //Integer group_id = o.getInt("group_id");
+                                groupList.add(groupName);
+                                //groupIdList.add(group_id);
+                                groupAdapter = new ArrayAdapter<String>(UploadActivity.this,
+                                        android.R.layout.simple_spinner_item, groupList);
+                                groupAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                sgroup.setAdapter(groupAdapter);
+
+                            }
+                            catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        requestQueue.add(queueRequest);
+        stopic.setOnItemSelectedListener(this);
 
     }
+
+
 
     public void onBtnPickClicked(View caller)
     {
@@ -103,9 +160,19 @@ public class UploadActivity extends AppCompatActivity {
     /**
      * Submits a new image to the database
      */
+    @SuppressLint("NonConstantResourceId")
     public void onBtnPostClicked(View caller)
     {
+        // Is the view now checked?
+        if(check_g.isChecked()){
+            isGroup = 1;
+        }
+        System.out.println(isGroup);
+        etitle = title.getText().toString();
+        System.out.println(etitle);
 
+        edesc = desc.getText().toString();
+        System.out.printf(edesc);
 
         //Start an animating progress widget
         progressDialog = new ProgressDialog(UploadActivity.this);
@@ -140,17 +207,26 @@ public class UploadActivity extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("image", imageString);
-                params.put("un", "mae");
+                params.put("un", "mae2");
+                params.put("title", etitle);
+                params.put("descr", edesc);
+                params.put("ig", String.valueOf(isGroup));
+                params.put("top", selectedTopic);
+                System.out.println(selectedTopic);
                 return params;
             }
+
+
         };
+
+
 
         requestQueue.add(submitRequest);
     }
 
-    /**
+    /*
      * Retrieves the most recent image from the DB
-     */
+
     public void onBtnRetrieveClicked( View caller )
     {
         //Standard Volley request. We don't need any parameters for this one
@@ -191,7 +267,7 @@ public class UploadActivity extends AppCompatActivity {
         );
 
         requestQueue.add(retrieveImageRequest);
-    }
+    }*/
 
     /**
      * Helper method to create a rescaled bitmap. You enter a desired width, and the height is scaled uniformly
@@ -212,6 +288,59 @@ public class UploadActivity extends AppCompatActivity {
         return resizedBitmap;
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+        if(adapterView.getId() == R.id.spinner_group)
+        {
+            topicList.clear();
+            String selectedGroup = adapterView.getSelectedItem().toString();
+            String url = "https://studev.groept.be/api/a21pt103/grabTopicGroup/1";
+            JsonArrayRequest queueRequest = new JsonArrayRequest(Request.Method.GET,
+                    url, null,
+                    new Response.Listener<JSONArray>() {
+                        @Override
+                        public void onResponse(JSONArray response) {
+
+                            for(int i=0; i<response.length();i++){
+                                try {
+                                    JSONObject o = null;
+                                    o = response.getJSONObject(i);
+                                    String topicName = o.get("topic_name").toString();
+                                    topicList.add(topicName);
+                                    topicAdapter = new ArrayAdapter<String>(UploadActivity.this,
+                                            android.R.layout.simple_spinner_item, topicList);
+                                    topicAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                    stopic.setAdapter(topicAdapter);
+
+                                    System.out.println("topics:"+ topicName);
+                                }
+                                catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            });
+            requestQueue.add(queueRequest);
+            stopic.setOnItemSelectedListener(this);
+        }
+        selectedTopic = adapterView.getSelectedItem().toString();
+    }
+
+    private Object groupIdList(int j) {
+        return j;
+    }
+
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
 
 
     //TODO back button
