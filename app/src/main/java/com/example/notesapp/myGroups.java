@@ -33,6 +33,7 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.notesapp.appObjects.Group;
@@ -51,25 +52,80 @@ public class myGroups extends AppCompatActivity {
     private UserInfo user;
     private RequestQueue requestQueue;
     LinearLayout layout;
-
+    private String user_name;
+    private int user_id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_groups);
         requestQueue = Volley.newRequestQueue(this);
-        //recyclerView = findViewById(R.id.rec_view);
-        ////LinearLayoutManager layoutManager = new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            user_name = extras.getString("user name");
+            user_id = extras.getInt("user id");
+            //The key argument here must match that used in the other activity
+        }
 
-        //recyclerView.setLayoutManager(layoutManager);
         myGroups = new ArrayList<Group>();
-        //Group me = new Group(10, "mae", 2222, "ok");
-        //myGroups.add(me);
-        //Group de = new Group(12, "dee", 2222, "ok");
-        //myGroups.add(de);
 
-        grabGroups();
+        String url = MYGROUP_URL + user_id;
+        System.out.println(url);
+        JsonArrayRequest queueRequest;
+        queueRequest = new JsonArrayRequest(Request.Method.GET,url,null,new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                String info = "";
+                layout = findViewById(R.id.container);
+                for (int i=0; i<response.length(); ++i) {
+
+                    System.out.println("test1");
+                    JSONObject o = null;
+
+                    try {
+                        o = response.getJSONObject(i);
+                        final Group g = new Group(o.getInt("group_id"), o.getString("group_name"), o.getInt("admin_id"), o.getString("add_date"));
+                        System.out.println(g.getName());
+                        System.out.println(g.getId());
+                        myGroups.add(g);
+                        final View view = getLayoutInflater().inflate(R.layout.row_group, null);
+                        Button b = view.findViewById(R.id.button_name);
+
+                        b.setText(g.getName());
+                        System.out.println(g.getName());
+
+                        b.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                startActivity(new Intent(myGroups.this, Group_main_page.class)
+                                        .putExtra("name", g.getName())
+                                        .putExtra("id", g.getId()));
+                            }
+                        });
+
+                        layout.addView(view);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
 
+
+                }
+                for(Group m : myGroups)
+                {
+                    System.out.println(m.getName());
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(myGroups.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
+            }
+        });
+        requestQueue.add(queueRequest);
+        //grabGroups();
+
+/*
         layout = findViewById(R.id.container);
         for (Group m : myGroups) {
             final View view = getLayoutInflater().inflate(R.layout.row_group, null);
@@ -89,16 +145,22 @@ public class myGroups extends AppCompatActivity {
 
             layout.addView(view);
         }
+        */
+
     }
 
 
     public void onBtnMain_Clicked(View caller) {
-        startActivity(new Intent(myGroups.this, MainPageActivity.class));
+        Intent intent = new Intent(myGroups.this, MainPageActivity.class);
+        intent.putExtra("user_id",user_id);
+        startActivity(intent);
         finish();
     }
 
     public void onBtnCreateGroup_Clicked(View caller) {
-        startActivity(new Intent(myGroups.this, CreateGroupActivity.class));
+        Intent intent = new Intent(myGroups.this, CreateGroupActivity.class);
+        intent.putExtra("user_id",user_id);
+        startActivity(intent);
         finish();
     }
 
@@ -147,58 +209,3 @@ public class myGroups extends AppCompatActivity {
 
     }
 }
-
-/*
-        recyclerView.setAdapter(new GroupAdapter(myGroups));
-        View view = getLayoutInflater().inflate(R.layout.row_group, null);
-
-
-        Button name = view.findViewById(R.id.text_group_name);
-
-
-
-        name.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(myGroups.this, Group_main_page.class)
-                        .putExtra("name",name.getText()));
-            }
-        });
-
-
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-
-    public void groupClick()
-    {
-
-
-        Button button = (Button) findViewById(R.id.text_group_name);
-        Intent intent = new Intent(this, Group_main_page.class);
-        intent.putExtra("name",button.getText());
-
-    }
-
-    @Override
-    public void onClick(@NonNull View view) {
-         ;
-
-       // Button button = (Button) itemView.findViewById(R.id.text_group_name);
-        Intent intent = new Intent(this, Group_main_page.class);
-        //intent.putExtra("name",button.getText());
-
-    }
-
- */

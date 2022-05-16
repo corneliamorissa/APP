@@ -11,8 +11,11 @@ import android.widget.Toolbar;
 
 import com.example.notesapp.ui.home.HomeFragment;
 
-public class MainPageActivity extends AppCompatActivity {
+import java.util.Locale;
 
+public class MainPageActivity extends AppCompatActivity {
+    private String user_name;
+    private int user_id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -22,6 +25,12 @@ public class MainPageActivity extends AppCompatActivity {
         Button btn_docs = (Button) findViewById(R.id.button5);
         Button btn_upload = (Button) findViewById(R.id.button);
         Button btn_nav = (Button) findViewById(R.id.button7);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            user_name = extras.getString("user name");
+            user_id = extras.getInt("user id");
+            //The key argument here must match that used in the other activity
+        }
 
 
 /*
@@ -37,7 +46,10 @@ public class MainPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                startActivity(new Intent(MainPageActivity.this, myGroups.class));
+                Intent intent = new Intent(MainPageActivity.this, myGroups.class);
+                intent.putExtra("user id", user_id );
+                intent.putExtra("user name", user_id);
+                startActivity(intent);
                 finish();
 
             }
@@ -47,7 +59,10 @@ public class MainPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                startActivity(new Intent(MainPageActivity.this, UserDocument.class));
+                Intent intent = new Intent(MainPageActivity.this, UserDocument.class);
+                intent.putExtra("user id", user_id );
+                intent.putExtra("user name", user_id);
+                startActivity(intent);
                 finish();
 
             }
@@ -57,7 +72,10 @@ public class MainPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                startActivity(new Intent(MainPageActivity.this, UploadActivity.class));
+                Intent intent = new Intent(MainPageActivity.this, UploadActivity.class);
+                intent.putExtra("user id", user_id );
+                intent.putExtra("user name", user_id);
+                startActivity(intent);
                 finish();
 
             }

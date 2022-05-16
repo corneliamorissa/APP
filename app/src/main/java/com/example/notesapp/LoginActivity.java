@@ -44,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
     private String euserName;
     private String epassword;
     private UserInfo user;
+    private int user_id;
 
 
 
@@ -107,10 +108,10 @@ public class LoginActivity extends AppCompatActivity {
                                         p = o.get("pass").toString();
                                         u = o.get("user_name").toString();
                                         if (p.equals(epassword)) {
-                                            int id = Integer.parseInt((String) o.get("user_id"));
-                                            String f_name = (String) o.get("first_name");
-                                            String l_name = (String) o.get("last_name");
-                                            String email = (String) o.get("email");
+                                            int id =  o.getInt("user_id");
+                                            String f_name =  o.getString("first_name");
+                                            String l_name =  o.getString("last_name");
+                                            String email =  o.getString("email");
                                             UserLog user = new UserLog(euserName,epassword,f_name,l_name,email);
                                             //user = new UserInfo()
                                             user.setEmail(email);
@@ -120,15 +121,13 @@ public class LoginActivity extends AppCompatActivity {
                                             user.setLastname(l_name);
                                             System.out.println(email +","+ f_name +","+ l_name+ ","+ euserName+"," + epassword);
                                             System.out.println(user.getEmail() +","+ user.getFirstName() +","+ user.getLastname()+ ","+ user.getUserName()+"," + user.getPassword());
-                                            //user = UserInfo.getInstance();
-                                            //user.setId(id);
-                                            //user.setUser(euserName);
-                                            //user.setFirst_name(f_name);
-                                            //user.setEmail(email);
-                                            //user.setPass(epassword);
-                                            startActivity(new Intent(LoginActivity.this, MainPageActivity.class));
+
+                                            //startActivity(new Intent(LoginActivity.this, MainPageActivity.class));
                                             Intent intent = new Intent(LoginActivity.this, MainPageActivity.class);
+                                            intent.putExtra("user id", id );
+                                            intent.putExtra("user name",euserName);
                                             intent.putExtra("User Info", user);
+                                            startActivity(intent);
                                             Toast.makeText(LoginActivity.this, "Login Succesful", Toast.LENGTH_LONG).show();
 
 

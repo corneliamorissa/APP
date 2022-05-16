@@ -17,7 +17,7 @@
         android:drawableTint="#000000"
         android:ems="10"
         android:foregroundTint="#000000"
-        android:hint="@string/group_name"
+        android:hint="Group name"
         android:inputType="textPersonName"
         android:shadowColor="#000000"
         android:textColor="#000000"
@@ -28,7 +28,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.249" />
+        app:layout_constraintVertical_bias="0.382" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -40,54 +40,19 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/user" />
 
-    <SearchView
-        android:id="@+id/searchView"
-        style="@android:style/Widget.Material.SearchView"
-        android:layout_width="222dp"
-        android:layout_height="48dp"
-        android:background="#000000"
-        android:backgroundTint="#000000"
-        android:foregroundTint="#000000"
-        android:foregroundTintMode="screen"
-        android:queryBackground="@color/black"
-        android:searchHintIcon="?android:attr/actionModeWebSearchDrawable"
-        android:searchIcon="?android:attr/actionModeWebSearchDrawable"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.366" />
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/users_added"
-        android:layout_width="242dp"
-        android:layout_height="186dp"
-        android:layout_marginTop="44dp"
-        android:background="#FFFFFF"
-        android:backgroundTint="#FFFFFF"
-        android:foregroundTint="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchView"
-        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/createGroup"
         android:layout_width="221dp"
         android:layout_height="57dp"
+        android:layout_marginBottom="236dp"
         android:backgroundTint="#000000"
         android:clickable="true"
         android:text="ADD GROUP"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.489"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/users_added"
-        app:layout_constraintVertical_bias="0.272" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

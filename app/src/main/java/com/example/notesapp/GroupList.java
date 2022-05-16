@@ -42,6 +42,8 @@ public class GroupList extends AppCompatActivity {
     ConstraintLayout cl;
     RecyclerView r;
     LinearLayout layout;
+    String user_name;
+     int user_id;
 
 
 
@@ -49,19 +51,75 @@ public class GroupList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_list);
-        requestQueue = Volley.newRequestQueue(this);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            user_name = extras.getString("user name");
+            user_id = extras.getInt("user id");
+            //The key argument here must match that used in the other activity
+        }
         groups = new ArrayList<Group>();
         Button btn_creategroup = (Button) findViewById(R.id.createGroup);
+        String url = GROUP_URL ;
+        System.out.println(url);
+        requestQueue = Volley.newRequestQueue(this);
+        System.out.println("test");
+        JsonArrayRequest queueRequest;
 
-        grabGroups();
+        queueRequest = new JsonArrayRequest(Request.Method.GET,url,null,new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                String info = "";
+                layout = findViewById(R.id.container);
+                for (int i=0; i<response.length(); ++i) {
+
+                    System.out.println("test1");
+                    JSONObject o = null;
+
+                    try {
+                        o = response.getJSONObject(i);
+                        final Group g = new Group(o.getInt("group_id"), o.getString("group_name"), o.getInt("admin_id"), o.getString("add_date"));
+                        System.out.println(g.getName());
+                        System.out.println(g.getId());
+                        groups.add(g);
+                        final View view = getLayoutInflater().inflate(R.layout.row_group, null);
+                        Button b = view.findViewById(R.id.button_name);
+
+                        b.setText(g.getName());
+                        System.out.println(g.getName());
+
+                        b.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                startActivity(new Intent(GroupList.this, Group_main_page.class)
+                                        .putExtra("name", g.getName())
+                                        .putExtra("id", g.getId()));
+                            }
+                        });
+
+                        layout.addView(view);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
 
-        //Group me = new Group(10, "mae", 2222, "ok");
-        //groups.add(me);
-       // Group de = new Group(12, "hiiii", 2222, "ok");
-        //groups.add(de);
+
+                }
+                for(Group m : groups)
+                {
+                    System.out.println(m.getName());
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(GroupList.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
+            }
+        });
 
 
+
+/*
         layout = findViewById(R.id.container);
         for (Group m : groups) {
             final View view = getLayoutInflater().inflate(R.layout.row_group, null);
@@ -83,58 +141,102 @@ public class GroupList extends AppCompatActivity {
 
 
         }
+        */
+
+
+        requestQueue.add(queueRequest);
     }
 
     public void onBtnMain_Clicked(View caller) {
-        startActivity(new Intent(GroupList.this, MainPageActivity.class));
+        Intent intent = new Intent(GroupList.this, MainPageActivity.class);
+        intent.putExtra("user_id",user_id);
+        startActivity(intent);
+        finish();
         finish();
     }
 
     public void onBtnCreateGroup_Clicked(View caller) {
-        startActivity(new Intent(GroupList.this, CreateGroupActivity.class));
+        Intent intent = new Intent(GroupList.this, CreateGroupActivity.class);
+        intent.putExtra("user_id",user_id);
+        startActivity(intent);
         finish();
     }
     public void grabGroups() {
         String url = GROUP_URL ;
         System.out.println(url);
-        JSONObject p = new JSONObject();
 
-        JsonArrayRequest queueRequest = new JsonArrayRequest(Request.Method.GET,
+        System.out.println("test");
+        JsonArrayRequest queueRequest;
+
+        queueRequest = new JsonArrayRequest(Request.Method.GET,url,null,new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                String info = "";
+                for (int i=0; i<response.length(); ++i) {
+                    System.out.println("test1");
+                    JSONObject o = null;
+                    try {
+                        o = response.getJSONObject(i);
+                        Group g = new Group(o.getInt("group_id"), o.getString("group_name"), o.getInt("admin_id"), o.getString("add_date"));
+                        groups.add(g);
+                        System.out.println("test2");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(GroupList.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
+            }
+        });
+        requestQueue.add(queueRequest);
+        requestQueue = Volley.newRequestQueue(this);
+/*
+        queueRequest = new JsonArrayRequest(Request.Method.GET,
                 url,
-                null,
+
                 new Response.Listener<JSONArray>() {
+
                     @Override
                     public void onResponse(JSONArray response) {
+                        System.out.println("test");
 
                         for (int i = 0; i < response.length(); ++i) {
                             JSONObject o = null;
+                            System.out.println("test1");
                             try {
                                 o = response.getJSONObject(i);
-                                int id = (int) o.get("group_id");
+                                int id =  o.getInt("group_id");
                                 System.out.println(id);
-                                String name = o.get("group_name").toString();
+                                String name = o.getString("group_name");
                                 System.out.println(name);
-                                String date = o.get("add_date").toString();
+                                String date = o.getString("add_date");
                                 System.out.println(date);
-                                int a_id = (int) o.get("admin_id");
+                                int a_id =  o.getInt("admin_id");
                                 Group g = new Group(id, name, a_id, date);
                                 groups.add(g);
-                                for (Group m : groups) {
-                                    System.out.println(m.getName());
-                                }
-                                //test
-                            } catch (JSONException e) {
+                                System.out.println("test2");
+                            }
+                            catch (JSONException e) {
                                 e.printStackTrace();
                             }
 
                         }
 
-
                     }
-                },
-                error -> Toast.makeText(GroupList.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show());
+                    },
+                    new Response.ErrorListener(){
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(GroupList.this, "unable to connect", Toast.LENGTH_LONG).show();
+                        }
 
+                });
 
+*/
 
 
     }
