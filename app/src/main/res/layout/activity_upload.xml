@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="16dp"
-    android:paddingRight="16dp"
-    android:paddingBottom="16dp"
-    android:orientation="vertical"
     android:background="@android:color/white"
     android:backgroundTint="@android:color/white"
     android:foregroundTint="@android:color/white"
+    android:onClick="onClickSpinner"
+    android:orientation="vertical"
+    android:paddingTop="16dp"
+    android:paddingRight="16dp"
+    android:paddingBottom="16dp"
     tools:context=".UploadActivity">
 
 
@@ -73,10 +74,25 @@
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintHorizontal_bias="0.043"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.684" />
+        app:layout_constraintVertical_bias="0.782" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="Group Name to Upload :"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.061"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.644" />
 
     <ImageView
         android:id="@+id/image_view"
@@ -167,7 +183,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.394"
-        app:layout_constraintStart_toEndOf="@+id/checkBox"
+        app:layout_constraintStart_toEndOf="@+id/checkBoxp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.586" />
 
@@ -189,12 +205,29 @@
         android:id="@+id/spinner_topic"
         android:layout_width="325dp"
         android:layout_height="48dp"
+        android:backgroundTint="#000000"
+        android:foregroundTint="#000000"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.773" />
+        app:layout_constraintVertical_bias="0.873" />
+
+    <Spinner
+        android:id="@+id/spinner_group"
+        android:layout_width="324dp"
+        android:layout_height="51dp"
+        android:textColor="@color/black"
+        android:backgroundTint="#000000"
+        android:foregroundTint="#000000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.723" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
