@@ -67,7 +67,8 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
     ArrayAdapter<String> topicAdapter;
     ArrayAdapter<String> groupAdapter;
     private String selectedTopic;
-    private int groupId = 1;
+    private String selectedGroup;
+    private int groupId = 0;
 
 
 
@@ -117,7 +118,7 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
             }
         });
         requestQueue.add(queueRequest);
-        stopic.setOnItemSelectedListener(this);
+        sgroup.setOnItemSelectedListener(this);
 
     }
 
@@ -212,7 +213,7 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
                 params.put("descr", edesc);
                 params.put("ig", String.valueOf(isGroup));
                 params.put("top", selectedTopic);
-                System.out.println(selectedTopic);
+                params.put("gi", String.valueOf(groupId));
                 return params;
             }
 
@@ -294,8 +295,19 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
         if(adapterView.getId() == R.id.spinner_group)
         {
             topicList.clear();
-            String selectedGroup = adapterView.getSelectedItem().toString();
-            String url = "https://studev.groept.be/api/a21pt103/grabTopicGroup/1";
+            selectedGroup = adapterView.getSelectedItem().toString();
+            System.out.println(selectedGroup);
+            for(int j = 0; j<groupList.size();j++)
+            {
+                if(groupList.get(j).equals(selectedGroup))
+                {
+                    groupId = j;
+                }
+            }
+
+            System.out.println(groupId);
+            String url = "https://studev.groept.be/api/a21pt103/grabTopicGroup/" + groupId;
+            System.out.println(url);
             JsonArrayRequest queueRequest = new JsonArrayRequest(Request.Method.GET,
                     url, null,
                     new Response.Listener<JSONArray>() {
@@ -327,14 +339,10 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
                 }
             });
             requestQueue.add(queueRequest);
-            stopic.setOnItemSelectedListener(this);
         }
         selectedTopic = adapterView.getSelectedItem().toString();
     }
 
-    private Object groupIdList(int j) {
-        return j;
-    }
 
 
     @Override
