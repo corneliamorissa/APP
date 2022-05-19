@@ -134,5 +134,6 @@
     <string name="retrieve_image">Retrieve Note</string>
     <string name="selected_image">Selected Image</string>
     <string name="retrieved_image">Retrieved Note</string>
+    <string name="groups">GROUPS</string>
 
 </resources>
