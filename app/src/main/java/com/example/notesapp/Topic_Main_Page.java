@@ -39,12 +39,13 @@ public class Topic_Main_Page extends AppCompatActivity {
     Button add;
     AlertDialog dialog;
     LinearLayout layout;
+    Button btn_nav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_topic_page);
-
+        btn_nav = findViewById(R.id.nav_button);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
 
@@ -68,8 +69,19 @@ public class Topic_Main_Page extends AppCompatActivity {
         });
 
 
-    }
+        btn_nav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                Intent intent = new Intent(Topic_Main_Page.this, NaviagtionPage.class);
+                intent.putExtra("group id", g_id);
+                intent.putExtra("user id", id);
+                startActivity(intent);
+                finish();
+
+            }
+        });
+    }
     private void buildDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.add_topic, null);
@@ -122,7 +134,7 @@ public class Topic_Main_Page extends AppCompatActivity {
     //TODO method to grab all topic for a group
     private void grabTopics()
     {
-            String url = TOPIC_URL;
+            String url = TOPIC_URL + g_id;
 
             JSONObject p = new JSONObject();
         String requestURL = url + g_id;
@@ -138,11 +150,28 @@ public class Topic_Main_Page extends AppCompatActivity {
                                 JSONObject o = null;
                                 try {
                                     o = response.getJSONObject(i);
-                                    int t_id = Integer.parseInt((String) o.get("topic_id"));
-                                    String name = (String) o.get("topic_name").toString();
-                                    Topic t = new Topic(t_id,name,g_id);
+
+                                    Topic t = new Topic(o.getInt("topic_id"),o.getString("topic_name"),g_id);
                                    topics.add(t);
-                                   addTopic(t.getName());
+                                    final View view = getLayoutInflater().inflate(R.layout.row_topic, null);
+
+
+                                    Button topic_btn = view.findViewById(R.id.button_name);
+
+                                    topic_btn.setText(t.getName());
+
+                                    topic_btn.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            startActivity(new Intent(Topic_Main_Page.this, Topic_Activity.class)
+                                                    .putExtra("name",t.getName())
+                                                    .putExtra("topic_id",t.getId())
+                                                    .putExtra("group id",g_id)
+                                            );
+                                        }
+                                    });
+
+                                    layout.addView(view);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }

@@ -65,7 +65,7 @@ public class myGroups extends AppCompatActivity {
             user_id = extras.getInt("user id");
             //The key argument here must match that used in the other activity
         }
-
+        System.out.println(user_id);
         myGroups = new ArrayList<Group>();
 
         String url = MYGROUP_URL + user_id;
@@ -98,7 +98,8 @@ public class myGroups extends AppCompatActivity {
                             public void onClick(View v) {
                                 startActivity(new Intent(myGroups.this, Group_main_page.class)
                                         .putExtra("name", g.getName())
-                                        .putExtra("id", g.getId()));
+                                        .putExtra("group_id", g.getId())
+                                        .putExtra("user_id", user_id));
                             }
                         });
 
@@ -159,7 +160,8 @@ public class myGroups extends AppCompatActivity {
 
     public void onBtnCreateGroup_Clicked(View caller) {
         Intent intent = new Intent(myGroups.this, CreateGroupActivity.class);
-        intent.putExtra("user_id",user_id);
+        System.out.println(user_id);
+        intent.putExtra("admin_id",user_id);
         startActivity(intent);
         finish();
     }
@@ -208,4 +210,5 @@ public class myGroups extends AppCompatActivity {
         requestQueue.add(queueRequest);
 
     }
+
 }

@@ -62,15 +62,21 @@
         <entry key="..\:/YEAR 2/YEAR 2/Programming techniques/Lab/APP/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.1" />
         <entry key="..\:/YEAR 2/YEAR 2/Programming techniques/Lab/APP/app/src/main/res/drawable/round_grey.xml" value="0.1" />
         <entry key="..\:/YEAR 2/YEAR 2/Programming techniques/Lab/APP/app/src/main/res/drawable/round_primary.xml" value="0.1" />
+        <entry key="..\:/YEAR 2/YEAR 2/Programming techniques/Lab/APP/app/src/main/res/layout/activity_add_topic.xml" value="0.23802083333333332" />
         <entry key="..\:/YEAR 2/YEAR 2/Programming techniques/Lab/APP/app/src/main/res/layout/activity_group_list.xml" value="0.1" />
         <entry key="..\:/YEAR 2/YEAR 2/Programming techniques/Lab/APP/app/src/main/res/layout/activity_group_main_page.xml" value="0.2" />
         <entry key="..\:/YEAR 2/YEAR 2/Programming techniques/Lab/APP/app/src/main/res/layout/activity_login.xml" value="0.1375" />
+        <entry key="..\:/YEAR 2/YEAR 2/Programming techniques/Lab/APP/app/src/main/res/layout/activity_main_page.xml" value="0.23802083333333332" />
         <entry key="..\:/YEAR 2/YEAR 2/Programming techniques/Lab/APP/app/src/main/res/layout/activity_my_groups.xml" value="0.152" />
+        <entry key="..\:/YEAR 2/YEAR 2/Programming techniques/Lab/APP/app/src/main/res/layout/activity_naviagtion_page.xml" value="0.1111111111111111" />
         <entry key="..\:/YEAR 2/YEAR 2/Programming techniques/Lab/APP/app/src/main/res/layout/activity_navigation_drawer.xml" value="0.25" />
         <entry key="..\:/YEAR 2/YEAR 2/Programming techniques/Lab/APP/app/src/main/res/layout/activity_settings_fragment.xml" value="0.12968591691995948" />
         <entry key="..\:/YEAR 2/YEAR 2/Programming techniques/Lab/APP/app/src/main/res/layout/activity_test.xml" value="0.26222826086956524" />
+        <entry key="..\:/YEAR 2/YEAR 2/Programming techniques/Lab/APP/app/src/main/res/layout/activity_topic.xml" value="0.23802083333333332" />
+        <entry key="..\:/YEAR 2/YEAR 2/Programming techniques/Lab/APP/app/src/main/res/layout/activity_topic_page.xml" value="0.23802083333333332" />
         <entry key="..\:/YEAR 2/YEAR 2/Programming techniques/Lab/APP/app/src/main/res/layout/activity_user_document.xml" value="0.12968591691995948" />
         <entry key="..\:/YEAR 2/YEAR 2/Programming techniques/Lab/APP/app/src/main/res/layout/activity_user_profile.xml" value="0.12968591691995948" />
+        <entry key="..\:/YEAR 2/YEAR 2/Programming techniques/Lab/APP/app/src/main/res/layout/add_topic.xml" value="0.23802083333333332" />
         <entry key="..\:/YEAR 2/YEAR 2/Programming techniques/Lab/APP/app/src/main/res/layout/app_bar_navigation_drawer.xml" value="0.12968591691995948" />
         <entry key="..\:/YEAR 2/YEAR 2/Programming techniques/Lab/APP/app/src/main/res/layout/content_navigation_drawer.xml" value="0.12968591691995948" />
         <entry key="..\:/YEAR 2/YEAR 2/Programming techniques/Lab/APP/app/src/main/res/layout/fragment_gallery.xml" value="0.12968591691995948" />
@@ -79,6 +85,7 @@
         <entry key="..\:/YEAR 2/YEAR 2/Programming techniques/Lab/APP/app/src/main/res/layout/nav_header_navigation_drawer.xml" value="0.12968591691995948" />
         <entry key="..\:/YEAR 2/YEAR 2/Programming techniques/Lab/APP/app/src/main/res/layout/row_add_group.xml" value="0.17046605876393112" />
         <entry key="..\:/YEAR 2/YEAR 2/Programming techniques/Lab/APP/app/src/main/res/layout/row_group.xml" value="0.17046605876393112" />
+        <entry key="..\:/YEAR 2/YEAR 2/Programming techniques/Lab/APP/app/src/main/res/layout/row_topic.xml" value="0.23802083333333332" />
       </map>
     </option>
   </component>

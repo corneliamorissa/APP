@@ -20,7 +20,7 @@ public class SettingsActivity extends AppCompatActivity {
                 return;
             }
             // below line is to inflate our fragment.
-            getSupportFragmentManager().beginTransaction().replace(R.id.idFrameLayout, new SettingsFragment()).commit();
+            //getSupportFragmentManager().beginTransaction().replace(R.id.idFrameLayout, new SettingsFragment()).commit();
         }
     }
 

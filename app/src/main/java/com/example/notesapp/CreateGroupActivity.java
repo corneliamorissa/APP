@@ -26,6 +26,7 @@ import org.json.JSONObject;
 public class CreateGroupActivity extends AppCompatActivity {
     private RequestQueue requestQueue;
     private static final String ADDGROUP_URL = "https://studev.groept.be/api/a21pt103/add_Group/";
+    private static final String ADDADMIN_URL =  "https://studev.groept.be/api/a21pt103/";
     int id;
     private EditText group_name;
 
@@ -36,7 +37,7 @@ public class CreateGroupActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            id = extras.getInt("user id");
+            id = extras.getInt("admin_id");
             //The key argument here must match that used in the other activity
         }
 
@@ -47,8 +48,8 @@ public class CreateGroupActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String url = ADDGROUP_URL + group_name.getText().toString() + "/" + id ;
-
+                String url = ADDGROUP_URL + group_name.getText().toString()  + id ;
+                System.out.println(url);
 
 
                 System.out.println("test");
@@ -56,7 +57,30 @@ public class CreateGroupActivity extends AppCompatActivity {
 
                 StringRequest queueRequest;
 
-                queueRequest = new StringRequest(Request.Method.GET,url,new Response.Listener<String>(){
+                queueRequest = new StringRequest(Request.Method.POST,url,new Response.Listener<String>(){
+                    @Override
+                    public void onResponse(String response) {
+
+                    }
+                },new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(CreateGroupActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
+                    }
+                });
+
+                requestQueue.add(queueRequest);
+
+                String url2 = ADDADMIN_URL + id ;
+                System.out.println(url2);
+
+
+                System.out.println("test");
+                System.out.println(group_name.getText().toString());
+
+                StringRequest queueRequest2;
+
+                queueRequest2 = new StringRequest(Request.Method.POST,url2,new Response.Listener<String>(){
                     @Override
                     public void onResponse(String response) {
                         Toast.makeText(CreateGroupActivity.this, "Group added", Toast.LENGTH_LONG).show();
@@ -73,6 +97,8 @@ public class CreateGroupActivity extends AppCompatActivity {
                 });
 
                 requestQueue.add(queueRequest);
+
+
 
             }
         });
