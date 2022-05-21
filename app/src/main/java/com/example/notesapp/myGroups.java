@@ -87,7 +87,7 @@ public class myGroups extends AppCompatActivity {
                         System.out.println(g.getName());
                         System.out.println(g.getId());
                         myGroups.add(g);
-                        final View view = getLayoutInflater().inflate(R.layout.row_group, null);
+                        final View view = getLayoutInflater().inflate(R.layout.my_group_row, null);
                         Button b = view.findViewById(R.id.button_name);
 
                         b.setText(g.getName());

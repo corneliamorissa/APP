@@ -25,14 +25,14 @@
 
                 <Button
                     android:id="@+id/button_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="58dp"
+                    android:layout_width="377dp"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_marginStart="3dp"
-                    android:layout_marginEnd="129dp"
-                    android:layout_marginRight="129dp"
+                    android:layout_marginEnd="2dp"
+                    android:layout_marginRight="2dp"
                     android:backgroundTint="#00FFFFFF"
                     android:textColor="#000000"
                     app:iconTint="#00FFFFFF"
@@ -40,16 +40,7 @@
 
                 </Button>
 
-                <Button
-                    android:id="@+id/join_group"
-                    android:layout_width="130dp"
-                    android:layout_height="60dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginStart="273dp"
-                    android:layout_marginEnd="20dp"
-                    android:backgroundTint="#FF5722"
-                    android:text="Join" />
+
             </RelativeLayout>
 
         </androidx.cardview.widget.CardView>
