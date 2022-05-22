@@ -14,24 +14,15 @@
     <Button
         android:id="@+id/btnRetrieve"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="59dp"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:background="#000000"
         android:backgroundTint="#000000"
-        android:clickable="true"
         android:drawableTint="#000000"
-        android:focusable="true"
         android:foregroundTint="#000000"
         android:onClick="onBtnRetrievedImg"
         android:text="@string/retrieve_image"
         android:textColor="#FFFFFF"
-        android:visibility="visible"
-        android:bottomRightRadius="10dp"
-        android:bottomLeftRadius="10dp"
-        android:topLeftRadius="10dp"
-        android:topRightRadius="10dp"
-        />
+        app:iconTint="#000000" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_Gallery_Images"
@@ -41,7 +32,8 @@
         android:background="#FFFFFF"
         android:backgroundTint="#FFFFFF"
         android:scrollbarStyle="outsideInset"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"
+        android:visibility="visible" />
 
 
 </LinearLayout>
