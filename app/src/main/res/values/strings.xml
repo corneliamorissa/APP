@@ -135,5 +135,7 @@
     <string name="selected_image">Selected Image</string>
     <string name="retrieved_image">Retrieved Note</string>
     <string name="groups">GROUPS</string>
+    <string name="select_group">Select Group</string>
+    <string name="select_a_topic">Select a Topic</string>
 
 </resources>
