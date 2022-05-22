@@ -160,7 +160,10 @@ public class GroupList extends AppCompatActivity {
         queueRequest = new StringRequest(Request.Method.POST,url,new Response.Listener<String>(){
             @Override
             public void onResponse(String response) {
-
+                Intent intent = new Intent(GroupList.this, Group_main_page.class);
+                intent.putExtra("user_id", user_id);
+                intent.putExtra("id", id);
+                startActivity(intent);
             }
         },new Response.ErrorListener() {
             @Override
@@ -178,7 +181,6 @@ public class GroupList extends AppCompatActivity {
         Intent intent = new Intent(GroupList.this, MainPageActivity.class);
         intent.putExtra("user_id", user_id);
         startActivity(intent);
-        finish();
         finish();
     }
 
