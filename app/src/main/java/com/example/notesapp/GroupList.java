@@ -174,7 +174,7 @@ public class GroupList extends AppCompatActivity {
 
     }
 
-    public void onBtnMain_Clicked(View caller) {
+    public void onBtnMain_Clicked(View caller){
         Intent intent = new Intent(GroupList.this, MainPageActivity.class);
         intent.putExtra("user_id", user_id);
         startActivity(intent);

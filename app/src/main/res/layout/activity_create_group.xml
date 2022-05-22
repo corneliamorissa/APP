@@ -30,22 +30,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.382" />
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="79dp"
-        android:layout_height="83dp"
-        app:layout_constraintBottom_toTopOf="@+id/group_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/user" />
-
 
     <Button
         android:id="@+id/createGroup"
         android:layout_width="221dp"
         android:layout_height="57dp"
-        android:layout_marginBottom="236dp"
+        android:layout_marginBottom="336dp"
         android:backgroundTint="#000000"
         android:clickable="true"
         android:text="ADD GROUP"

@@ -96,7 +96,7 @@ public class CreateGroupActivity extends AppCompatActivity {
                     }
                 });
 
-                requestQueue.add(queueRequest);
+                requestQueue.add(queueRequest2);
 
 
 

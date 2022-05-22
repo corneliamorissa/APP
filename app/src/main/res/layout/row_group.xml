@@ -42,12 +42,12 @@
 
                 <Button
                     android:id="@+id/join_group"
-                    android:layout_width="130dp"
-                    android:layout_height="60dp"
+                    android:layout_width="119dp"
+                    android:layout_height="61dp"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginStart="273dp"
-                    android:layout_marginEnd="20dp"
+                    android:layout_marginStart="263dp"
+                    android:layout_marginEnd="0dp"
                     android:backgroundTint="#FF5722"
                     android:text="Join" />
             </RelativeLayout>
