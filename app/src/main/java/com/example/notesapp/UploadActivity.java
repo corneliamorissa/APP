@@ -208,7 +208,7 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("image", imageString);
-                params.put("un", "mae2");
+                params.put("un", "mae3");
                 params.put("title", etitle);
                 params.put("descr", edesc);
                 params.put("ig", String.valueOf(isGroup));
