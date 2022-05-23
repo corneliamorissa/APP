@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.Toolbar;
 
 import com.example.notesapp.ui.home.HomeFragment;
@@ -24,7 +25,8 @@ public class MainPageActivity extends AppCompatActivity {
         Button btn_group = (Button)findViewById(R.id.button9);
         Button btn_docs = (Button) findViewById(R.id.button5);
         Button btn_upload = (Button) findViewById(R.id.button);
-        Button btn_nav = (Button) findViewById(R.id.button2);
+        ImageButton btn_nav = (ImageButton) findViewById(R.id.button2);
+        ImageButton btn_settings = (ImageButton) findViewById(R.id.button_settings);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             user_name = extras.getString("user name");
@@ -93,6 +95,20 @@ public class MainPageActivity extends AppCompatActivity {
 
             }
         });
+
+       btn_settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(MainPageActivity.this, SettingsActivity.class);
+                intent.putExtra("user id", user_id );
+                intent.putExtra("user name", user_id);
+                startActivity(intent);
+                finish();
+
+            }
+        });
+
     }
 
 

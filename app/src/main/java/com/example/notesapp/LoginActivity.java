@@ -3,6 +3,7 @@ package com.example.notesapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.TextUtils;
 import android.widget.Button;
 
@@ -112,22 +113,29 @@ public class LoginActivity extends AppCompatActivity {
                                             String f_name =  o.getString("first_name");
                                             String l_name =  o.getString("last_name");
                                             String email =  o.getString("email");
-                                            UserLog user = new UserLog(euserName,epassword,f_name,l_name,email);
-                                            //user = new UserInfo()
+                                            /*UserLog user = new UserLog(euserName,epassword,f_name,l_name,email);
                                             user.setEmail(email);
                                             user.setFirstname(f_name);
                                             user.setPassword(epassword);
                                             user.setUserName(euserName);
-                                            user.setLastname(l_name);
-                                            System.out.println(email +","+ f_name +","+ l_name+ ","+ euserName+"," + epassword);
-                                            System.out.println(user.getEmail() +","+ user.getFirstName() +","+ user.getLastname()+ ","+ user.getUserName()+"," + user.getPassword());
+                                            user.setLastname(l_name);*/
+
+                                            UserInfo user1 = new UserInfo();
+                                            user1.setPass(epassword);
+                                            user1.setUser(euserName);
+                                            user1.setFirst_name(f_name);
+                                            user1.setEmail(email);
+                                            user1.setId(id);
+
+                                            //System.out.println(email +","+ f_name +","+ l_name+ ","+ euserName+"," + epassword);
+                                            //System.out.println(user.getEmail() +","+ user.getFirstName() +","+ user.getLastname()+ ","+ user.getUserName()+"," + user.getPassword());
 
                                             //startActivity(new Intent(LoginActivity.this, MainPageActivity.class));
                                             Intent intent = new Intent(LoginActivity.this, MainPageActivity.class);
                                             intent.putExtra("user id", id );
                                             System.out.println(id);
                                             intent.putExtra("user name",euserName);
-                                            intent.putExtra("User Info", user);
+                                            intent.putExtra("User Info", (Parcelable) user);
                                             startActivity(intent);
                                             Toast.makeText(LoginActivity.this, "Login Succesful", Toast.LENGTH_LONG).show();
 
