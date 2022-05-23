@@ -88,6 +88,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/ic_baseline_view_headline_24"
+        tools:ignore="SpeakableTextPresentCheck"
         tools:srcCompat="@drawable/ic_baseline_view_headline_24" />
 
     <ImageButton
@@ -104,6 +105,29 @@
         app:layout_constraintVertical_bias="0.001"
         app:srcCompat="@drawable/car_ui_icon_settings"
         app:tint="@color/white" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/notif_view"
+        android:layout_width="331dp"
+        android:layout_height="457dp"
+        android:layout_marginTop="24dp"
+        android:isScrollContainer="true"
+        android:scrollbars="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/fragmentContainerView2"
+        tools:layout_editor_absoluteX="15dp" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="52dp"
+        android:text="Notifications"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
