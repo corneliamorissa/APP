@@ -153,8 +153,6 @@ public class GroupList extends AppCompatActivity {
         String url = REQUESTJOIN_URL + user_id + aid + id ;
         System.out.println(url);
 
-
-
         StringRequest queueRequest;
 
         queueRequest = new StringRequest(Request.Method.POST,url,new Response.Listener<String>(){

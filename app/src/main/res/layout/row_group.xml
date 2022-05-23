@@ -14,10 +14,11 @@
         android:backgroundTint="#FFFFFF">
 
         <ScrollView
+            style="@android:style/Widget.DeviceDefault.ScrollView"
             android:layout_width="match_parent"
-            android:layout_height="599dp"
+            android:layout_height="697dp"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="98dp"
+            android:layout_marginTop="0dp"
             android:background="#FFFFFF"
             android:backgroundTint="#FFFFFF">
 
@@ -45,14 +46,14 @@
                         <Button
                             android:id="@+id/button_name"
                             style="@style/Widget.AppCompat.Button.Borderless"
-                            android:layout_width="wrap_content"
+                            android:layout_width="238dp"
                             android:layout_height="58dp"
                             android:layout_alignParentStart="true"
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentRight="true"
                             android:layout_marginStart="3dp"
-                            android:layout_marginEnd="129dp"
-                            android:layout_marginRight="129dp"
+                            android:layout_marginEnd="141dp"
+                            android:layout_marginRight="141dp"
                             android:backgroundTint="#00FFFFFF"
                             android:textColor="#000000"
                             android:textSize="20sp"
@@ -63,14 +64,19 @@
 
                         <Button
                             android:id="@+id/join_group"
-                            android:layout_width="94dp"
-                            android:layout_height="58dp"
+                            style="@style/Widget.AppCompat.Button.Borderless"
+                            android:layout_width="140dp"
+                            android:layout_height="59dp"
                             android:layout_alignParentStart="true"
                             android:layout_alignParentEnd="true"
-                            android:layout_marginStart="236dp"
+                            android:layout_marginStart="242dp"
                             android:layout_marginEnd="0dp"
+                            android:background="@android:color/holo_orange_dark"
                             android:backgroundTint="#FF5722"
-                            android:text="Join" />
+                            android:text="JOIN"
+                            android:textColor="#FFFFFF"
+                            android:textSize="20sp"
+                            app:iconTint="#B2FF5722" />
                     </RelativeLayout>
 
                 </androidx.cardview.widget.CardView>

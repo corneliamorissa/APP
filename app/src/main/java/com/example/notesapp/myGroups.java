@@ -65,10 +65,11 @@ public class myGroups extends AppCompatActivity {
             user_id = extras.getInt("user id");
             //The key argument here must match that used in the other activity
         }
-        System.out.println(user_id);
         myGroups = new ArrayList<Group>();
+        System.out.println(user_id);
+        String s = Integer.toString(user_id);
 
-        String url = MYGROUP_URL + user_id;
+        String url = MYGROUP_URL + s;
         System.out.println(url);
         JsonArrayRequest queueRequest;
         queueRequest = new JsonArrayRequest(Request.Method.GET,url,null,new Response.Listener<JSONArray>() {
@@ -87,6 +88,7 @@ public class myGroups extends AppCompatActivity {
                         System.out.println(g.getName());
                         System.out.println(g.getId());
                         myGroups.add(g);
+                        System.out.println(g.getName());
                         final View view = getLayoutInflater().inflate(R.layout.my_group_row, null);
                         Button b = view.findViewById(R.id.button_name);
 
