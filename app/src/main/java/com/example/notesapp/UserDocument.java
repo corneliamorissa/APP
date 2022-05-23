@@ -16,6 +16,8 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
 
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -39,6 +41,10 @@ public class UserDocument extends AppCompatActivity {
     RecyclerView recyclerView;
     ArrayList<ImageModel> imgList;
     RecyclerAdapter adapter;
+    ImageView imageView;
+    boolean isImageFitToScreen;
+    String user_name;
+    int user_id;
 
 
     @Override
@@ -46,11 +52,19 @@ public class UserDocument extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_document);
         requestQueue = Volley.newRequestQueue(this);
-        imgList = new ArrayList<>();
+        imgList = new ArrayList<ImageModel>();
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            user_name = extras.getString("user name");
+            user_id = extras.getInt("user id");
+            //The key argument here must match that used in the other activity
+        }
 
-
-        //button1.setSelected(true);
     }
+
+
+
+
 
     public void onBtnRetrievedImg(View caller) {
         imgList.clear();
@@ -63,7 +77,7 @@ public class UserDocument extends AppCompatActivity {
                         for (int i = 0; i < response.length(); ++i) {
                             JSONObject o;
                             try {
-                                o = response.getJSONObject(0);
+                                o = response.getJSONObject(i);
 
                                 //converting base64 string to image
                                 String b64String = o.getString("image");
@@ -74,7 +88,9 @@ public class UserDocument extends AppCompatActivity {
 
                                 System.out.println(titleI);
                                 System.out.println(descI);
-                                imgList.add(new ImageModel(bitmap2, titleI, descI));
+                                ImageModel imageModel = new ImageModel(bitmap2,titleI,descI);
+                                imgList.add(imageModel);
+
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

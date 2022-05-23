@@ -13,13 +13,11 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-        super.onCreate(savedInstanceState);
         setPreferencesFromResource(R.xml.root_preferences, rootKey);
         EditTextPreference changePassw = findPreference("account");
         ListPreference reminder = findPreference("reminder");
-        ListPreference uploadS = findPreference("pref_uploads");
-        EditTextPreference deleteacc = findPreference("delete_acc");
-        EditTextPreference logOut = findPreference("logout");
+        ListPreference deleteacc = findPreference("delete_acc");
+        ListPreference logOut = findPreference("logout");
 
         assert reminder != null;
         reminder.setSummaryProvider(ListPreference.SimpleSummaryProvider.getInstance());
@@ -28,8 +26,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
 
 
-        Intent intent = new Intent(getContext(), SettingsActivity.class);
-        startActivity(intent);
+
     }
 
 

@@ -28,26 +28,21 @@
             app:title="@string/remind_me" />
 
 
-        <ListPreference
-            app:defaultValue="360"
-            app:dialogTitle="@string/uploads"
-            app:entries="@array/pref_uploads"
-            app:entryValues="@array/pref_upload_quality_entries"
-            app:key="@string/pref_uploads"
-            app:summary="@string/specify_network_prefs"
-            app:title="Uploads" />
-
 
     </PreferenceCategory>
-    <EditTextPreference
+    <ListPreference
+        android:clickable="true"
         android:key="logout"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
+        app:entries="@array/log_out_con"
+        app:entryValues="@array/log_out_con"
+        android:dialogTitle="Log Out"
+        android:dialogMessage="Are you sure you want to log out?"
         android:title="@string/log_out" />
-    <EditTextPreference
+
+
+    <ListPreference
         android:key="delete_acc"
         android:selectAllOnFocus="true"
-        android:singleLine="true"
         android:title="@string/delete_acc" />
 
 
