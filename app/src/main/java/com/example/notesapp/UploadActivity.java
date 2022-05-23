@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -69,6 +70,7 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
     private String selectedTopic;
     private String selectedGroup;
     private int groupId = 0;
+    private TextView groupSel, topicSel;
 
 
 
@@ -85,6 +87,9 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
         check_p = (CheckBox) findViewById(R.id.checkBoxp);
         stopic = (Spinner) findViewById(R.id.spinner_topic);
         sgroup = (Spinner) findViewById(R.id.spinner_group);
+        groupSel = (TextView)findViewById(R.id.selected_group);
+        topicSel = (TextView)findViewById(R.id.selected_topic);
+
         String url = "https://studev.groept.be/api/a21pt103/grabGroupName";
         JsonArrayRequest queueRequest = new JsonArrayRequest(Request.Method.GET,
                 url, null,
@@ -104,6 +109,7 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
                                         android.R.layout.simple_spinner_item, groupList);
                                 groupAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                 sgroup.setAdapter(groupAdapter);
+                                groupAdapter.notifyDataSetChanged();
 
                             }
                             catch (JSONException e) {
@@ -119,6 +125,10 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
         });
         requestQueue.add(queueRequest);
         sgroup.setOnItemSelectedListener(this);
+        topicSel.setText("Select Your Topic");
+
+
+
 
     }
 
@@ -289,13 +299,16 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
         return resizedBitmap;
     }
 
+
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
 
         if(adapterView.getId() == R.id.spinner_group)
         {
             topicList.clear();
             selectedGroup = adapterView.getSelectedItem().toString();
+            groupSel.setText(selectedGroup);
             System.out.println(selectedGroup);
             for(int j = 0; j<groupList.size();j++)
             {
@@ -323,30 +336,44 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
                                     topicAdapter = new ArrayAdapter<String>(UploadActivity.this,
                                             android.R.layout.simple_spinner_item, topicList);
                                     topicAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                    topicAdapter.notifyDataSetChanged();
                                     stopic.setAdapter(topicAdapter);
+                                    System.out.println("this is a test:"+adapterView.getSelectedItem().toString());
+
+
+
 
                                     System.out.println("topics:"+ topicName);
                                 }
+
                                 catch (JSONException e) {
                                     e.printStackTrace();
                                 }
                             }
+
+
                         }
-                    }, new Response.ErrorListener() {
+                    } , new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
 
                 }
             });
             requestQueue.add(queueRequest);
+            stopic.setOnItemSelectedListener(this);
+
         }
         selectedTopic = adapterView.getSelectedItem().toString();
+        topicSel.setText(selectedTopic);
+
     }
+
 
 
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
+
 
     }
 
