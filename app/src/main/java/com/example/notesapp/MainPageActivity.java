@@ -44,7 +44,7 @@ public class MainPageActivity extends AppCompatActivity {
 
         btn_group.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v){
 
                 Intent intent = new Intent(MainPageActivity.this, myGroups.class);
                 intent.putExtra("user id", user_id );
@@ -94,6 +94,9 @@ public class MainPageActivity extends AppCompatActivity {
             }
         });
     }
+
+    //notification
+
 
 
 }
