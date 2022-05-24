@@ -22,6 +22,7 @@ public class Notify {
 
     private int group_id;
     private int user_id;
+
     private int request_id;
 
 
@@ -38,6 +39,10 @@ public class Notify {
         request_id = r_id;
     }
 
+
+    public int getRequest_id() {
+        return request_id;
+    }
 
     public int getGroup_id() {
         return group_id;

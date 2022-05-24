@@ -58,37 +58,44 @@ public class myGroups extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_groups);
+
         requestQueue = Volley.newRequestQueue(this);
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             user_name = extras.getString("user name");
             user_id = extras.getInt("user id");
             //The key argument here must match that used in the other activity
         }
+
         myGroups = new ArrayList<Group>();
         System.out.println(user_id);
         String s = Integer.toString(user_id);
 
         String url = MYGROUP_URL + s;
         System.out.println(url);
+
         JsonArrayRequest queueRequest;
+
         queueRequest = new JsonArrayRequest(Request.Method.GET,url,null,new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                String info = "";
+                System.out.println("test0");
                 layout = findViewById(R.id.container);
-                for (int i=0; i<response.length(); ++i) {
+                System.out.println("test00");
+
+                for(int i = 0; i < response.length(); ++i) {
 
                     System.out.println("test1");
                     JSONObject o = null;
 
-                    try {
+                    try{
                         o = response.getJSONObject(i);
                         final Group g = new Group(o.getInt("group_id"), o.getString("group_name"), o.getInt("admin_id"), o.getString("add_date"));
                         System.out.println(g.getName());
-                        System.out.println(g.getId());
                         myGroups.add(g);
-                        System.out.println(g.getName());
+
+
                         final View view = getLayoutInflater().inflate(R.layout.my_group_row, null);
                         Button b = view.findViewById(R.id.button_name);
 
@@ -111,20 +118,19 @@ public class myGroups extends AppCompatActivity {
                     }
 
 
-
                 }
-                for(Group m : myGroups)
-                {
+                for (Group m : myGroups) {
                     System.out.println(m.getName());
                 }
 
-            }
-        }, new Response.ErrorListener() {
+
+        }}, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(myGroups.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
             }
         });
+
         requestQueue.add(queueRequest);
         //grabGroups();
 

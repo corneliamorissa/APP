@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="#FFFFFF"
     android:backgroundTint="#FFFFFF">
 
@@ -16,7 +16,7 @@
         <ScrollView
             style="@android:style/Widget.DeviceDefault.ScrollView"
             android:layout_width="match_parent"
-            android:layout_height="697dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginTop="0dp"
             android:background="#FFFFFF"
