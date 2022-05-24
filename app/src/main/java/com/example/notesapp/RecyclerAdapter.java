@@ -1,10 +1,14 @@
 package com.example.notesapp;
 
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ActionMenuView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,12 +27,34 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         ImageView imageView;
         TextView title;
         TextView desc;
+        boolean isImageFitToScreen;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.imageRetrieved);
             title = itemView.findViewById(R.id.title_img);
             desc = itemView.findViewById(R.id.desc_img);
+
+
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(isImageFitToScreen) {
+                        isImageFitToScreen=false;
+                        imageView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                        imageView.setAdjustViewBounds(true);
+                    }
+
+                    else{
+                        isImageFitToScreen=true;
+                        Intent intent = new Intent (v.getContext(), FullScreenImage.class);
+                        v.getContext().startActivity(intent);
+
+                        //imageView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+                        //imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                    }
+                }
+            });
         }
 
 
