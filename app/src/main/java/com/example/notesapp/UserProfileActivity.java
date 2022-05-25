@@ -138,7 +138,7 @@ public class UserProfileActivity extends AppCompatActivity {
                         }
 
                         //Just a double-check to tell us the request has completed
-                        Toast.makeText(UserProfileActivity.this, "Image retrieved from DB", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UserProfileActivity.this, "User Profile Refreshed", Toast.LENGTH_SHORT).show();
 
                     }
 
@@ -183,6 +183,9 @@ public class UserProfileActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 Intent intent = new Intent(UserProfileActivity.this,NaviagtionPage.class);
+                intent.putExtra("user id", user_id );
+                intent.putExtra("user name",user_name);
+                intent.putExtra("email", my_email);
                 startActivity(intent);
                 this.finish();
                 return true;

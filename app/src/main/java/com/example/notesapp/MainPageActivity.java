@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class MainPageActivity extends AppCompatActivity {
-    private String user_name;
+    private String user_name, email;
     private int user_id;
     //RecyclerView notifview;
     private ArrayList<Notify> joins;
@@ -70,6 +70,7 @@ public class MainPageActivity extends AppCompatActivity {
         if (extras != null) {
             user_name = extras.getString("user name");
             user_id = extras.getInt("user id");
+            email = extras.getString("email");
             //The key argument here must match that used in the other activity
         }
         populateNotifList();
@@ -82,7 +83,8 @@ public class MainPageActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(MainPageActivity.this, myGroups.class);
                 intent.putExtra("user id", user_id );
-                intent.putExtra("user name", user_id);
+                intent.putExtra("user name", user_name);
+                intent.putExtra("email", email);
                 startActivity(intent);
                 finish();
 
@@ -95,7 +97,8 @@ public class MainPageActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(MainPageActivity.this, UserDocument.class);
                 intent.putExtra("user id", user_id );
-                intent.putExtra("user name", user_id);
+                intent.putExtra("user name", user_name);
+                intent.putExtra("email", email);
                 startActivity(intent);
                 finish();
 
@@ -109,6 +112,7 @@ public class MainPageActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainPageActivity.this, UploadActivity.class);
                 intent.putExtra("user id", user_id );
                 intent.putExtra("user name", user_name);
+                intent.putExtra("email", email);
                 startActivity(intent);
                 finish();
 
@@ -122,6 +126,7 @@ public class MainPageActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainPageActivity.this, NaviagtionPage.class);
                 intent.putExtra("user id", user_id);
                 intent.putExtra("user name", user_name);
+                intent.putExtra("email", email);
                 startActivity(intent);
                 finish();
 
@@ -135,6 +140,7 @@ public class MainPageActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainPageActivity.this, SettingsActivity.class);
                 intent.putExtra("user id", user_id );
                 intent.putExtra("user name", user_id);
+                intent.putExtra("email", email);
                 startActivity(intent);
                 finish();
 

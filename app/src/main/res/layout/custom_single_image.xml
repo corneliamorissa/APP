@@ -21,8 +21,20 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="98dp"
+            android:layout_height="114dp"
             android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/topicName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="16dp"
+                android:maxLines="3"
+                android:textAlignment="textEnd"
+                android:textColor="#000000"
+                android:visibility="visible" />
 
             <TextView
 
@@ -47,7 +59,6 @@
                 android:maxLines="3"
                 android:textColor="#000000"
                 android:visibility="visible" />
-
 
         </LinearLayout>
 

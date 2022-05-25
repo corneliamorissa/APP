@@ -46,7 +46,7 @@ public class UserDocument extends AppCompatActivity implements RecyclerViewInter
     ArrayList<ImageModel> imgList;
     RecyclerAdapter adapter;
     ImageView imageView;
-    String user_name;
+    String user_name, email;
     int user_id;
     Bitmap image;
 
@@ -62,6 +62,7 @@ public class UserDocument extends AppCompatActivity implements RecyclerViewInter
         if (extras != null) {
             user_name = extras.getString("user name");
             user_id = extras.getInt("user id");
+            email = extras.getString("email");
             //The key argument here must match that used in the other activity
         }
 
@@ -82,13 +83,14 @@ public class UserDocument extends AppCompatActivity implements RecyclerViewInter
                                 String b64String = o.getString("image");
                                 String titleI = o.getString("title");
                                 String descI = o.getString("description");
+                                String topicI = o.getString("topic");
                                 byte[] imageBytes = Base64.decode(b64String, Base64.DEFAULT);
                                 Bitmap bitmap2 = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
 
                                 this.image = bitmap2;
                                 System.out.println(titleI);
                                 System.out.println(descI);
-                                ImageModel imageModel = new ImageModel(bitmap2,titleI,descI);
+                                ImageModel imageModel = new ImageModel(bitmap2,titleI,descI,topicI);
                                 imgList.add(imageModel);
 
 
@@ -130,9 +132,11 @@ public class UserDocument extends AppCompatActivity implements RecyclerViewInter
         switch (item.getItemId()) {
             case android.R.id.home:
                 Intent intent = new Intent(UserDocument.this,MainPageActivity.class);
+                intent.putExtra("user id", user_id );
+                intent.putExtra("user name",user_name);
+                intent.putExtra("email", email);
                 startActivity(intent);
                 this.finish();
-                super.onBackPressed();
                 return true;
         }
         return super.onOptionsItemSelected(item);
