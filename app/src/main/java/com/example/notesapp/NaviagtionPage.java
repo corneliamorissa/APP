@@ -11,7 +11,7 @@ import android.widget.ImageButton;
 public class NaviagtionPage extends AppCompatActivity {
 
     int id;
-    String name;
+    String name, email;
 
 
     @Override
@@ -23,6 +23,7 @@ public class NaviagtionPage extends AppCompatActivity {
         if (extras != null) {
             name = extras.getString("user name");
             id = extras.getInt("user id");
+            email = extras.getString("email");
             //The key argument here must match that used in the other activity
         }
 
@@ -58,7 +59,9 @@ public class NaviagtionPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(NaviagtionPage.this, UserProfileActivity.class);
-                intent.putExtra("id", id);
+                intent.putExtra("user id", id);
+                intent.putExtra("user name", name);
+                intent.putExtra("email", email);
                 startActivity(intent);
             }
         });
@@ -67,7 +70,8 @@ public class NaviagtionPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(NaviagtionPage.this, UserDocument.class);
-                intent.putExtra("id", id);
+                intent.putExtra("user id", id);
+                intent.putExtra("user name", name);
                 startActivity(intent);
             }
         });

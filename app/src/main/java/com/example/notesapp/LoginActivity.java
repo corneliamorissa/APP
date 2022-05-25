@@ -131,11 +131,12 @@ public class LoginActivity extends AppCompatActivity {
                                             //System.out.println(user.getEmail() +","+ user.getFirstName() +","+ user.getLastname()+ ","+ user.getUserName()+"," + user.getPassword());
 
                                             //startActivity(new Intent(LoginActivity.this, MainPageActivity.class));
-                                            Intent intent = new Intent(LoginActivity.this, UserDocument.class);
+                                            Intent intent = new Intent(LoginActivity.this, MainPageActivity.class);
                                             intent.putExtra("user id", id );
                                             System.out.println(id);
                                             intent.putExtra("user name",euserName);
                                             intent.putExtra("User Info", (Parcelable) user);
+                                            intent.putExtra("email",email);
                                             startActivity(intent);
                                             Toast.makeText(LoginActivity.this, "Login Succesful", Toast.LENGTH_LONG).show();
 

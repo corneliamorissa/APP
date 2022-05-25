@@ -98,8 +98,11 @@ public class GroupList extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
                                 startActivity(new Intent(GroupList.this, Group_main_page.class)
-                                        .putExtra("name", g.getName())
-                                        .putExtra("id", g.getId()));
+                                        .putExtra("group name", g.getName())
+                                        .putExtra("group id", g.getId())
+                                        .putExtra("user id", user_id)
+                                        .putExtra("user name", user_name));
+
                             }
                         });
                         //if join button pressed a join request is sent to admin of group

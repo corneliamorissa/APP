@@ -18,6 +18,7 @@
         android:layout_marginEnd="77dp"
         android:layout_marginBottom="38dp"
         android:background="@drawable/round_primary"
+        android:onClick="onDelete_Clicked"
         android:text="DELETE GROUP"
         android:visibility="invisible" />
 
@@ -91,6 +92,7 @@
         android:layout_marginEnd="80dp"
         android:layout_marginBottom="104dp"
         android:background="@drawable/round_primary"
+        android:onClick="onLeave_Clicked"
         android:text="Leave Group" />
 
 

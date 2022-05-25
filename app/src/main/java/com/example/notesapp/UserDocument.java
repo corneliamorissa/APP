@@ -132,6 +132,7 @@ public class UserDocument extends AppCompatActivity implements RecyclerViewInter
                 Intent intent = new Intent(UserDocument.this,MainPageActivity.class);
                 startActivity(intent);
                 this.finish();
+                super.onBackPressed();
                 return true;
         }
         return super.onOptionsItemSelected(item);
