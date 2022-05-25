@@ -37,6 +37,7 @@ public class Group_main_page extends AppCompatActivity implements AdapterView.On
     private static final String ADMIN_CHECK ="https://studev.groept.be/api/a21pt103/get_admin_id/";
     private static final String UPDATE_ADMIN ="https://studev.groept.be/api/a21pt103/make_another_admin/";
     private static final String MEMBER_CHECK ="https://studev.groept.be/api/a21pt103/check_if_member/";
+    private static final String getId = "https://studev.groept.be/api/a21pt103/getId/";
     Integer admin;
     boolean isAdmin = false;
     boolean isMember = false;
@@ -48,6 +49,8 @@ public class Group_main_page extends AppCompatActivity implements AdapterView.On
     ArrayList<Integer> adminIdList = new ArrayList<>();
     ArrayList<String> adminUsernameList = new ArrayList<>();
     ArrayList<Integer> mems;
+    ArrayList<String> mems_name;
+
 
 
     @Override
@@ -59,6 +62,7 @@ public class Group_main_page extends AppCompatActivity implements AdapterView.On
         Button leave = findViewById(R.id.leave_group);
         Bundle extras = getIntent().getExtras();
         mems = new ArrayList<>();
+        mems_name = new ArrayList<>();
 
         if (extras != null) {
             groupName = extras.getString("group name").toUpperCase(Locale.ROOT);
@@ -175,9 +179,9 @@ public class Group_main_page extends AppCompatActivity implements AdapterView.On
                         }
 
                     }
-                    //Intent intent = new Intent(Group_main_page.this, myGroups.class);
-                    //startActivity(intent);
-                    //Toast.makeText(Group_main_page.this,"Delete request is executed", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(Group_main_page.this, myGroups.class);
+                    startActivity(intent);
+                    Toast.makeText(Group_main_page.this,"Delete request is executed", Toast.LENGTH_LONG).show();
                 }
 
             },
@@ -218,9 +222,9 @@ public class Group_main_page extends AppCompatActivity implements AdapterView.On
                         }
 
                     }
-                    //Intent intent = new Intent(Group_main_page.this, myGroups.class);
-                    //startActivity(intent);
-                    //Toast.makeText(Group_main_page.this,"Delete request is executed", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(Group_main_page.this, myGroups.class);
+                    startActivity(intent);
+                    Toast.makeText(Group_main_page.this,"Leave request is executed", Toast.LENGTH_LONG).show();
                 }
 
             },
@@ -236,7 +240,15 @@ public class Group_main_page extends AppCompatActivity implements AdapterView.On
         View view = getLayoutInflater().inflate(R.layout.dialog, null);
 
         requestQueue = Volley.newRequestQueue(this);
-        Spinner sadmin = (Spinner) findViewById(R.id.choose_admin_spinner);
+        Spinner spinner = (Spinner) findViewById(R.id.choose_admin_spinner);
+        spinner.setOnItemSelectedListener(this);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mems_name);
+
+        // Drop down layout style - list view with radio button
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // attaching data adapter to spinner
+        spinner.setAdapter(dataAdapter);
 
 
         /*String url = SPINNER + groupid;
@@ -282,7 +294,7 @@ public class Group_main_page extends AppCompatActivity implements AdapterView.On
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        changeAdmin();
+                        changeAdmin(String.valueOf(spinner.getSelectedItem()));
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -339,7 +351,7 @@ public class Group_main_page extends AppCompatActivity implements AdapterView.On
                 }
                 Intent intent = new Intent(Group_main_page.this, myGroups.class);
                 startActivity(intent);
-                Toast.makeText(Group_main_page.this,"Delete request is executed", Toast.LENGTH_LONG).show();
+                Toast.makeText(Group_main_page.this,"Leave request is executed", Toast.LENGTH_LONG).show();
             }
 
         },
@@ -348,10 +360,11 @@ public class Group_main_page extends AppCompatActivity implements AdapterView.On
         );
         requestQueue.add(queueRequest1);
     }
-    public void changeAdmin()
-    {
+    public void changeAdmin(String newAdmin)
+    {   int index_name  = mems_name.indexOf(newAdmin);
+        int id = mems.get(index_name);
         /***to implement update admin***/
-        String change = UPDATE_ADMIN + admin + "/" + groupid;
+        String change = UPDATE_ADMIN + id + "/" + groupid;
         System.out.println(change);
         requestQueue = Volley.newRequestQueue(Group_main_page.this);
         JsonArrayRequest queueRequest2;
@@ -365,6 +378,7 @@ public class Group_main_page extends AppCompatActivity implements AdapterView.On
                     try {
                         o = response.getJSONObject(i);
                         info += "all gooddddd";
+                        Toast.makeText(Group_main_page.this,"pkkkkk", Toast.LENGTH_LONG).show();
                         adminLeave();
 
                     }
@@ -404,6 +418,49 @@ public class Group_main_page extends AppCompatActivity implements AdapterView.On
 
                         mems.add(o.getInt("user_id"));
                         System.out.println(o.getInt("user_id"));
+                        mems_name.add(o.getString("user_name"));
+
+                    }
+                    catch (JSONException e)
+                    {
+                        e.printStackTrace();
+                    }
+
+                }}},
+                error -> Toast.makeText(Group_main_page.this, "Unable to communicate with server", Toast.LENGTH_LONG).show()
+
+        );
+        requestQueue.add(queueRequest);
+        for (Integer m: mems)
+        {
+            if (m == userid) {
+                isMember = true;
+                break;
+            }
+        }
+
+    }
+    public void getId()
+    {
+        String url = MEMBER_CHECK + groupid;
+
+
+        System.out.println(url);
+        requestQueue = Volley.newRequestQueue(this);
+        JsonArrayRequest queueRequest;
+        queueRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                String info = "";
+                for (int i = 0; i < response.length(); ++i) {
+
+                    JSONObject o = null;
+                    try {
+                        o = response.getJSONObject(i);
+
+                        mems.add(o.getInt("user_id"));
+                        System.out.println(o.getInt("user_id"));
+                        mems_name.add(o.getString("user_name"));
 
                     }
                     catch (JSONException e)
