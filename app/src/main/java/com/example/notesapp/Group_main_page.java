@@ -91,7 +91,7 @@ public class Group_main_page extends AppCompatActivity implements AdapterView.On
 
         }
         //otherwise they can just leave group
-        else if(isMember){
+        else if(isMember && !isAdmin){
 
             delete.setVisibility(View.INVISIBLE);
             leave.setVisibility(View.VISIBLE);
