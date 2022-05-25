@@ -71,6 +71,8 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
     private String selectedGroup;
     private int groupId = 0;
     private TextView groupSel, topicSel;
+    String user_name;
+    int user_id;
 
 
 
@@ -89,6 +91,13 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
         groupSel = (TextView)findViewById(R.id.selected_group);
         topicSel = (TextView)findViewById(R.id.selected_topic);
 
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            user_name = extras.getString("user name");
+            user_id = extras.getInt("user id");
+            //The key argument here must match that used in the other activity
+        }
+
         String url = "https://studev.groept.be/api/a21pt103/grabGroupName";
         JsonArrayRequest queueRequest = new JsonArrayRequest(Request.Method.GET,
                 url, null,
@@ -101,8 +110,10 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
                                 JSONObject o = null;
                                 o = response.getJSONObject(i);
                                 String groupName = o.get("group_name").toString();
+                                Integer groupId = o.getInt("group_id");
                                 //Integer group_id = o.getInt("group_id");
                                 groupList.add(groupName);
+                                groupIdList.add(groupId);
                                 //groupIdList.add(group_id);
                                 groupAdapter = new ArrayAdapter<String>(UploadActivity.this,
                                         android.R.layout.simple_spinner_item, groupList);
@@ -179,10 +190,8 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
         }
         System.out.println(isGroup);
         etitle = title.getText().toString();
-        System.out.println(etitle);
 
         edesc = desc.getText().toString();
-        System.out.printf(edesc);
 
         //Start an animating progress widget
         progressDialog = new ProgressDialog(UploadActivity.this);
@@ -204,7 +213,10 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
 
                 progressDialog.dismiss();
                 Toast.makeText(UploadActivity.this, "Post request executed", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(UploadActivity.this, UserDocument.class));
+                Intent intent = new Intent(UploadActivity.this, UserDocument.class);
+                intent.putExtra("user id", user_id );
+                intent.putExtra("user name",user_name);
+                startActivity(intent);
                 finish();
             }
         }, new Response.ErrorListener() {
@@ -217,7 +229,7 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("image", imageString);
-                params.put("un", "mae3");
+                params.put("un", user_name);
                 params.put("title", etitle);
                 params.put("descr", edesc);
                 params.put("ig", String.valueOf(isGroup));
@@ -234,50 +246,6 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
         requestQueue.add(submitRequest);
     }
 
-    /*
-     * Retrieves the most recent image from the DB
-
-    public void onBtnRetrieveClicked( View caller )
-    {
-        //Standard Volley request. We don't need any parameters for this one
-        JsonArrayRequest retrieveImageRequest = new JsonArrayRequest(Request.Method.GET, GET_IMAGE_URL, null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        try
-                        {
-                            //Check if the DB actually contains an image
-                            if( response.length() > 0 ) {
-                                JSONObject o = response.getJSONObject(0);
-
-                                //converting base64 string to image
-                                String b64String = o.getString("image");
-                                byte[] imageBytes = Base64.decode( b64String, Base64.DEFAULT );
-                                Bitmap bitmap2 = BitmapFactory.decodeByteArray( imageBytes, 0, imageBytes.length );
-
-                                //Link the bitmap to the ImageView, so it's visible on screen
-                                imageRetrieved.setImageBitmap( bitmap2 );
-
-                                //Just a double-check to tell us the request has completed
-                                Toast.makeText(UploadActivity.this, "Image retrieved from DB", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                        catch( JSONException e )
-                        {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(UploadActivity.this, "Unable to communicate with server", Toast.LENGTH_LONG).show();
-                    }
-                }
-        );
-
-        requestQueue.add(retrieveImageRequest);
-    }*/
 
     /**
      * Helper method to create a rescaled bitmap. You enter a desired width, and the height is scaled uniformly
@@ -313,7 +281,7 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
             {
                 if(groupList.get(j).equals(selectedGroup))
                 {
-                    groupId = j;
+                    groupId = groupIdList.get(j);
                 }
             }
 
@@ -337,6 +305,7 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
                                     topicAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                     topicAdapter.notifyDataSetChanged();
                                     stopic.setAdapter(topicAdapter);
+
                                     System.out.println("this is a test:"+adapterView.getSelectedItem().toString());
 
 
@@ -349,6 +318,8 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
                                     e.printStackTrace();
                                 }
                             }
+                            //selectedTopic = adapterView.getSelectedItem().toString();
+                            //topicSel.setText(selectedTopic);
 
 
                         }

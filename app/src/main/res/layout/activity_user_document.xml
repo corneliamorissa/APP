@@ -11,19 +11,6 @@
     tools:context=".UserDocument">
 
 
-    <Button
-        android:id="@+id/btnRetrieve"
-        android:layout_width="wrap_content"
-        android:layout_height="59dp"
-        android:layout_gravity="center"
-        android:backgroundTint="#000000"
-        android:drawableTint="#000000"
-        android:foregroundTint="#000000"
-        android:onClick="onBtnRetrievedImg"
-        android:text="@string/retrieve_image"
-        android:textColor="#FFFFFF"
-        app:iconTint="#000000" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_Gallery_Images"
         android:layout_width="match_parent"

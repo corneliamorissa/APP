@@ -248,8 +248,8 @@
 
     <TextView
         android:id="@+id/selected_group"
-        android:layout_width="229dp"
-        android:layout_height="36dp"
+        android:layout_width="232dp"
+        android:layout_height="40dp"
         android:textAlignment="textStart"
         android:textColor="#000000"
         android:textColorHighlight="#000000"
@@ -259,7 +259,7 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/spinner_group"
         app:layout_constraintEnd_toEndOf="@+id/spinner_group"
-        app:layout_constraintHorizontal_bias="0.138"
+        app:layout_constraintHorizontal_bias="0.255"
         app:layout_constraintStart_toStartOf="@+id/spinner_group"
         app:layout_constraintTop_toTopOf="@+id/spinner_group"
         app:layout_constraintVertical_bias="1.0" />
@@ -267,14 +267,14 @@
     <TextView
         android:id="@+id/selected_topic"
         android:layout_width="229dp"
-        android:layout_height="39dp"
+        android:layout_height="40dp"
         android:textAlignment="textStart"
         android:textColor="#000000"
         android:textSize="20sp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/spinner_topic"
         app:layout_constraintEnd_toEndOf="@+id/spinner_topic"
-        app:layout_constraintHorizontal_bias="0.158"
+        app:layout_constraintHorizontal_bias="0.247"
         app:layout_constraintStart_toStartOf="@+id/spinner_topic"
         app:layout_constraintTop_toTopOf="@+id/spinner_topic"
         app:layout_constraintVertical_bias="1.0" />
