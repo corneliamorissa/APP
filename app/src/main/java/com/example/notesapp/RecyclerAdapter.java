@@ -2,6 +2,9 @@ package com.example.notesapp;
 
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,51 +17,53 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
-    private final ArrayList<ImageModel> uriArrayList;
+    ArrayList<ImageModel> uriArrayList;
+    private final RecyclerViewInterface recyclerViewInterface;
+    private File imagesFile;
 
-    public RecyclerAdapter(ArrayList<ImageModel> uriArrayList) {
+    public RecyclerAdapter(ArrayList<ImageModel> uriArrayList, RecyclerViewInterface recyclerViewInterface) {
         this.uriArrayList = uriArrayList;
+        this.recyclerViewInterface = recyclerViewInterface;
     }
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView title;
         TextView desc;
-        boolean isImageFitToScreen;
-
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
             imageView = itemView.findViewById(R.id.imageRetrieved);
             title = itemView.findViewById(R.id.title_img);
             desc = itemView.findViewById(R.id.desc_img);
 
-
-            imageView.setOnClickListener(new View.OnClickListener() {
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
-                    if(isImageFitToScreen) {
-                        isImageFitToScreen=false;
-                        imageView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-                        imageView.setAdjustViewBounds(true);
-                    }
+                public void onClick(View view) {
+                    if(recyclerViewInterface!= null)
+                    {
+                        int pos;
+                        pos = getBindingAdapterPosition();
 
-                    else{
-                        isImageFitToScreen=true;
-                        Intent intent = new Intent (v.getContext(), FullScreenImage.class);
-                        v.getContext().startActivity(intent);
-
-                        //imageView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-                        //imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                        if(pos != RecyclerView.NO_POSITION)
+                        {
+                            recyclerViewInterface.onItemClick(pos);
+                        }
                     }
                 }
             });
+
+
+
         }
 
 
     }
+
 
 
 
@@ -68,7 +73,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.custom_single_image,parent,false);
 
-        return new ViewHolder(view);
+        return new ViewHolder(view, recyclerViewInterface);
     }
 
     @Override
@@ -80,12 +85,17 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         System.out.println(imageModel.getTitle());
         holder.desc.setText(imageModel.getDesc());
         System.out.println(imageModel.getDesc());
+
+
+
+
     }
 
     @Override
     public int getItemCount() {
         return uriArrayList.size();
     }
+
 
 
 }

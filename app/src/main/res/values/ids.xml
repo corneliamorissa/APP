@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <item name="image" type="id" />
-    <item name="imageRetrieved" type="id" />
-    <item name="fullScreenImageView" type="id">fullScreenImageView</item>
-</resources>

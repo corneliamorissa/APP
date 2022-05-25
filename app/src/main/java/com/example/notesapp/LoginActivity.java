@@ -113,25 +113,25 @@ public class LoginActivity extends AppCompatActivity {
                                             String f_name =  o.getString("first_name");
                                             String l_name =  o.getString("last_name");
                                             String email =  o.getString("email");
-                                            /*UserLog user = new UserLog(euserName,epassword,f_name,l_name,email);
+                                            UserLog user = new UserLog(euserName,epassword,f_name,l_name,email);
                                             user.setEmail(email);
                                             user.setFirstname(f_name);
                                             user.setPassword(epassword);
                                             user.setUserName(euserName);
-                                            user.setLastname(l_name);*/
+                                            user.setLastname(l_name);
 
-                                            UserInfo user1 = new UserInfo();
+                                            /***UserInfo user1 = new UserInfo();
                                             user1.setPass(epassword);
                                             user1.setUser(euserName);
                                             user1.setFirst_name(f_name);
                                             user1.setEmail(email);
-                                            user1.setId(id);
+                                            user1.setId(id);***/
 
                                             //System.out.println(email +","+ f_name +","+ l_name+ ","+ euserName+"," + epassword);
                                             //System.out.println(user.getEmail() +","+ user.getFirstName() +","+ user.getLastname()+ ","+ user.getUserName()+"," + user.getPassword());
 
                                             //startActivity(new Intent(LoginActivity.this, MainPageActivity.class));
-                                            Intent intent = new Intent(LoginActivity.this, MainPageActivity.class);
+                                            Intent intent = new Intent(LoginActivity.this, UserDocument.class);
                                             intent.putExtra("user id", id );
                                             System.out.println(id);
                                             intent.putExtra("user name",euserName);
