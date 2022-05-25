@@ -6,11 +6,13 @@ public class ImageModel {
     Bitmap pict;
     String title;
     String desc;
+    String topic;
 
-    public ImageModel(Bitmap pict, String title, String desc) {
+    public ImageModel(Bitmap pict, String title, String desc, String topic) {
         this.pict = pict;
         this.title = title;
         this.desc = desc;
+        this.topic = topic;
     }
 
     public Bitmap getPict() {
@@ -41,4 +43,15 @@ public class ImageModel {
     {
         this.desc = d;
     }
+
+    public String getTopic()
+    {
+        return topic;
+    }
+
+    public void setTopic(String t)
+    {
+        this.topic = t;
+    }
 }
+

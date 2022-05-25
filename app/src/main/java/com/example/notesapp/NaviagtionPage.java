@@ -81,7 +81,9 @@ public class NaviagtionPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(NaviagtionPage.this, MainPageActivity.class);
-                intent.putExtra("id", id);
+                intent.putExtra("user id", id);
+                intent.putExtra("user name", name);
+                intent.putExtra("email", email);
                 startActivity(intent);
             }
         });

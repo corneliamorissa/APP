@@ -33,6 +33,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
+        TextView topic;
         TextView title;
         TextView desc;
         public ViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
@@ -40,6 +41,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             imageView = itemView.findViewById(R.id.imageRetrieved);
             title = itemView.findViewById(R.id.title_img);
             desc = itemView.findViewById(R.id.desc_img);
+            topic = itemView.findViewById(R.id.topicName);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -65,8 +67,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     }
 
 
-
-
     @NonNull
     @Override
     public RecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -79,12 +79,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     @Override
     public synchronized void onBindViewHolder(@NonNull RecyclerAdapter.ViewHolder holder, int position) {
         ImageModel imageModel = uriArrayList.get(position);
-        System.out.println("is this even called?");
         holder.imageView.setImageBitmap(imageModel.getPict());
         holder.title.setText(imageModel.getTitle());
-        System.out.println(imageModel.getTitle());
         holder.desc.setText(imageModel.getDesc());
-        System.out.println(imageModel.getDesc());
+        holder.topic.setText("Topic: " + imageModel.getTopic());
 
 
 

@@ -71,7 +71,7 @@ public class Group_main_page extends AppCompatActivity implements AdapterView.On
             userName = extras.getString("user name");
             //The key argument here must match that used in the other activity
         }
-
+        buildDialog();
         name_show.setText(groupName);
         members();
         checkIfAdmin();
@@ -108,14 +108,14 @@ public class Group_main_page extends AppCompatActivity implements AdapterView.On
 
     public void onTopic_Clicked(View caller) {
         startActivity(new Intent(Group_main_page.this, Topic_Main_Page.class)
-                .putExtra("name",groupName)
-                .putExtra("id",groupid));
+                .putExtra("group name",groupName)
+                .putExtra("group id",groupid));
         finish();
     }
     public void onMemebrs_Clicked(View caller) {
         startActivity(new Intent(Group_main_page.this, Topic_Main_Page.class)
-                .putExtra("name",groupName)
-                .putExtra("id",groupid));
+                .putExtra("group name",groupName)
+                .putExtra("group id",groupid));
         finish();
     }
     //checks if it is admin
