@@ -49,6 +49,7 @@ public class Topic_Main_Page extends AppCompatActivity {
             g_id = extras.getInt("id");
             //The key argument here must match that used in the other activity
         }
+        requestQueue = Volley.newRequestQueue(this);
 
         topics = new ArrayList<>();
         add = findViewById(R.id.add);
