@@ -1,13 +1,9 @@
 package com.example.notesapp;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -56,7 +52,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.GroupsView> 
         public GroupsView(@NonNull View itemView) {
             super(itemView);
 
-            textGroupName = (Button) itemView.findViewById(R.id.button_name);
+            textGroupName = (Button) itemView.findViewById(R.id.button__topic_name);
 
     }
 }}

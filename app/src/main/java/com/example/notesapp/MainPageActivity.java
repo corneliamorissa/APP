@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
@@ -36,7 +37,7 @@ import java.util.Locale;
 public class MainPageActivity extends AppCompatActivity {
     private String user_name;
     private int user_id;
-    RecyclerView notifview;
+    //RecyclerView notifview;
     private ArrayList<Notify> joins;
     private static final String USER_URL = "https://studev.groept.be/api/a21pt103/user_from_id/";
     private static final String JOINS_URL = "https://studev.groept.be/api/a21pt103/grab_join_request/";
@@ -44,6 +45,8 @@ public class MainPageActivity extends AppCompatActivity {
     private static final String DELETE_URL ="https://studev.groept.be/api/a21pt103/delete_request/";
     private RequestQueue requestQueue;
     LinearLayout layout;
+    ScrollView notifview;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -56,18 +59,20 @@ public class MainPageActivity extends AppCompatActivity {
         ImageButton btn_settings = (ImageButton) findViewById(R.id.button_settings);
         layout = findViewById(R.id.notifycontainer) ;
 
-        joins = new ArrayList<Notify>();
+        requestQueue = Volley.newRequestQueue(this);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
-        notifview.setLayoutManager(layoutManager);
+        joins = new ArrayList<>();
+
+        //LinearLayoutManager layoutManager = new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
+       // notifview.setLayoutManager(layoutManager);
 
         Bundle extras = getIntent().getExtras();
-
         if (extras != null) {
             user_name = extras.getString("user name");
             user_id = extras.getInt("user id");
             //The key argument here must match that used in the other activity
         }
+        populateNotifList();
 
 
         //goes to my groups
@@ -139,12 +144,13 @@ public class MainPageActivity extends AppCompatActivity {
 
        //put the notifications
 
-        populateNotifList();
+
     }
 
     //notification
     private void populateNotifList()
     {
+        requestQueue = Volley.newRequestQueue(this);
         String url = JOINS_URL + user_id;
         System.out.println(url);
 
@@ -156,12 +162,13 @@ public class MainPageActivity extends AppCompatActivity {
             public void onResponse(JSONArray response) {
                 layout = findViewById(R.id.notifycontainer);
                 String info = "";
+                System.out.println("test01");
                 for (int i = 0; i < response.length(); ++i) {
                     System.out.println("test1");
                     JSONObject o = null;
                     try {
                         o = response.getJSONObject(i);
-                        Notify n = new Notify(o.getInt("j.request_id"), o.getInt("j.group_id"), o.getInt("j.admin_id"));
+                        Notify n = new Notify(o.getInt("request_id"), o.getInt("group_id"), o.getInt("user_id"));
                         joins.add(n);
                         System.out.println("test2");
                         final View view = getLayoutInflater().inflate(R.layout.notification_row, null);
@@ -169,22 +176,28 @@ public class MainPageActivity extends AppCompatActivity {
                         Button viewProfile = view.findViewById(R.id.viewprofile);
                         Button accept = view.findViewById(R.id.accept);
                         Button reject= view.findViewById(R.id.reject);
-
-                        nameView.setText( o.getString("m.username") + "is requesting to join your group " + o.getString("g.group_name"));
+                        String text= o.getString("user_name").toUpperCase(Locale.ROOT) + " is requesting to join your group " + o.getString("group_name").toUpperCase(Locale.ROOT);
+                        nameView.setText( text);
 
                         System.out.println(n.getRequest_id());
+                        System.out.println("testnotifpopulate");
+
                         accept.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
 
-                                join(user_id,n.getGroup_id(),n.getRequest_id());
+                                join(n.getUser_id(),n.getGroup_id(),n.getRequest_id());
+                                System.out.println("testaccept");
+
+
                             }
                         });
-                        accept.setOnClickListener(new View.OnClickListener() {
+                        reject.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 deleteRequest(n.getRequest_id());
                                 Toast.makeText(MainPageActivity.this, "User rejected", Toast.LENGTH_LONG).show();
+                                System.out.println("testreject");
 
 
                             }
@@ -239,6 +252,7 @@ public class MainPageActivity extends AppCompatActivity {
     public void join(int u_id,int g_id,int r_id)
     {
 
+        requestQueue = Volley.newRequestQueue(this);
         String url2 = JOIN_URL+ g_id + "/" + u_id ;
         System.out.println(url2);
 
@@ -247,11 +261,10 @@ public class MainPageActivity extends AppCompatActivity {
 
         StringRequest queueRequest2;
 
-        queueRequest2 = new StringRequest(Request.Method.POST,url2,new Response.Listener<String>(){
+        queueRequest2 = new StringRequest(Request.Method.GET,url2,new Response.Listener<String>(){
             @Override
             public void onResponse(String response) {
                 Toast.makeText(MainPageActivity.this, "User accepted", Toast.LENGTH_LONG).show();
-                deleteRequest(r_id);
 
             }
         },new Response.ErrorListener() {
@@ -260,11 +273,14 @@ public class MainPageActivity extends AppCompatActivity {
                 Toast.makeText(MainPageActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
             }
         });
+        requestQueue.add(queueRequest2);
+        deleteRequest(r_id);
 
 
     }
     public void deleteRequest(int r_id)
     {
+        requestQueue = Volley.newRequestQueue(this);
         String url2 = DELETE_URL+ r_id;
         System.out.println(url2);
 
@@ -273,10 +289,10 @@ public class MainPageActivity extends AppCompatActivity {
 
         StringRequest queueRequest2;
 
-        queueRequest2 = new StringRequest(Request.Method.POST,url2,new Response.Listener<String>(){
+        queueRequest2 = new StringRequest(Request.Method.GET,url2,new Response.Listener<String>(){
             @Override
             public void onResponse(String response) {
-
+                Toast.makeText(MainPageActivity.this, "User accepted", Toast.LENGTH_LONG).show();
 
             }
         },new Response.ErrorListener() {
@@ -285,7 +301,7 @@ public class MainPageActivity extends AppCompatActivity {
                 Toast.makeText(MainPageActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
             }
         });
-
+        requestQueue.add(queueRequest2);
 
     }
 

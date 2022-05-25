@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -19,7 +18,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.notesapp.appObjects.Group;
 import com.example.notesapp.appObjects.Topic;
 
 import org.json.JSONArray;
@@ -27,7 +25,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class Topic_Main_Page extends AppCompatActivity {
     private RequestQueue requestQueue;
@@ -40,7 +37,7 @@ public class Topic_Main_Page extends AppCompatActivity {
     AlertDialog dialog;
     LinearLayout layout;
     Button btn_nav;
-
+    //this page is the list of topics of the group
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,7 +111,7 @@ public class Topic_Main_Page extends AppCompatActivity {
         final View view = getLayoutInflater().inflate(R.layout.row_topic, null);
 
 
-        Button topic_btn = view.findViewById(R.id.button_name);
+        Button topic_btn = view.findViewById(R.id.button__topic_name);
 
         topic_btn.setText(name);
 
@@ -156,7 +153,7 @@ public class Topic_Main_Page extends AppCompatActivity {
                                     final View view = getLayoutInflater().inflate(R.layout.row_topic, null);
 
 
-                                    Button topic_btn = view.findViewById(R.id.button_name);
+                                    Button topic_btn = view.findViewById(R.id.button__topic_name);
 
                                     topic_btn.setText(t.getName());
 

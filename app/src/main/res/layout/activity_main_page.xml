@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    android:rotationX="360"
+
     tools:context=".MainPageActivity"
     tools:visibility="visible">
 
@@ -13,6 +15,8 @@
         android:id="@+id/fragmentContainerView"
         android:layout_width="366dp"
         android:layout_height="72dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="-5dp"
         android:background="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,8 +32,12 @@
 
     <Button
         android:id="@+id/button"
-        android:layout_width="145dp"
-        android:layout_height="71dp"
+        android:layout_width="131dp"
+        android:layout_height="68dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="107dp"
+        android:layout_marginBottom="5dp"
         android:background="#00FFFFFF"
         android:backgroundTint="#00FFFFFF"
         app:icon="@android:drawable/ic_input_add"
@@ -44,8 +52,12 @@
 
     <Button
         android:id="@+id/button5"
-        android:layout_width="109dp"
-        android:layout_height="76dp"
+        android:layout_width="wrap_content"
+        android:layout_height="64dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="3dp"
         android:background="#00000000"
         android:backgroundTint="#000000"
         android:foreground="@color/black"
@@ -62,6 +74,10 @@
         android:id="@+id/button9"
         android:layout_width="121dp"
         android:layout_height="75dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="238dp"
+        android:layout_marginBottom="-6dp"
         android:background="#00000000"
         android:backgroundTint="#000000"
         android:foregroundGravity="bottom"
@@ -95,6 +111,8 @@
         android:id="@+id/button_settings"
         android:layout_width="81dp"
         android:layout_height="51dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="12dp"
         android:background="#000000"
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -109,6 +127,8 @@
     <ScrollView
         android:layout_width="360dp"
         android:layout_height="472dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="70dp"
         android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="@+id/fragmentContainerView"
         app:layout_constraintEnd_toEndOf="parent"
@@ -138,4 +158,4 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

@@ -78,7 +78,6 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload);
-        image = (ImageView)findViewById(R.id.image);
         imageRetrieved = (ImageView)findViewById(R.id.imageRetrieved);
         requestQueue = Volley.newRequestQueue(this);
         title = (EditText) findViewById(R.id.title_img);

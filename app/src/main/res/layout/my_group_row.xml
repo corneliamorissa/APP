@@ -24,7 +24,7 @@
                 android:padding="10dp">
 
                 <Button
-                    android:id="@+id/button_name"
+                    android:id="@+id/button__topic_name"
                     style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="377dp"
                     android:layout_height="wrap_content"

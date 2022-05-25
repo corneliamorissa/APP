@@ -1,15 +1,11 @@
 package com.example.notesapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -92,7 +88,7 @@ public class GroupList extends AppCompatActivity {
                         System.out.println(g.getId());
                         groups.add(g);
                         final View view = getLayoutInflater().inflate(R.layout.row_group, null);
-                        Button b = view.findViewById(R.id.button_name);
+                        Button b = view.findViewById(R.id.button__topic_name);
                         Button join = view.findViewById(R.id.join_group);
 
                         b.setText(g.getName());
@@ -110,8 +106,9 @@ public class GroupList extends AppCompatActivity {
                         if(alreadyRequested.contains(g.getId()))
                         {
                             join.setText("requested");
-                            join.setClickable(false);
-                            join.setBackgroundColor(Color.GRAY);
+                            //join.setClickable(false);
+                            //join.setBackgroundColor(Color.GRAY);
+                            System.out.println("buttontest1");
                         }
                         else{
                         join.setOnClickListener(new View.OnClickListener() {
@@ -149,7 +146,7 @@ public class GroupList extends AppCompatActivity {
     }
 
     public void sendJoinRequest(int id) {
-        String url = REQUESTJOIN_URL + id + user_id+ id ;
+        String url = REQUESTJOIN_URL + id + user_id + id ;
         System.out.println(url);
 
         StringRequest queueRequest;
@@ -246,6 +243,7 @@ public class GroupList extends AppCompatActivity {
                 o = response.getJSONObject(i);
                 int r_id = o.getInt("group_id");
                 alreadyRequested.add(r_id);
+                System.out.println(r_id);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

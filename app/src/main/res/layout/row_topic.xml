@@ -23,7 +23,7 @@
                 android:padding="10dp">
 
                 <Button
-                    android:id="@+id/button_name"
+                    android:id="@+id/button__topic_name"
                     android:layout_width="379dp"
                     android:layout_height="67dp"
                     android:layout_alignParentStart="true"
