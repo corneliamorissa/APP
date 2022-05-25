@@ -88,7 +88,7 @@ public class GroupList extends AppCompatActivity {
                         System.out.println(g.getId());
                         groups.add(g);
                         final View view = getLayoutInflater().inflate(R.layout.row_group, null);
-                        Button b = view.findViewById(R.id.button__topic_name);
+                        Button b = view.findViewById(R.id.button_group_name);
                         Button join = view.findViewById(R.id.join_group);
 
                         b.setText(g.getName());
@@ -97,6 +97,7 @@ public class GroupList extends AppCompatActivity {
                         b.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+
                                 startActivity(new Intent(GroupList.this, Group_main_page.class)
                                         .putExtra("group name", g.getName())
                                         .putExtra("group id", g.getId())
