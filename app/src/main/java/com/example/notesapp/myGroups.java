@@ -87,9 +87,9 @@ public class myGroups extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
                                 startActivity(new Intent(myGroups.this, Group_main_page.class)
-                                        .putExtra("name", g.getName())
-                                        .putExtra("group_id", g.getId())
-                                        .putExtra("user_id", user_id));
+                                        .putExtra("group name", g.getName())
+                                        .putExtra("group id", g.getId())
+                                        .putExtra("user id", user_id));
                             }
                         });
 
@@ -142,7 +142,7 @@ public class myGroups extends AppCompatActivity {
 
     public void onBtnMain_Clicked(View caller) {
         Intent intent = new Intent(myGroups.this, MainPageActivity.class);
-        intent.putExtra("user_id",user_id);
+        intent.putExtra("user id",user_id);
         startActivity(intent);
         finish();
     }
