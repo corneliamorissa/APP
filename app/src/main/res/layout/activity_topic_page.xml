@@ -5,16 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:foreground="@drawable/ic_baseline_view_headline_24"
-    tools:context=".MainActivity">
-
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainerView4"
-        android:layout_width="367dp"
-        android:layout_height="52dp"
-        android:background="#000000"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    tools:context=".Topic_Main_Page">
 
 
     <Button
@@ -32,7 +23,6 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="594dp"
-        android:layout_below="@+id/fragmentContainerView4"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="-1dp"
         android:layout_marginBottom="-4dp"

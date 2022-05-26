@@ -75,6 +75,8 @@ public class Group_main_page extends AppCompatActivity  {
         }
 
 
+        delete.setVisibility(View.INVISIBLE);
+        leave.setVisibility(View.INVISIBLE);
 
 
 

@@ -57,9 +57,9 @@ public class Topic_Activity extends AppCompatActivity implements RecyclerViewInt
         Bundle extras = getIntent().getExtras();
         topics = new ArrayList<Topic>();
         if (extras != null) {
-            user_id = extras.getInt("user_id");
-            group_id = extras.getInt("group_id");
-            topic_id =extras.getInt("topic_id");
+            user_id = extras.getInt("user id");
+            group_id = extras.getInt("group id");
+            topic_id =extras.getInt("topic id");
             //The key argument here must match that used in the other activity
         }
 
