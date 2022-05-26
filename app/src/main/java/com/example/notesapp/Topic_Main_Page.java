@@ -43,12 +43,14 @@ public class Topic_Main_Page extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_topic_page);
         btn_nav = findViewById(R.id.nav_button);
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
 
             g_id = extras.getInt("id");
             //The key argument here must match that used in the other activity
         }
+
         requestQueue = Volley.newRequestQueue(this);
 
         topics = new ArrayList<>();
@@ -135,10 +137,10 @@ public class Topic_Main_Page extends AppCompatActivity {
             String url = TOPIC_URL + g_id;
 
             JSONObject p = new JSONObject();
-        String requestURL = url + g_id;
+
 
             JsonArrayRequest queueRequest = new JsonArrayRequest(Request.Method.GET,
-                    requestURL,
+                    url,
                     null,
                     new Response.Listener<JSONArray>() {
                         @Override
@@ -146,6 +148,7 @@ public class Topic_Main_Page extends AppCompatActivity {
                             int p;
                             for (int i = 0; i < response.length(); ++i) {
                                 JSONObject o = null;
+                                layout = findViewById(R.id.container_topic);
                                 try {
                                     o = response.getJSONObject(i);
 
