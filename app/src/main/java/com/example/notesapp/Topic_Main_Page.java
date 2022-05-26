@@ -25,14 +25,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class Topic_Main_Page extends AppCompatActivity {
     private RequestQueue requestQueue;
     private static final String TOPIC_URL = "https://studev.groept.be/api/a21pt103/grap_topics/";
     private static final String NEW_TOPIC_URL = "https://studev.groept.be/api/a21pt103/add_topic/";
     private ArrayList<Topic> topics;
-    private int id;
-    private int g_id;
+    Integer groupid, userid;
+    String groupName,userName;
     Button add;
     AlertDialog dialog;
     LinearLayout layout;
@@ -47,7 +48,10 @@ public class Topic_Main_Page extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
 
-            g_id = extras.getInt("id");
+            groupName = extras.getString("group name").toUpperCase(Locale.ROOT);
+            groupid = extras.getInt("group id");
+            userid = extras.getInt("user id");
+            userName = extras.getString("user name");
             //The key argument here must match that used in the other activity
         }
 
@@ -74,8 +78,10 @@ public class Topic_Main_Page extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent = new Intent(Topic_Main_Page.this, NaviagtionPage.class);
-                intent.putExtra("group id", g_id);
-                intent.putExtra("user id", id);
+                intent.putExtra("group id", groupid);
+                intent.putExtra("user id", userName);
+                intent.putExtra("group name", groupName);
+                intent.putExtra("user name", userName);
                 startActivity(intent);
                 finish();
 
@@ -96,7 +102,7 @@ public class Topic_Main_Page extends AppCompatActivity {
 
                         addTopic(name.getText().toString());
                         newTopic(name.getText().toString());
-                        Topic t = new Topic(name.getText().toString(), g_id);
+                        Topic t = new Topic(name.getText().toString(), groupid);
                         topics.add(t);
                     }
                 })
@@ -122,7 +128,9 @@ public class Topic_Main_Page extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(Topic_Main_Page.this, Topic_Activity.class)
-                        .putExtra("name",name)
+                        .putExtra("topic name",name)
+                        .putExtra("group id", groupid)
+                        .putExtra("user id", userName)
                         );
             }
         });
@@ -134,7 +142,7 @@ public class Topic_Main_Page extends AppCompatActivity {
     //TODO method to grab all topic for a group
     private void grabTopics()
     {
-            String url = TOPIC_URL + g_id;
+            String url = TOPIC_URL + groupid;
 
             JSONObject p = new JSONObject();
 
@@ -152,7 +160,7 @@ public class Topic_Main_Page extends AppCompatActivity {
                                 try {
                                     o = response.getJSONObject(i);
 
-                                    Topic t = new Topic(o.getInt("topic_id"),o.getString("topic_name"),g_id);
+                                    Topic t = new Topic(o.getInt("topic_id"),o.getString("topic_name"),groupid);
                                    topics.add(t);
                                     final View view = getLayoutInflater().inflate(R.layout.row_topic, null);
 
@@ -165,9 +173,9 @@ public class Topic_Main_Page extends AppCompatActivity {
                                         @Override
                                         public void onClick(View v) {
                                             startActivity(new Intent(Topic_Main_Page.this, Topic_Activity.class)
-                                                    .putExtra("name",t.getName())
-                                                    .putExtra("topic_id",t.getId())
-                                                    .putExtra("group id",g_id)
+                                                    .putExtra("topic name",t.getName())
+                                                    .putExtra("topic id",t.getId())
+                                                    .putExtra("group id",groupid)
                                             );
                                         }
                                     });
@@ -194,7 +202,7 @@ public class Topic_Main_Page extends AppCompatActivity {
             String url = NEW_TOPIC_URL;
             requestQueue = Volley.newRequestQueue(this);
             JSONObject p = new JSONObject();
-            String requestURL = url + g_id + "/" + name;
+            String requestURL = url + groupid + "/" + name;
 
             JsonArrayRequest queueRequest = new JsonArrayRequest(Request.Method.POST,
                     requestURL,

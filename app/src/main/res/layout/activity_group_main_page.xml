@@ -12,22 +12,23 @@
     <Button
         android:id="@+id/delete_group"
         android:layout_width="208dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="77dp"
+        android:layout_marginEnd="80dp"
         android:layout_marginBottom="38dp"
-        android:background="@drawable/round_primary"
         android:backgroundTint="#000000"
         android:foregroundTint="#000000"
         android:text="DELETE GROUP"
-        android:visibility="visible" />
+        android:textColor="#FFFFFF"
+        android:visibility="visible"
+        app:cornerRadius="10dp" />
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
+        android:background="@color/black"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme" />
 
@@ -65,9 +66,12 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="25dp"
         android:layout_marginBottom="290dp"
-        android:background="@drawable/round_primary"
+        android:backgroundTint="#000000"
+        android:foregroundTint="#000000"
         android:onClick="onTopic_Clicked"
         android:text="Topics"
+        android:textColor="#FFFFFF"
+        app:cornerRadius="10dp"
         tools:ignore="OnClick" />
 
     <Button
@@ -78,25 +82,30 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="25dp"
         android:layout_marginBottom="204dp"
-        android:background="@drawable/round_primary"
+        android:backgroundTint="#000000"
+        android:foregroundTint="#000000"
         android:onClick="onMemebrs_Clicked"
-        android:text="Memebrs"
+        android:text="Members"
+        android:textColor="#FFFFFF"
+        app:cornerRadius="10dp"
+        app:iconTint="#FFFFFF"
         tools:ignore="OnClick" />
 
     <Button
         android:id="@+id/leave_group"
         android:layout_width="208dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="80dp"
         android:layout_marginBottom="104dp"
-        android:background="@drawable/round_primary"
         android:backgroundTint="#000000"
         android:foregroundTint="#000000"
         android:onClick="onLeave_Clicked"
         android:text="Leave Group"
-        android:visibility="visible" />
+        android:textColor="#FFFFFF"
+        android:visibility="visible"
+        app:cornerRadius="10dp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/settings_group"
