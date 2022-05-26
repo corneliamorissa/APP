@@ -39,7 +39,8 @@ public class Group_main_page extends AppCompatActivity  {
     private static final String UPDATE_ADMIN ="https://studev.groept.be/api/a21pt103/make_another_admin/";
     private static final String MEMBER_CHECK ="https://studev.groept.be/api/a21pt103/check_if_member/";
     private static final String getId = "https://studev.groept.be/api/a21pt103/getId/";
-    Integer admin;
+    private static final String IS_A_MEMBER = "https://studev.groept.be/api/a21pt103/isMember/";
+    Integer admin, member;
     boolean isAdmin;
     boolean isMember;
     private RequestQueue requestQueue;
@@ -72,6 +73,11 @@ public class Group_main_page extends AppCompatActivity  {
             userName = extras.getString("user name");
             //The key argument here must match that used in the other activity
         }
+
+
+
+
+
 
         name_show.setText(groupName);
         String url = ADMIN_CHECK + groupid;
@@ -108,11 +114,44 @@ public class Group_main_page extends AppCompatActivity  {
                         }
                         else
                         {
+                            String url1 = IS_A_MEMBER + userid + "/" + groupid;
+                            System.out.println(url1);
+                            requestQueue = Volley.newRequestQueue(Group_main_page.this);
+                            JsonArrayRequest queueRequest1;
+                            queueRequest1 = new JsonArrayRequest(Request.Method.GET, url1, null, new Response.Listener<JSONArray>() {
+                                @Override
+                                public void onResponse(JSONArray response) {
+                                    String info = "";
+                                    if(response.length()==0)
+                                    {
+                                        leave.setVisibility(View.INVISIBLE);
+                                        delete.setVisibility(View.INVISIBLE);
+                                    }
+                                    else{
+                                        for (int i = 0; i < response.length(); ++i) {
 
-                            delete.setVisibility(View.INVISIBLE);
-                            leave.setVisibility(View.VISIBLE);
+                                            JSONObject o = null;
+                                            try {
+                                                o = response.getJSONObject(i);
 
+                                                member = o.getInt("user_id");
+                                                if(userid == member)
+                                                {
+                                                    leave.setVisibility(View.VISIBLE);
+                                                    delete.setVisibility(View.INVISIBLE);
+                                                }
 
+                                            }
+                                            catch (JSONException e)
+                                            {
+                                                e.printStackTrace();
+                                            }
+
+                                        }}}},
+                                    error -> Toast.makeText(Group_main_page.this, "Unable to communicate with server", Toast.LENGTH_LONG).show()
+
+                            );
+                            requestQueue.add(queueRequest1);
                         }
 
 
@@ -128,6 +167,8 @@ public class Group_main_page extends AppCompatActivity  {
 
         );
         requestQueue.add(queueRequest);
+
+
 
 
     }
@@ -310,9 +351,6 @@ public class Group_main_page extends AppCompatActivity  {
                 }
             }
 
-            Toast.makeText(adapterView.getContext(), "Clicked : " +
-                    adapterView.getItemAtPosition(i).toString(), Toast.LENGTH_LONG).show();
-
         }
 
         @Override
@@ -485,4 +523,48 @@ public class Group_main_page extends AppCompatActivity  {
         }
 
     }*/
+
+    /*
+    to check if user is a member
+    String url1 = IS_A_MEMBER + userid + "/" + groupid;
+
+
+        System.out.println(url1);
+        requestQueue = Volley.newRequestQueue(this);
+        JsonArrayRequest queueRequest1;
+        queueRequest1 = new JsonArrayRequest(Request.Method.GET, url1, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                String info = "";
+                if(response.length()==0)
+                {
+                    leave.setVisibility(View.INVISIBLE);
+                    delete.setVisibility(View.INVISIBLE);
+                }
+                else{
+                for (int i = 0; i < response.length(); ++i) {
+
+                    JSONObject o = null;
+                    try {
+                        o = response.getJSONObject(i);
+
+                        member = o.getInt("user_id");
+                        if(userid == member)
+                        {
+                            leave.setVisibility(View.VISIBLE);
+                            delete.setVisibility(View.INVISIBLE);
+                        }
+
+                    }
+                    catch (JSONException e)
+                    {
+                        e.printStackTrace();
+                    }
+
+                }}}},
+                error -> Toast.makeText(Group_main_page.this, "Unable to communicate with server", Toast.LENGTH_LONG).show()
+
+        );
+        requestQueue.add(queueRequest1);
+    */
 }
