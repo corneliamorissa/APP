@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:foreground="@drawable/ic_baseline_view_headline_24"
     tools:context=".MainActivity">
 
     <androidx.fragment.app.FragmentContainerView
@@ -16,16 +16,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/nav_button"
-        android:layout_width="92dp"
-        android:layout_height="51dp"
-        android:layout_marginEnd="268dp"
-        android:drawableTop="@drawable/ic_baseline_view_headline_24"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="SpeakableTextPresentCheck" />
 
     <Button
         android:id="@+id/add"
@@ -34,14 +24,20 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"
-        android:gravity="center|top"
-        android:text="Add" />
+        android:backgroundTint="#000000"
+        android:gravity="center"
+        android:text="Add"
+        android:textColor="#FF9800" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="594dp"
+        android:layout_below="@+id/fragmentContainerView4"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="-1dp"
+        android:layout_marginTop="-1dp"
+        android:layout_marginBottom="-4dp"
+        android:background="#FFFFFF"
+        android:backgroundTint="#FFFFFF"
         android:scrollbars="none">
 
         <LinearLayout
@@ -52,4 +48,19 @@
 
         </LinearLayout>
     </ScrollView>
+
+    <Button
+        android:id="@+id/nav_button"
+        android:layout_width="wrap_content"
+        android:layout_height="49dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="255dp"
+        android:background="#000000"
+        android:backgroundTint="#000000"
+        android:drawableTop="@color/black"
+        android:drawableTint="#000000"
+        android:foregroundTint="#000000"
+        app:icon="@drawable/ic_baseline_view_headline_24"
+        app:iconPadding="10dp"
+        app:iconTint="#FFFFFF" />
 </RelativeLayout>

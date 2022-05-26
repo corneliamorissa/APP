@@ -10,16 +10,17 @@
 
     <Button
         android:id="@+id/add"
-        android:layout_width="wrap_content"
+        android:layout_width="165dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"
+        android:backgroundTint="#000000"
         android:drawableTint="#000000"
         android:foregroundTint="#000000"
         android:onClick="onBtnCreateGroup_Clicked"
         android:text="Add Group"
-        android:textColor="#FFFFFF"
+        android:textColor="#FF9800"
         app:iconTint="#000000" />
 
     <ScrollView
