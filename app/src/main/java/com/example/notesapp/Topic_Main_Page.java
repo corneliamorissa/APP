@@ -53,7 +53,7 @@ public class Topic_Main_Page extends AppCompatActivity {
 
         topics = new ArrayList<>();
         add = findViewById(R.id.add);
-        layout = findViewById(R.id.container);
+        layout = findViewById(R.id.container_topic);
 
         grabTopics();
 
