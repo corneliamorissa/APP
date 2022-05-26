@@ -32,7 +32,9 @@ public class NaviagtionPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(NaviagtionPage.this, GroupList.class);
-                intent.putExtra("id", id);
+                intent.putExtra("user id", id);
+                intent.putExtra("user name", name);
+                intent.putExtra("email", email);
                 startActivity(intent);
             }
         });
@@ -41,7 +43,9 @@ public class NaviagtionPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(NaviagtionPage.this, myGroups.class);
-                intent.putExtra("id", id);
+                intent.putExtra("user id", id);
+                intent.putExtra("user name", name);
+                intent.putExtra("email", email);
                 startActivity(intent);
             }
         });
@@ -50,7 +54,9 @@ public class NaviagtionPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(NaviagtionPage.this, SettingsActivity.class);
-                intent.putExtra("id", id);
+                intent.putExtra("user id", id);
+                intent.putExtra("user name", name);
+                intent.putExtra("email", email);
                 startActivity(intent);
             }
         });

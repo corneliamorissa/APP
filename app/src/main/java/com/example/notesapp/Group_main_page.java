@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -29,7 +30,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class Group_main_page extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class Group_main_page extends AppCompatActivity  {
     String groupName, userName, selectedAdmin;
     private static final String DELETE = "https://studev.groept.be/api/a21pt103/delete_group/";
     private static final String LEAVE = "https://studev.groept.be/api/a21pt103/leave_group/";
@@ -39,8 +40,8 @@ public class Group_main_page extends AppCompatActivity implements AdapterView.On
     private static final String MEMBER_CHECK ="https://studev.groept.be/api/a21pt103/check_if_member/";
     private static final String getId = "https://studev.groept.be/api/a21pt103/getId/";
     Integer admin;
-    boolean isAdmin = false;
-    boolean isMember = false;
+    boolean isAdmin;
+    boolean isMember;
     private RequestQueue requestQueue;
     int groupid, userid;
     TextView name_show;
@@ -71,38 +72,63 @@ public class Group_main_page extends AppCompatActivity implements AdapterView.On
             userName = extras.getString("user name");
             //The key argument here must match that used in the other activity
         }
-        buildDialog();
+
         name_show.setText(groupName);
-        members();
-        checkIfAdmin();
-        buildDialog();
+        String url = ADMIN_CHECK + groupid;
+        requestQueue = Volley.newRequestQueue(this);
+        JsonArrayRequest queueRequest;
+        queueRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                for (int i = 0; i < response.length(); ++i) {
 
-        //if admin then they can delete group and when leave group must appoint new admin
-        if(isAdmin && isMember)
-        {
-            delete.setVisibility(View.VISIBLE);
-            leave.setVisibility(View.VISIBLE);
-            delete.setOnClickListener( new View.OnClickListener() {
-                @Override
-            public void onClick(View v) {
-                    deleteGroup();
+                    JSONObject o = null;
+                    try {
+                        o = response.getJSONObject(0);
 
-                }});
+                        admin = o.getInt("admin_id");
+                        System.out.println(admin);
+                        if(userid == admin)
+                        {
+                            isAdmin = true;
+                            //if admin then they can delete group and when leave group must appoint new admin
 
-        }
-        //otherwise they can just leave group
-        else if(isMember && !isAdmin){
+                            delete.setVisibility(View.VISIBLE);
+                            delete.setOnClickListener( new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        deleteGroup();
 
-            delete.setVisibility(View.INVISIBLE);
-            leave.setVisibility(View.VISIBLE);
+                                    }});
+
+                            leave.setVisibility(View.VISIBLE);
 
 
 
-        }
-        else{
-            delete.setVisibility(View.INVISIBLE);
-            leave.setVisibility(View.INVISIBLE);
-        }
+                        }
+                        else
+                        {
+
+                            delete.setVisibility(View.INVISIBLE);
+                            leave.setVisibility(View.VISIBLE);
+
+
+                        }
+
+
+
+                    }
+                    catch (JSONException e)
+                    {
+                        e.printStackTrace();
+                    }
+
+                }}},
+                error -> Toast.makeText(Group_main_page.this, "Unable to communicate with server", Toast.LENGTH_LONG).show()
+
+        );
+        requestQueue.add(queueRequest);
+
 
     }
 
@@ -118,43 +144,9 @@ public class Group_main_page extends AppCompatActivity implements AdapterView.On
                 .putExtra("group id",groupid));
         finish();
     }
-    //checks if it is admin
-    public void checkIfAdmin()
-    {
-        String url = ADMIN_CHECK + groupid;
-        System.out.println(url);
-        requestQueue = Volley.newRequestQueue(this);
-        JsonArrayRequest queueRequest;
-        queueRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                String info = "";
-                for (int i = 0; i < response.length(); ++i) {
-
-                    JSONObject o = null;
-                    try {
-                        o = response.getJSONObject(0);
-
-                        admin = o.getInt("admin_id");
-                        System.out.println(admin);
-                        if(userid == admin)
-                        {
-                            isAdmin = true;
-                        }
-                    }
-                    catch (JSONException e)
-                    {
-                        e.printStackTrace();
-                    }
-
-                }}},
-                error -> Toast.makeText(Group_main_page.this, "Unable to communicate with server", Toast.LENGTH_LONG).show()
-
-        );
-        requestQueue.add(queueRequest);
 
 
-    }
+
 
     public void deleteGroup(){
             String delete = DELETE + groupid +  "/" + groupid +  "/" + groupid;
@@ -192,11 +184,12 @@ public class Group_main_page extends AppCompatActivity implements AdapterView.On
         }
 
 
-    public void onLeave_Clicked(View caller)
+    public void onLeave_Clicked(View v)
     {
+
         if(isAdmin)
         {
-            dialog.show();
+            buildDialog();
         }
 
         else{
@@ -235,23 +228,17 @@ public class Group_main_page extends AppCompatActivity implements AdapterView.On
         }
     }
 
-    private void buildDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View view = getLayoutInflater().inflate(R.layout.dialog, null);
+    private void buildDialog( ) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Group_main_page.this);
+        View mview = getLayoutInflater().inflate(R.layout.dialog, null);
+        builder.setTitle("Choose new Admin : ");
+        Spinner spinner = (Spinner) mview.findViewById(R.id.choose_admin_spinner);
+
 
         requestQueue = Volley.newRequestQueue(this);
-        Spinner spinner = (Spinner) findViewById(R.id.choose_admin_spinner);
-        spinner.setOnItemSelectedListener(this);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mems_name);
 
-        // Drop down layout style - list view with radio button
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        // attaching data adapter to spinner
-        spinner.setAdapter(dataAdapter);
-
-
-        /*String url = SPINNER + groupid;
+        String url = SPINNER + groupid;
+        System.out.println(url);
         JsonArrayRequest queueRequest = new JsonArrayRequest(Request.Method.GET,
                 url, null,
                 new Response.Listener<JSONArray>() {
@@ -270,7 +257,9 @@ public class Group_main_page extends AppCompatActivity implements AdapterView.On
                                 adminAdapter = new ArrayAdapter<String>(Group_main_page.this,
                                         android.R.layout.simple_spinner_item, adminUsernameList);
                                 adminAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                                sadmin.setAdapter(adminAdapter);
+                                spinner.setAdapter(adminAdapter);
+                                System.out.println("test thursday 3");
+
                                 adminAdapter.notifyDataSetChanged();
 
                             }
@@ -285,44 +274,54 @@ public class Group_main_page extends AppCompatActivity implements AdapterView.On
 
             }
         });
+
+        spinner.setOnItemSelectedListener(new OnSpinnerItemClicked());
         requestQueue.add(queueRequest);
 
-        requestQueue = Volley.newRequestQueue(this); */
-
-        builder.setView(view);
-        builder.setTitle("Choose new admin")
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        changeAdmin(String.valueOf(spinner.getSelectedItem()));
-                    }
-                })
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                changeAdmin(String.valueOf(spinner.getSelectedItem()));
+            }
+        })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
                     }
                 });
+        builder.setView(mview);
+        AlertDialog dialog = builder.create();
+        dialog.show();
 
-        dialog = builder.create();
+
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        if (adapterView.getId() == R.id.choose_admin_spinner) {
-            selectedAdmin = adapterView.getSelectedItem().toString();
-            for (int j = 0; j < adminUsernameList.size(); j++) {
-                if (adminUsernameList.get(j).equals(selectedAdmin)) {
-                    admin = adminIdList.get(j);
+    public class OnSpinnerItemClicked implements AdapterView.OnItemSelectedListener {
+
+        @Override
+        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            if (adapterView.getId() == R.id.choose_admin_spinner) {
+                selectedAdmin = adapterView.getSelectedItem().toString();
+                for (int j = 0; j < adminUsernameList.size(); j++) {
+                    if (adminUsernameList.get(j).equals(selectedAdmin)) {
+                        admin = adminIdList.get(j);
+                    }
                 }
             }
+
+            Toast.makeText(adapterView.getContext(), "Clicked : " +
+                    adapterView.getItemAtPosition(i).toString(), Toast.LENGTH_LONG).show();
+
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> adapterView) {
+
         }
     }
 
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
 
-    }
     public void adminLeave()
     {
         requestQueue = Volley.newRequestQueue(this);
@@ -360,6 +359,8 @@ public class Group_main_page extends AppCompatActivity implements AdapterView.On
         );
         requestQueue.add(queueRequest1);
     }
+
+
     public void changeAdmin(String newAdmin)
     {   int index_name  = mems_name.indexOf(newAdmin);
         int id = mems.get(index_name);
@@ -400,6 +401,7 @@ public class Group_main_page extends AppCompatActivity implements AdapterView.On
 
     public void members()
     {
+        isMember = false;
         String url = MEMBER_CHECK + groupid;
 
 
@@ -440,6 +442,7 @@ public class Group_main_page extends AppCompatActivity implements AdapterView.On
         }
 
     }
+    /*
     public void getId()
     {
         String url = MEMBER_CHECK + groupid;
@@ -481,5 +484,5 @@ public class Group_main_page extends AppCompatActivity implements AdapterView.On
             }
         }
 
-    }
+    }*/
 }
