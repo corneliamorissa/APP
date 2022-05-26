@@ -98,5 +98,16 @@
         android:text="Leave Group"
         android:visibility="visible" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/settings_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="13dp"
+        android:clickable="true"
+        app:srcCompat="@drawable/car_ui_icon_settings" />
+
 
 </RelativeLayout>

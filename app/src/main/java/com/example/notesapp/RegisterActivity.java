@@ -58,6 +58,7 @@ public class RegisterActivity extends AppCompatActivity {
 
        // showing the back button in action bar
        actionBar.setDisplayHomeAsUpEnabled(true);
+       members();
 
 
    }
@@ -75,7 +76,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
         else {
             UserLog user = new UserLog(eUserName, ePass, efirstName, elastName, eEmail);
-            String requestURL = Register_URL + "/" + lastName.getText() + "/" + firstName.getText() + "/" + userName.getText() + "/" + password.getText() + "/" + email.getText();
+            String requestURL = Register_URL + lastName.getText() + "/" + firstName.getText() + "/" + userName.getText() + "/" + password.getText() + "/" + email.getText();
             System.out.println(requestURL);
             JsonArrayRequest queueRequest = new JsonArrayRequest(Request.Method.GET,
                     requestURL,

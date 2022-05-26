@@ -45,7 +45,8 @@ public class Group_main_page extends AppCompatActivity  {
     private RequestQueue requestQueue;
     int groupid, userid;
     TextView name_show;
-    AlertDialog dialog;
+    AlertDialog dialog1;
+    AlertDialog dialog2 ;
     ArrayAdapter<String> adminAdapter;
     ArrayList<Integer> adminIdList = new ArrayList<>();
     ArrayList<String> adminUsernameList = new ArrayList<>();
@@ -189,7 +190,7 @@ public class Group_main_page extends AppCompatActivity  {
 
         if(isAdmin)
         {
-            buildDialog();
+            buildDialog1();
         }
 
         else{
@@ -228,7 +229,7 @@ public class Group_main_page extends AppCompatActivity  {
         }
     }
 
-    private void buildDialog( ) {
+    private void buildDialog1( ) {
         AlertDialog.Builder builder = new AlertDialog.Builder(Group_main_page.this);
         View mview = getLayoutInflater().inflate(R.layout.dialog, null);
         builder.setTitle("Choose new Admin : ");
@@ -291,8 +292,8 @@ public class Group_main_page extends AppCompatActivity  {
                     }
                 });
         builder.setView(mview);
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        AlertDialog dialog1 = builder.create();
+        dialog1.show();
 
 
     }
