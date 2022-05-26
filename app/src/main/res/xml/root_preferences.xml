@@ -1,50 +1,40 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#FFFFFF">
 
     <PreferenceCategory app:title="@string/account">
 
         <EditTextPreference
+            android:background="#FFFFFF"
+            android:backgroundTint="#FFFFFF"
             app:key="account"
-            app:title="@string/change_password"
-            />
+            app:title="@string/change_password" />
 
 
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:background="#FF9800"
-        android:backgroundTint="#FF9800"
-        android:foregroundTint="#FF9800"
-        app:title="@string/general">
-
-
-        <ListPreference
-            app:defaultValue="false"
-            app:dialogTitle="@string/remind_to_take_a_break"
-            app:entries="@array/pref_remind_me_to_take_a_break"
-            app:entryValues="@array/pref_duration"
-            app:key="@string/reminder"
-            app:summary="@string/remind_me"
-            app:title="@string/remind_me" />
-
-
-
-    </PreferenceCategory>
+        app:title="@string/general" />
     <ListPreference
-        android:clickable="true"
-        android:key="logout"
-        app:entries="@array/log_out_con"
-        app:entryValues="@array/log_out_con"
-        android:dialogTitle="Log Out"
+        android:background="#F8F8F8"
+        android:clickable="false"
         android:dialogMessage="Are you sure you want to log out?"
-        android:title="@string/log_out" />
+        android:dialogTitle="Log Out"
+        android:key="logout"
+        android:title="@string/log_out"
+        app:entries="@array/log_out_entries" />
 
 
     <ListPreference
+        android:background="#FFFFFF"
+        android:backgroundTint="#FFFFFF"
+        android:defaultValue="true"
+        android:dialogMessage="Are you sure you want to delete your Account?"
         android:key="delete_acc"
-        android:selectAllOnFocus="true"
-        android:title="@string/delete_acc" />
-
+        android:selectAllOnFocus="false"
+        android:title="@string/delete_acc"
+        app:entries="@array/del_acc_entries"
+        app:entryValues="@array/del_acc_values" />
 
 
 </PreferenceScreen>

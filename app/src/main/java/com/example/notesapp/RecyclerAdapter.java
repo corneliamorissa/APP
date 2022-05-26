@@ -1,6 +1,7 @@
 package com.example.notesapp;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -76,6 +77,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         return new ViewHolder(view, recyclerViewInterface);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public synchronized void onBindViewHolder(@NonNull RecyclerAdapter.ViewHolder holder, int position) {
         ImageModel imageModel = uriArrayList.get(position);

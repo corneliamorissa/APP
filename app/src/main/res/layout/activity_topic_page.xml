@@ -5,27 +5,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:backgroundTint="#FFFFFF"
     tools:context=".Topic_Main_Page">
 
 
-    <Button
-        android:id="@+id/add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp"
-        android:backgroundTint="#000000"
-        android:gravity="center"
-        android:text="Add"
-        android:textColor="#FF9800" />
-
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="594dp"
+        android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="-1dp"
-        android:layout_marginBottom="-4dp"
+        android:layout_marginBottom="-6dp"
         android:background="#FFFFFF"
         android:backgroundTint="#FFFFFF"
         android:scrollbars="none">
@@ -40,17 +30,15 @@
     </ScrollView>
 
     <Button
-        android:id="@+id/nav_button"
-        android:layout_width="wrap_content"
-        android:layout_height="49dp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="255dp"
-        android:background="#000000"
+        android:id="@+id/add"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
         android:backgroundTint="#000000"
-        android:drawableTop="@color/black"
-        android:drawableTint="#000000"
-        android:foregroundTint="#000000"
-        app:icon="@drawable/ic_baseline_view_headline_24"
-        app:iconPadding="10dp"
-        app:iconTint="#FFFFFF" />
+        android:gravity="center"
+        android:text="Add"
+        android:textColor="#FF9800" />
+
 </RelativeLayout>

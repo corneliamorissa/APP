@@ -131,10 +131,9 @@
         <item>On any network</item>
     </string-array>
 
-    <string-array name="log_out_con">
-        <item>Cancel</item>
-        <item>Log Out</item>
-    </string-array>
+
+
+
 
 
     <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>

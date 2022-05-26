@@ -1,11 +1,14 @@
 package com.example.notesapp;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -43,7 +46,6 @@ public class Topic_Main_Page extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_topic_page);
-        btn_nav = findViewById(R.id.nav_button);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -73,21 +75,36 @@ public class Topic_Main_Page extends AppCompatActivity {
         });
 
 
-        btn_nav.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        ActionBar actionBar = getSupportActionBar();
 
-                Intent intent = new Intent(Topic_Main_Page.this, NaviagtionPage.class);
-                intent.putExtra("group id", groupid);
-                intent.putExtra("user id", userName);
-                intent.putExtra("group name", groupName);
-                intent.putExtra("user name", userName);
-                startActivity(intent);
-                finish();
 
-            }
-        });
+        // Customize the back button
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_view_headline_24);
+        actionBar.setTitle("Topics");
+
+
+        // showing the back button in action bar
+        assert actionBar != null;
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent intent = new Intent(Topic_Main_Page.this,NaviagtionPage.class);
+                intent.putExtra("user id", userid );
+                intent.putExtra("user name", userName);
+                intent.putExtra("group id", groupid);
+                intent.putExtra("group name", groupName);
+                startActivity(intent);
+                this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
     private void buildDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.add_topic, null);
@@ -130,7 +147,10 @@ public class Topic_Main_Page extends AppCompatActivity {
                 startActivity(new Intent(Topic_Main_Page.this, Topic_Activity.class)
                         .putExtra("topic name",name)
                         .putExtra("group id", groupid)
-                        .putExtra("user id", userName)
+                        .putExtra("user name", userName)
+                        .putExtra("user id", userid)
+                        .putExtra("group name", groupName)
+
                         );
             }
         });
@@ -176,6 +196,9 @@ public class Topic_Main_Page extends AppCompatActivity {
                                                     .putExtra("topic name",t.getName())
                                                     .putExtra("topic id",t.getId())
                                                     .putExtra("group id",groupid)
+                                                    .putExtra("user id", userid)
+                                                    .putExtra("user name", userName)
+                                                    .putExtra("group name", groupName)
                                             );
                                         }
                                     });

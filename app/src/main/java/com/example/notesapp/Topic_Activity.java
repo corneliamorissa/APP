@@ -35,10 +35,8 @@ import java.util.ArrayList;
 
 public class Topic_Activity extends AppCompatActivity implements RecyclerViewInterface{
     private RequestQueue requestQueue;
-    private static final String TOPIC_URL = "https://studev.groept.be/api/a21pt103/getTopicName/";
     private static final String GET_IMAGE_URL = "https://studev.groept.be/api/a21pt103/getImagewithTopic/";
     private int group_id;
-    LinearLayout layout;
     private int user_id;
     private int topic_id;
     private ArrayList<Topic> topics;
@@ -46,66 +44,30 @@ public class Topic_Activity extends AppCompatActivity implements RecyclerViewInt
     ArrayList<ImageModel> imgList;
     RecyclerAdapter adapter;
     ImageView imageView;
-    String user_name, email;
     Bitmap image;
-    String topicName;
+    String topicName, userName, groupName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_topic_page);
+        setContentView(R.layout.activity_topic);
+        requestQueue = Volley.newRequestQueue(this);
+        imgList = new ArrayList<ImageModel>();
+        imageView = findViewById(R.id.imageRetrieved);
         Bundle extras = getIntent().getExtras();
         topics = new ArrayList<Topic>();
         if (extras != null) {
             user_id = extras.getInt("user id");
             group_id = extras.getInt("group id");
             topic_id =extras.getInt("topic id");
+            topicName = extras.getString("topic name");
+            userName = extras.getString("user name");
+            groupName = extras.getString("group name");
             //The key argument here must match that used in the other activity
         }
 
-        String url = TOPIC_URL + topic_id;
-        System.out.println(url);
-        requestQueue = Volley.newRequestQueue(this);
-        JsonArrayRequest queueRequest;
-        queueRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                String info = "";
-                for (int i = 0; i < response.length(); ++i) {
-
-                    JSONObject o = null;
-                    try {
-                        o = response.getJSONObject(0);
-                        String topicN = o.getString("topic_name");
-                        topicName = topicN;
-                    }
-                    catch (JSONException e)
-                    {
-                        e.printStackTrace();
-                    }
-
-                }}},
-                error -> Toast.makeText(Topic_Activity.this, "Unable to communicate with server", Toast.LENGTH_LONG).show()
-
-        );
-        requestQueue.add(queueRequest);
-
-        Button btn_nav = (Button) findViewById(R.id.nav_button);
-        btn_nav.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                startActivity(new Intent(Topic_Activity.this, NavigationDrawerActivity.class));
-                finish();
-
-            }
-        });
 
 
-
-
-        imgList = new ArrayList<ImageModel>();
-        imageView = findViewById(R.id.imageRetrieved);
         imgList.clear();
         //Standard Volley request. We don't need any parameters for this one
         @SuppressLint("NotifyDataSetChanged") JsonArrayRequest retrieveImageRequest = new JsonArrayRequest(Request.Method.GET, GET_IMAGE_URL + topicName, null,
@@ -141,7 +103,7 @@ public class Topic_Activity extends AppCompatActivity implements RecyclerViewInt
                         //Just a double-check to tell us the request has completed
                         Toast.makeText(Topic_Activity.this, "Image retrieved from DB", Toast.LENGTH_SHORT).show();
                         adapter = new RecyclerAdapter(imgList, this);
-                        recyclerView = (RecyclerView) findViewById(R.id.recyclerView_Gallery_Images);
+                        recyclerView = (RecyclerView) findViewById(R.id.recycler_view_topic);
                         recyclerView.setAdapter(adapter);
                         recyclerView.setLayoutManager(new LinearLayoutManager(Topic_Activity.this));
                     }
@@ -171,6 +133,10 @@ public class Topic_Activity extends AppCompatActivity implements RecyclerViewInt
             case android.R.id.home:
                 Intent intent = new Intent(Topic_Activity.this,Topic_Main_Page.class);
                 intent.putExtra("user id", user_id );
+                intent.putExtra("user name", userName);
+                intent.putExtra("group id", group_id);
+                intent.putExtra("topic name", topicName);
+                intent.putExtra("group name", groupName);
                 startActivity(intent);
                 this.finish();
                 return true;

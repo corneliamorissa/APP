@@ -1,5 +1,7 @@
 package com.example.notesapp;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -172,8 +175,35 @@ public class Group_main_page extends AppCompatActivity  {
         requestQueue.add(queueRequest);
 
 
+        ActionBar actionBar = getSupportActionBar();
 
 
+        // Customize the back button
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_view_headline_24);
+        actionBar.setTitle("Group Home Page");
+
+
+        // showing the back button in action bar
+        assert actionBar != null;
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent intent = new Intent(Group_main_page.this,NaviagtionPage.class);
+                intent.putExtra("user id", userid );
+                intent.putExtra("user name", userName);
+                intent.putExtra("group id", groupid);
+                intent.putExtra("group name", groupName);
+                startActivity(intent);
+                this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void onTopic_Clicked(View caller) {
