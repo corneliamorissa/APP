@@ -246,6 +246,10 @@ public class Group_main_page extends AppCompatActivity  {
 
                     }
                     Intent intent = new Intent(Group_main_page.this, myGroups.class);
+                    intent.putExtra("user id", userid );
+                    intent.putExtra("user name", userName);
+                    intent.putExtra("group id", groupid);
+                    intent.putExtra("group name", groupName);
                     startActivity(intent);
                     Toast.makeText(Group_main_page.this,"Delete request is executed", Toast.LENGTH_LONG).show();
                 }
@@ -290,6 +294,10 @@ public class Group_main_page extends AppCompatActivity  {
 
                     }
                     Intent intent = new Intent(Group_main_page.this, myGroups.class);
+                    intent.putExtra("user id", userid );
+                    intent.putExtra("user name", userName);
+                    intent.putExtra("group id", groupid);
+                    intent.putExtra("group name", groupName);
                     startActivity(intent);
                     Toast.makeText(Group_main_page.this,"Leave request is executed", Toast.LENGTH_LONG).show();
                 }
@@ -420,6 +428,10 @@ public class Group_main_page extends AppCompatActivity  {
 
                 }
                 Intent intent = new Intent(Group_main_page.this, myGroups.class);
+                intent.putExtra("user id", userid );
+                intent.putExtra("user name", userName);
+                intent.putExtra("group id", groupid);
+                intent.putExtra("group name", groupName);
                 startActivity(intent);
                 Toast.makeText(Group_main_page.this,"Leave request is executed", Toast.LENGTH_LONG).show();
             }
@@ -470,134 +482,4 @@ public class Group_main_page extends AppCompatActivity  {
         requestQueue.add(queueRequest2);
     }
 
-    public void members()
-    {
-        isMember = false;
-        String url = MEMBER_CHECK + groupid;
-
-
-        System.out.println(url);
-        requestQueue = Volley.newRequestQueue(this);
-        JsonArrayRequest queueRequest;
-        queueRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                String info = "";
-                for (int i = 0; i < response.length(); ++i) {
-
-                    JSONObject o = null;
-                    try {
-                        o = response.getJSONObject(i);
-
-                        mems.add(o.getInt("user_id"));
-                        System.out.println(o.getInt("user_id"));
-                        mems_name.add(o.getString("user_name"));
-
-                    }
-                    catch (JSONException e)
-                    {
-                        e.printStackTrace();
-                    }
-
-                }}},
-                error -> Toast.makeText(Group_main_page.this, "Unable to communicate with server", Toast.LENGTH_LONG).show()
-
-        );
-        requestQueue.add(queueRequest);
-        for (Integer m: mems)
-        {
-            if (m == userid) {
-                isMember = true;
-                break;
-            }
-        }
-
-    }
-    /*
-    public void getId()
-    {
-        String url = MEMBER_CHECK + groupid;
-
-
-        System.out.println(url);
-        requestQueue = Volley.newRequestQueue(this);
-        JsonArrayRequest queueRequest;
-        queueRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                String info = "";
-                for (int i = 0; i < response.length(); ++i) {
-
-                    JSONObject o = null;
-                    try {
-                        o = response.getJSONObject(i);
-
-                        mems.add(o.getInt("user_id"));
-                        System.out.println(o.getInt("user_id"));
-                        mems_name.add(o.getString("user_name"));
-
-                    }
-                    catch (JSONException e)
-                    {
-                        e.printStackTrace();
-                    }
-
-                }}},
-                error -> Toast.makeText(Group_main_page.this, "Unable to communicate with server", Toast.LENGTH_LONG).show()
-
-        );
-        requestQueue.add(queueRequest);
-        for (Integer m: mems)
-        {
-            if (m == userid) {
-                isMember = true;
-                break;
-            }
-        }
-
-    }*/
-
-    /*
-    to check if user is a member
-    String url1 = IS_A_MEMBER + userid + "/" + groupid;
-
-
-        System.out.println(url1);
-        requestQueue = Volley.newRequestQueue(this);
-        JsonArrayRequest queueRequest1;
-        queueRequest1 = new JsonArrayRequest(Request.Method.GET, url1, null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                String info = "";
-                if(response.length()==0)
-                {
-                    leave.setVisibility(View.INVISIBLE);
-                    delete.setVisibility(View.INVISIBLE);
-                }
-                else{
-                for (int i = 0; i < response.length(); ++i) {
-
-                    JSONObject o = null;
-                    try {
-                        o = response.getJSONObject(i);
-
-                        member = o.getInt("user_id");
-                        if(userid == member)
-                        {
-                            leave.setVisibility(View.VISIBLE);
-                            delete.setVisibility(View.INVISIBLE);
-                        }
-
-                    }
-                    catch (JSONException e)
-                    {
-                        e.printStackTrace();
-                    }
-
-                }}}},
-                error -> Toast.makeText(Group_main_page.this, "Unable to communicate with server", Toast.LENGTH_LONG).show()
-
-        );
-        requestQueue.add(queueRequest1);
-    */
-}
+   }

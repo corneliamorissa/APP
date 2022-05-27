@@ -38,7 +38,7 @@ public class Topic_Activity extends AppCompatActivity implements RecyclerViewInt
     private static final String GET_IMAGE_URL = "https://studev.groept.be/api/a21pt103/getImagewithTopic/";
     private int group_id;
     private int user_id;
-    private int topic_id;
+    private int topic_id, image_id;
     private ArrayList<Topic> topics;
     RecyclerView recyclerView;
     ArrayList<ImageModel> imgList;
@@ -84,13 +84,15 @@ public class Topic_Activity extends AppCompatActivity implements RecyclerViewInt
                                 String titleI = o.getString("title");
                                 String descI = o.getString("description");
                                 String topicI = o.getString("topic");
+                                this.image_id = o.getInt("id");
                                 byte[] imageBytes = Base64.decode(b64String, Base64.DEFAULT);
                                 Bitmap bitmap2 = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+
 
                                 this.image = bitmap2;
                                 System.out.println(titleI);
                                 System.out.println(descI);
-                                ImageModel imageModel = new ImageModel(bitmap2,titleI,descI,topicI);
+                                ImageModel imageModel = new ImageModel(bitmap2,titleI,descI,topicI,image_id);
                                 imgList.add(imageModel);
 
 
@@ -150,6 +152,7 @@ public class Topic_Activity extends AppCompatActivity implements RecyclerViewInt
 
         Intent intent = new Intent(Topic_Activity.this, FullScreenImage.class);
         intent.putExtra("image", imgList.get(position).getPict());
+        intent.putExtra("image id", imgList.get(position).getImageId());
         startActivity(intent);
 
     }

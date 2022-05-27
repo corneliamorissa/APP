@@ -49,6 +49,7 @@ public class UserDocument extends AppCompatActivity implements RecyclerViewInter
     String user_name, email;
     int user_id;
     Bitmap image;
+    Integer image_id;
 
 
     @Override
@@ -84,13 +85,15 @@ public class UserDocument extends AppCompatActivity implements RecyclerViewInter
                                 String titleI = o.getString("title");
                                 String descI = o.getString("description");
                                 String topicI = o.getString("topic");
+                                this.image_id = o.getInt("id");
                                 byte[] imageBytes = Base64.decode(b64String, Base64.DEFAULT);
                                 Bitmap bitmap2 = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+
 
                                 this.image = bitmap2;
                                 System.out.println(titleI);
                                 System.out.println(descI);
-                                ImageModel imageModel = new ImageModel(bitmap2,titleI,descI,topicI);
+                                ImageModel imageModel = new ImageModel(bitmap2,titleI,descI,topicI,image_id);
                                 imgList.add(imageModel);
 
 
@@ -148,6 +151,7 @@ public class UserDocument extends AppCompatActivity implements RecyclerViewInter
 
         Intent intent = new Intent(UserDocument.this, FullScreenImage.class);
         intent.putExtra("image", imgList.get(position).getPict());
+        intent.putExtra("image id", imgList.get(position).getImageId());
         startActivity(intent);
 
     }

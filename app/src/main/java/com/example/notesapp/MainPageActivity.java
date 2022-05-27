@@ -311,6 +311,21 @@ public class MainPageActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        Intent intent = new Intent(MainPageActivity.this, MainPageActivity.class);
+        startActivity(intent);
+        intent.putExtra("user id", user_id );
+        intent.putExtra("user name", user_id);
+        intent.putExtra("email", email);
+        finish();
+        super.onBackPressed();
+
+
+
+    }
+
 
 
 

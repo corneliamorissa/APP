@@ -7,12 +7,14 @@ public class ImageModel {
     String title;
     String desc;
     String topic;
+    Integer imageId;
 
-    public ImageModel(Bitmap pict, String title, String desc, String topic) {
+    public ImageModel(Bitmap pict, String title, String desc, String topic, int id) {
         this.pict = pict;
         this.title = title;
         this.desc = desc;
         this.topic = topic;
+        this.imageId = id;
     }
 
     public Bitmap getPict() {
@@ -52,6 +54,16 @@ public class ImageModel {
     public void setTopic(String t)
     {
         this.topic = t;
+    }
+
+    public int getImageId()
+    {
+        return imageId;
+    }
+
+    public void setImageId(int i)
+    {
+        this.imageId = i;
     }
 }
 
