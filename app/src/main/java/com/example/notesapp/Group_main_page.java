@@ -64,6 +64,7 @@ public class Group_main_page extends AppCompatActivity  {
     FloatingActionButton settings;
     int test;
     Button join_btn;
+    Button topic;
 
 
 
@@ -81,6 +82,7 @@ public class Group_main_page extends AppCompatActivity  {
         Button leave2 = findViewById(R.id.leave_group2);
         join_btn = findViewById(R.id.join_button);
         settings = findViewById(R.id.settings_group);
+        topic = findViewById(R.id.topics);
         Bundle extras = getIntent().getExtras();
         test = 0;
         mems = new ArrayList<>();
@@ -96,12 +98,15 @@ public class Group_main_page extends AppCompatActivity  {
         name_show.setText(groupName);
         join_btn.setVisibility(View.INVISIBLE);
 
+        ActionBar actionBar = getSupportActionBar();
+        // Customize the back button
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_west_24);
+        actionBar.setTitle("Topic Notes");
+        // showing the back button in action bar
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         getAdminId();
 
-
-
-        System.out.println(isAdmin);
-        System.out.println(isMember);
 
 
 /*
@@ -212,7 +217,16 @@ public class Group_main_page extends AppCompatActivity  {
     }
     */
     }
-
+    /*
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }*/
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -228,6 +242,7 @@ public class Group_main_page extends AppCompatActivity  {
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     public void onTopic_Clicked(View caller) {
         String url1 = MEMBER_CHECK + userid + "/" + groupid;
@@ -606,14 +621,27 @@ public class Group_main_page extends AppCompatActivity  {
                                 public void onClick(View v) {
                                     buildDialog2(1);
                                 }});
-                        }
-                        else
-                        {
-                            isMember = false;
+                            topic.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    startActivity(new Intent(Group_main_page.this, Topic_Main_Page.class)
+                                            .putExtra("group name",groupName)
+                                            .putExtra("group id",groupid)
+                                            .putExtra("user id",userid)
+                                            .putExtra("user name", userName));
+                                    finish();
+                                }});
+                            break;
+
                         }
                     }
                     if(!isMember)
                     {
+                        topic.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(Group_main_page.this, "Join the Group First", Toast.LENGTH_LONG).show();
+                            }});
                         checkIfRequested();
 
                     }
@@ -651,6 +679,17 @@ public class Group_main_page extends AppCompatActivity  {
                                         buildDialog2(0);
                                     }
                                 });
+                                topic.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    startActivity(new Intent(Group_main_page.this, Topic_Main_Page.class)
+                                            .putExtra("group name",groupName)
+                                            .putExtra("group id",groupid)
+                                            .putExtra("user id",userid)
+                                            .putExtra("user name", userName));
+                                    finish();
+                                }
+                            });
                             }
                             else
                             {
