@@ -64,28 +64,11 @@ public class FullScreenImage extends AppCompatActivity {
         queueRequest = new JsonArrayRequest(Request.Method.POST, delete, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                String info = "";
-                for (int i = 0; i < response.length(); ++i) {
-
-                    JSONObject o = null;
-                    try {
-                        o = response.getJSONObject(i);
-                        info += "all gooddddd";
-                        System.out.println("test111111");
-                    }
-                    catch (JSONException e)
-                    {
-                        e.printStackTrace();
-                    }
-
-                }
 
                 Toast.makeText(FullScreenImage.this,"Note Deleted", Toast.LENGTH_LONG).show();
                 finish();
 
             }
-
-
 
         }
         ,

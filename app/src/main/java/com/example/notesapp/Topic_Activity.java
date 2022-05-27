@@ -77,7 +77,17 @@ public class Topic_Activity extends AppCompatActivity implements RecyclerViewInt
         @SuppressLint("NotifyDataSetChanged") JsonArrayRequest retrieveImageRequest = new JsonArrayRequest(Request.Method.GET, GET_IMAGE_URL + topicName, null,
                 response -> {
                     //Check if the DB actually contains an image
-                    if (response.length() > 0) {
+                    if (response.length() == 0) {
+                        Intent intent = new Intent(Topic_Activity.this,Topic_Main_Page.class);
+                        intent.putExtra("user id", user_id );
+                        intent.putExtra("user name", userName);
+                        intent.putExtra("group id", group_id);
+                        intent.putExtra("group name", groupName);
+                        Toast.makeText(Topic_Activity.this, "No Topics were found", Toast.LENGTH_SHORT).show();
+                        startActivity(intent);
+                        this.finish();
+                    }
+                    else{
                         for (int i = 0; i < response.length(); ++i) {
                             JSONObject o;
                             try {
