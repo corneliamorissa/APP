@@ -116,11 +116,28 @@ public class Topic_Main_Page extends AppCompatActivity {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        boolean duplicates  = false;
 
-                        addTopic(name.getText().toString());
-                        newTopic(name.getText().toString());
-                        Topic t = new Topic(name.getText().toString(), groupid);
-                        topics.add(t);
+                        for(Topic t : topics)
+                        {
+                            if(t.getName().equals(name.getText().toString()))
+                            {
+                                duplicates = true;
+                                break;
+
+                            }
+
+                        }
+                        if(duplicates)
+                        {
+                            Toast.makeText(Topic_Main_Page.this, "Topic name already exists", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            addTopic(name.getText().toString());
+                            newTopic(name.getText().toString());
+                            Topic t = new Topic(name.getText().toString(), groupid);
+                            topics.add(t);
+                        }
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

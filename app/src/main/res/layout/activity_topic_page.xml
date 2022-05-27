@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="-1dp"
-        android:layout_marginBottom="-6dp"
+        android:layout_marginBottom="-4dp"
         android:background="#FFFFFF"
         android:backgroundTint="#FFFFFF"
         android:scrollbars="none">
@@ -31,14 +31,21 @@
 
     <Button
         android:id="@+id/add"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
+        android:layout_width="62dp"
+        android:layout_height="64dp"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
+        android:background="@drawable/round_grey"
+
         android:backgroundTint="#000000"
         android:gravity="center"
-        android:text="Add"
-        android:textColor="#FF9800" />
+        android:textAlignment="center"
+        android:textColor="#FF9800"
+        app:icon="@drawable/ic_baseline_add_24"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:iconSize="50dp" />
 
 </RelativeLayout>

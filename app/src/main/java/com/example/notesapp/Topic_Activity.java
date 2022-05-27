@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,6 +17,7 @@ import android.util.Base64;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -45,6 +48,7 @@ public class Topic_Activity extends AppCompatActivity implements RecyclerViewInt
     RecyclerAdapter adapter;
     ImageView imageView;
     Bitmap image;
+    AlertDialog dialog;
     String topicName, userName, groupName;
 
     @Override
@@ -67,7 +71,7 @@ public class Topic_Activity extends AppCompatActivity implements RecyclerViewInt
         }
 
 
-
+////////start something??????/////maybe separate method?
         imgList.clear();
         //Standard Volley request. We don't need any parameters for this one
         @SuppressLint("NotifyDataSetChanged") JsonArrayRequest retrieveImageRequest = new JsonArrayRequest(Request.Method.GET, GET_IMAGE_URL + topicName, null,
@@ -126,6 +130,8 @@ public class Topic_Activity extends AppCompatActivity implements RecyclerViewInt
 
         // showing the back button in action bar
         actionBar.setDisplayHomeAsUpEnabled(true);
+/////end something??
+        buildDialog();
 
     }
 
@@ -155,6 +161,30 @@ public class Topic_Activity extends AppCompatActivity implements RecyclerViewInt
         intent.putExtra("image id", imgList.get(position).getImageId());
         startActivity(intent);
 
+    }
+
+    private void buildDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.add_topic, null);
+
+        final Button topic_delete= view.findViewById(R.id.delete_topic);
+
+        builder.setView(view);
+        builder.setTitle("Enter name")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+        dialog = builder.create();
     }
     }
     //TODO method to grab all docs in the topic
