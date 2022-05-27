@@ -41,7 +41,7 @@ public class Group_main_page extends AppCompatActivity  {
     private static final String SPINNER = "https://studev.groept.be/api/a21pt103/geab_all_memebrs_of_a_group/";
     private static final String ADMIN_CHECK ="https://studev.groept.be/api/a21pt103/get_admin_id/";
     private static final String UPDATE_ADMIN ="https://studev.groept.be/api/a21pt103/make_another_admin/";
-    private static final String MEMBER_CHECK ="https://studev.groept.be/api/a21pt103/check_if_member/";
+    private static final String MEMBER_CHECK ="https://studev.groept.be/api/a21pt103/check_if_user_member/";
     private static final String getId = "https://studev.groept.be/api/a21pt103/getId/";
     private static final String IS_A_MEMBER = "https://studev.groept.be/api/a21pt103/isMember/";
     Integer admin, member;
@@ -238,7 +238,7 @@ public class Group_main_page extends AppCompatActivity  {
     }
 
     public void onTopic_Clicked(View caller) {
-        String url1 = IS_A_MEMBER + userid + "/" + groupid;
+        String url1 = MEMBER_CHECK + userid + "/" + groupid;
         System.out.println(url1);
         requestQueue = Volley.newRequestQueue(Group_main_page.this);
         JsonArrayRequest queueRequest1;
