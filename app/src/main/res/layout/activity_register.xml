@@ -132,21 +132,6 @@
             android:textColorHint="#FFFFFF"
             app:iconTint="#000000" />
 
-        <EditText
-            android:id="@+id/repassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:backgroundTint="#000000"
-            android:hint="@string/re_type_password"
-            android:inputType="textPassword"
-            android:selectAllOnFocus="true"
-            android:textColor="#000000"
-            android:textColorHint="#7A7A7A"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
     </RelativeLayout>
 
 </LinearLayout>

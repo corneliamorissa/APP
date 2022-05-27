@@ -139,7 +139,7 @@ public class MainPageActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(MainPageActivity.this, SettingsActivity.class);
                 intent.putExtra("user id", user_id );
-                intent.putExtra("user name", user_id);
+                intent.putExtra("user name", user_name);
                 intent.putExtra("email", email);
                 startActivity(intent);
                 finish();

@@ -72,7 +72,7 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
     ArrayAdapter<String> groupAdapter;
     private String selectedTopic;
     private String selectedGroup;
-    private int groupId = 0, topicId;
+    private int groupId = 0, topicId = 0;
     private TextView groupSel, topicSel;
     String user_name;
     int user_id;
@@ -213,6 +213,11 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
         if(check_g.isChecked()){
             isGroup = 1;
         }
+        if(check_p.isChecked()){
+            isGroup = 0;
+            selectedTopic = "";
+        }
+
         System.out.println(isGroup);
         etitle = title.getText().toString();
 
