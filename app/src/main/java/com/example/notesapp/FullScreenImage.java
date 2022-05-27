@@ -61,7 +61,7 @@ public class FullScreenImage extends AppCompatActivity {
         System.out.println("try to delete url :"+ delete);
         requestQueue = Volley.newRequestQueue(this);
         JsonArrayRequest queueRequest;
-        queueRequest = new JsonArrayRequest(Request.Method.POST, delete, null, new Response.Listener<JSONArray>() {
+        queueRequest = new JsonArrayRequest(Request.Method.GET, delete, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
 

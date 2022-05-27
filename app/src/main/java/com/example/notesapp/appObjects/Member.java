@@ -11,10 +11,11 @@ public class Member {
     private String email;
     private String user_name;
 
-    public Member(int i,String un,String image )
+    public Member(int i,String un,String image,String email )
     {
         id = i;
         user_name = un;
+        this.email = email;
 
     }
 

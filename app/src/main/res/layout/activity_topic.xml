@@ -11,7 +11,7 @@
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton2"
+        android:id="@+id/delete_a_topic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -19,24 +19,15 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:clickable="true"
-        app:backgroundTint="#8BC34A"
-        app:srcCompat="@drawable/car_ui_icon_settings" />
-
-    <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    android:backgroundTint="#FFFFFF"
-    android:foregroundTint="#FFFFFF"
-    android:gravity="top"
-    android:orientation="vertical"
-   >
+        android:onClick="onDeleteTopic_Click"
+        app:backgroundTint="#FF9800"
+        app:srcCompat="@drawable/car_ui_icon_delete" />
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_topic"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="557dp"
         android:layout_marginTop="5dp"
         android:background="#FFFFFF"
         android:backgroundTint="#FFFFFF"
@@ -44,7 +35,16 @@
         android:scrollbars="vertical"
         android:visibility="visible" />
 
+    <Button
+        android:id="@+id/retrive_notes"
+        android:layout_width="238dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="88dp"
+        android:layout_marginBottom="14dp"
+        android:onClick="onButtonRetrieveNote"
+        android:text="Retrieve Notes" />
 
-    </LinearLayout>
 
 </RelativeLayout>

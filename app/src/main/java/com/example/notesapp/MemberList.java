@@ -31,8 +31,11 @@ import java.util.Locale;
 
 public class MemberList extends AppCompatActivity {
     ImageView imageView;
+    String email, getUsername;
+    Integer getId;
     private RequestQueue requestQueue;
     private static final String MEMBERS_URL = "https://studev.groept.be/api/a21pt103/check_if_member/";
+    private static final String GET_IMAGE_URL = "https://studev.groept.be/api/a21pt103/getUserPict/";
     private int group_id;
     private ArrayList<Member> members;
     LinearLayout layout;
@@ -46,7 +49,7 @@ public class MemberList extends AppCompatActivity {
         if (extras != null) {
 
             group_id = extras.getInt("group id");
-            user_id = extras.getInt("user_id");
+            user_id = extras.getInt("user id");
 
         }
         members = new ArrayList<>();
@@ -63,6 +66,7 @@ public class MemberList extends AppCompatActivity {
 
         JSONObject p = new JSONObject();
 
+
         JsonArrayRequest queueRequest = new JsonArrayRequest(Request.Method.GET,
                 url,
                 null,
@@ -76,38 +80,46 @@ public class MemberList extends AppCompatActivity {
                             try {
                                 o = response.getJSONObject(i);
 
-                                Member m = new Member(o.getInt("user_id"),o.getString("user_name"),o.getString("user_pict"));
+                                Member m = new Member(o.getInt("user_id"),
+                                        o.getString("user_name"),
+                                        o.getString("user_pict"),
+                                        o.getString("email"));
                                 members.add(m);
+
+                                getUsername = o.getString("user_name");
+                                getId = o.getInt("user_id");
+
+                                String b64String = o.getString("user_pict");
+                                byte[] imageBytes = Base64.decode(b64String, Base64.DEFAULT);
+                                Bitmap bitmap2 = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+                                email = o.getString("email");
                                 @SuppressLint("InflateParams") final View view = getLayoutInflater().inflate(R.layout.member_row, null);
 
-
+                                imageView = (ImageView) view.findViewById(R.id.user_pic_list);
                                 Button member_btn = view.findViewById(R.id.button_user_name);
-                                imageView = (ImageView) findViewById(R.id.user_pic_list);
 
                                 member_btn.setText(m.getUser_name());
-                                byte[] imageBytes = Base64.decode(o.getString("user_pict"), Base64.DEFAULT);
-                                Bitmap bitmap2 = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-
                                 imageView.setImageBitmap(bitmap2);
 
                                 member_btn.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        startActivity(new Intent(MemberList.this, UserProfileActivity.class)
+                                        /*startActivity(new Intent(MemberList.this, UserProfileActivity.class)
                                                 .putExtra("Visiting user id ",user_id)
-                                                .putExtra("Profile id ",m.getId())
+                                                .putExtra("user id ", m.getId())
+                                                .putExtra("user name", m.getUser_name())
+                                                .putExtra("email", m.getEmail())
 
-                                        );
+                                        );*/
                                     }
                                 });
-
                                 layout.addView(view);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
 
                         }
-
+                        Toast.makeText(MemberList.this, "Image retrieved from DB", Toast.LENGTH_SHORT).show();
 
                     }
                 },

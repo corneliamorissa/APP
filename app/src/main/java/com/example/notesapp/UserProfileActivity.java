@@ -19,6 +19,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,10 +43,11 @@ import java.util.Map;
 
 public class UserProfileActivity extends AppCompatActivity {
 
+    Button saveBtn;
     ImageView imageView;
     TextView userName, totalNote, totalGrp, email;
     String user_name,my_email;
-    Integer user_id, totalN;
+    Integer user_id, visit_user;
     private static final String POST_URL = "https://studev.groept.be/api/a21pt103/insertProfilePict/";
     private static final String GET_IMAGE_URL = "https://studev.groept.be/api/a21pt103/getUserPict/";
     private static final String SUM_NOTES = "https://studev.groept.be/api/a21pt103/getTotalNotes/";
@@ -66,12 +68,15 @@ public class UserProfileActivity extends AppCompatActivity {
         actionBar.setTitle("My Profile");
         // showing the back button in action bar
         actionBar.setDisplayHomeAsUpEnabled(true);
-
+        saveBtn = (Button) findViewById(R.id.button10);
         Bundle extras = getIntent().getExtras();
+        visit_user = user_id;
         if (extras != null) {
             user_name = extras.getString("user name");
             user_id = extras.getInt("user id");
             my_email = extras.getString("email");
+            visit_user = extras.getInt("Visiting user id");
+            System.out.println(visit_user);
             //The key argument here must match that used in the other activity
         }
 
@@ -149,6 +154,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
 
         String url1 = SUM_GROUPS + user_id;
+        System.out.println(url1);
         requestQueue = Volley.newRequestQueue(this);
         JsonArrayRequest queueRequest1;
         queueRequest1 = new JsonArrayRequest(Request.Method.GET, url1, null, new Response.Listener<JSONArray>() {

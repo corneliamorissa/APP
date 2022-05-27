@@ -29,6 +29,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.notesapp.appObjects.Group;
 import com.example.notesapp.appObjects.Topic;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,6 +40,7 @@ import java.util.ArrayList;
 public class Topic_Activity extends AppCompatActivity implements RecyclerViewInterface{
     private RequestQueue requestQueue;
     private static final String GET_IMAGE_URL = "https://studev.groept.be/api/a21pt103/getImagewithTopic/";
+    private static final String DELETE = "https://studev.groept.be/api/a21pt103/deleteTopic/";
     private int group_id;
     private int user_id;
     private int topic_id, image_id;
@@ -50,6 +52,7 @@ public class Topic_Activity extends AppCompatActivity implements RecyclerViewInt
     Bitmap image;
     AlertDialog dialog;
     String topicName, userName, groupName;
+    FloatingActionButton delete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +61,7 @@ public class Topic_Activity extends AppCompatActivity implements RecyclerViewInt
         requestQueue = Volley.newRequestQueue(this);
         imgList = new ArrayList<ImageModel>();
         imageView = findViewById(R.id.imageRetrieved);
+        delete = findViewById(R.id.delete_a_topic);
         Bundle extras = getIntent().getExtras();
         topics = new ArrayList<Topic>();
         if (extras != null) {
@@ -71,19 +75,40 @@ public class Topic_Activity extends AppCompatActivity implements RecyclerViewInt
         }
 
 
-////////start something??????/////maybe separate method?
+        /***start of retrieved all notes for specific topic***/
+
+
+        // calling the action bar
+        ActionBar actionBar = getSupportActionBar();
+
+
+        // Customize the back button
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_west_24);
+        actionBar.setTitle("Topic Notes");
+
+        // showing the back button in action bar
+        actionBar.setDisplayHomeAsUpEnabled(true);
+/////end something??
+        //buildDialog();
+
+    }
+
+    public void onButtonRetrieveNote(View view)
+    {
         imgList.clear();
+        String url = GET_IMAGE_URL + topic_id + "/" + group_id;
         //Standard Volley request. We don't need any parameters for this one
-        @SuppressLint("NotifyDataSetChanged") JsonArrayRequest retrieveImageRequest = new JsonArrayRequest(Request.Method.GET, GET_IMAGE_URL + topicName, null,
+        @SuppressLint("NotifyDataSetChanged") JsonArrayRequest retrieveImageRequest = new JsonArrayRequest(Request.Method.GET, url , null,
                 response -> {
                     //Check if the DB actually contains an image
                     if (response.length() == 0) {
-                        Intent intent = new Intent(Topic_Activity.this,Topic_Main_Page.class);
+                        Intent intent = new Intent(Topic_Activity.this,Topic_Activity.class);
                         intent.putExtra("user id", user_id );
                         intent.putExtra("user name", userName);
                         intent.putExtra("group id", group_id);
                         intent.putExtra("group name", groupName);
-                        Toast.makeText(Topic_Activity.this, "No Topics were found", Toast.LENGTH_SHORT).show();
+                        intent.putExtra("topic id", topic_id);
+                        Toast.makeText(Topic_Activity.this, "No Topic Documents were found", Toast.LENGTH_SHORT).show();
                         startActivity(intent);
                         this.finish();
                     }
@@ -129,19 +154,6 @@ public class Topic_Activity extends AppCompatActivity implements RecyclerViewInt
                 error -> Toast.makeText(Topic_Activity.this, "Unable to communicate with server", Toast.LENGTH_LONG).show()
         );
         requestQueue.add(retrieveImageRequest);
-
-        // calling the action bar
-        ActionBar actionBar = getSupportActionBar();
-
-
-        // Customize the back button
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_west_24);
-        actionBar.setTitle("Topic Notes");
-
-        // showing the back button in action bar
-        actionBar.setDisplayHomeAsUpEnabled(true);
-/////end something??
-        buildDialog();
 
     }
 
@@ -196,8 +208,37 @@ public class Topic_Activity extends AppCompatActivity implements RecyclerViewInt
 
         dialog = builder.create();
     }
+
+    public void onDeleteTopic_Click(View view)
+    {
+        String delete = DELETE + topic_id;
+        System.out.println("try to delete topic :"+ delete);
+        requestQueue = Volley.newRequestQueue(this);
+        JsonArrayRequest queueRequest;
+        queueRequest = new JsonArrayRequest(Request.Method.GET, delete, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+
+                Toast.makeText(Topic_Activity.this,"This topic is deleted", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(Topic_Activity.this,NaviagtionPage.class);
+                intent.putExtra("user id", user_id );
+                intent.putExtra("user name",userName);
+                intent.putExtra("group id", group_id );
+                intent.putExtra("group name", groupName);
+                startActivity(intent);
+                finish();
+            }
+
+        }
+                ,
+                error -> Toast.makeText(Topic_Activity.this, "Unable to communicate with server", Toast.LENGTH_LONG).show()
+
+        );
+        requestQueue.add(queueRequest);
     }
-    //TODO method to grab all docs in the topic
+
+
+    }
 
 
 

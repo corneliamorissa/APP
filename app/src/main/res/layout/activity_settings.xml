@@ -8,14 +8,12 @@
     tools:context=".SettingsActivity">
 
 
-
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/Widget.Design.AppBarLayout"
         tools:ignore="MissingConstraints">
-
-
 
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -25,10 +23,45 @@
         our preference fragment-->
     <FrameLayout
         android:id="@+id/settings_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="410dp"
+        android:layout_height="193dp"
         tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="-46dp" />
+        tools:layout_editor_absoluteY="698dp" />
+
+    <Button
+        android:id="@+id/delete_user"
+        android:layout_width="204dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="#FF9800"
+        android:text="@string/delete_acc"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/log_out"
+        app:layout_constraintVertical_bias="0.41" />
+
+    <Button
+        android:id="@+id/change_pass"
+        android:layout_width="204dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="128dp"
+        android:backgroundTint="#FF9800"
+        android:text="@string/change_password"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/log_out"
+        android:layout_width="204dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="90dp"
+        android:backgroundTint="#FF9800"
+        android:text="@string/log_out"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/change_pass" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -35,6 +35,7 @@ public class Topic_Main_Page extends AppCompatActivity {
     private RequestQueue requestQueue;
     private static final String TOPIC_URL = "https://studev.groept.be/api/a21pt103/grap_topics/";
     private static final String NEW_TOPIC_URL = "https://studev.groept.be/api/a21pt103/add_topic/";
+    private static final String DELETE = "https://studev.groept.be/api/a21pt103/deleteTopic/";
     private ArrayList<Topic> topics;
     Integer groupid, userid;
     String groupName,userName;

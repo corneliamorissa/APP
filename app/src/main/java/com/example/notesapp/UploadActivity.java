@@ -20,8 +20,10 @@ import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -63,19 +65,21 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
     private int isGroup = 0 ;
     private Spinner stopic, sgroup;
     ArrayList<String> topicList = new ArrayList<>();
+    ArrayList<Integer> topicIdList = new ArrayList<>();
     ArrayList<Integer> groupIdList = new ArrayList<>();
     ArrayList<String> groupList = new ArrayList<>();
     ArrayAdapter<String> topicAdapter;
     ArrayAdapter<String> groupAdapter;
     private String selectedTopic;
     private String selectedGroup;
-    private int groupId = 0;
+    private int groupId = 0, topicId;
     private TextView groupSel, topicSel;
     String user_name;
     int user_id;
 
 
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,10 +90,32 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
         desc = (EditText) findViewById(R.id.desc_img);
         check_g = (CheckBox) findViewById(R.id.checkBoxg);
         check_p = (CheckBox) findViewById(R.id.checkBoxp);
+        check_p.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+                if (isChecked) {
+                    groupSel.setVisibility(View.INVISIBLE);
+                    topicSel.setVisibility(View.INVISIBLE);
+                    sgroup.setVisibility(View.INVISIBLE);
+                    stopic.setVisibility(View.INVISIBLE);
+                }
+
+                else
+                {
+                    stopic.setVisibility(View.VISIBLE);
+                    sgroup.setVisibility(View.VISIBLE);
+                    groupSel.setVisibility(View.VISIBLE);
+                    topicSel.setVisibility(View.VISIBLE);
+                }
+            }
+        }
+        );
         stopic = (Spinner) findViewById(R.id.spinner_topic);
         sgroup = (Spinner) findViewById(R.id.spinner_group);
         groupSel = (TextView)findViewById(R.id.selected_group);
         topicSel = (TextView)findViewById(R.id.selected_topic);
+        groupSel.setText("Select");
+
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -98,7 +124,7 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
             //The key argument here must match that used in the other activity
         }
 
-        String url = "https://studev.groept.be/api/a21pt103/grabGroupName";
+        String url = "https://studev.groept.be/api/a21pt103/grabGroupName/" + user_id;
         JsonArrayRequest queueRequest = new JsonArrayRequest(Request.Method.GET,
                 url, null,
                 new Response.Listener<JSONArray>() {
@@ -135,7 +161,6 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
         });
         requestQueue.add(queueRequest);
         sgroup.setOnItemSelectedListener(this);
-        topicSel.setText("Select Your Topic");
 
 
 
@@ -235,6 +260,7 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
                 params.put("ig", String.valueOf(isGroup));
                 params.put("top", selectedTopic);
                 params.put("gi", String.valueOf(groupId));
+                params.put("topid", String.valueOf(topicId) );
                 return params;
             }
 
@@ -270,6 +296,8 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
+        topicSel.setText("Select Your Topic");
+
 
         if(adapterView.getId() == R.id.spinner_group)
         {
@@ -299,7 +327,9 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
                                     JSONObject o = null;
                                     o = response.getJSONObject(i);
                                     String topicName = o.get("topic_name").toString();
+                                    Integer topicId = o.getInt("topic_id");
                                     topicList.add(topicName);
+                                    topicIdList.add(topicId);
                                     topicAdapter = new ArrayAdapter<String>(UploadActivity.this,
                                             android.R.layout.simple_spinner_item, topicList);
                                     topicAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -334,6 +364,14 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
 
         }
         selectedTopic = adapterView.getSelectedItem().toString();
+
+        for(int j = 0; j<topicList.size();j++)
+        {
+            if(topicList.get(j).equals(selectedTopic))
+            {
+                topicId = topicIdList.get(j);
+            }
+        }
         topicSel.setText(selectedTopic);
 
     }

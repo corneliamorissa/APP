@@ -160,14 +160,14 @@ public class GroupList extends AppCompatActivity {
         System.out.println(url);
         requestQueue = Volley.newRequestQueue(this);
         JsonArrayRequest queueRequest;
-        queueRequest = new JsonArrayRequest(Request.Method.POST, url, null, new Response.Listener<JSONArray>() {
+        queueRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                String info = "";
                 Toast.makeText(GroupList.this, "Join Request Sent", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(GroupList.this, Group_main_page.class);
+                Intent intent = new Intent(GroupList.this, GroupList.class);
                 intent.putExtra("user id", user_id);
                 intent.putExtra("group id", id);
+                intent.putExtra("user name", user_name);
                 startActivity(intent);
                 finish();
             }
