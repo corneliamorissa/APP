@@ -19,6 +19,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.notesapp.appObjects.Group;
@@ -37,7 +38,10 @@ public class myGroups extends AppCompatActivity {
     private static final String MYGROUP_URL = "https://studev.groept.be/api/a21pt103/my_groups/";
     private static final String GROUP_URL = "https://studev.groept.be/api/a21pt103/grab_Groups/";
     private static final String ADDGROUP_URL = "https://studev.groept.be/api/a21pt103/add_Group/";
+    private static final String JOINGROUP_URL = "https://studev.groept.be/api/a21pt103/join_group/";
+    private static final String IDGROUP_URL = "https://studev.groept.be/api/a21pt103/get_Group_id/";
     private UserInfo user;
+    private int group_id;
 
     private RequestQueue requestQueue;
     LinearLayout layout;
@@ -61,8 +65,10 @@ public class myGroups extends AppCompatActivity {
 
         myGroups = new ArrayList<Group>();
         allGroups = new ArrayList<Group>();
-        grabAllGroups();
         grabMyGroups();
+
+        grabAllGroups();
+
 
         buildDialog();
 
@@ -78,11 +84,12 @@ public class myGroups extends AppCompatActivity {
     }
 
     public void onBtnCreateGroup_Clicked(View caller) {
-        Intent intent = new Intent(myGroups.this, CreateGroupActivity.class);
+        dialog.show();
+       /* Intent intent = new Intent(myGroups.this, CreateGroupActivity.class);
         System.out.println(user_id);
         intent.putExtra("admin_id",user_id);
         startActivity(intent);
-        finish();
+        finish(); */
     }
 
     public void grabAllGroups() {
@@ -132,7 +139,7 @@ public class myGroups extends AppCompatActivity {
     public void grabMyGroups()
     {
 
-        String url = MYGROUP_URL + user_id + "" + user_id;
+        String url = MYGROUP_URL + user_id + "/" + user_id;
         System.out.println(url);
 
         JsonArrayRequest queueRequest;
@@ -239,8 +246,9 @@ public class myGroups extends AppCompatActivity {
 
     public void addGroup(String name)
     {
-
+        int group_id;
         String url = ADDGROUP_URL + name + "/" + user_id;
+
         requestQueue = Volley.newRequestQueue(this);
 
         System.out.println(url);
@@ -248,17 +256,22 @@ public class myGroups extends AppCompatActivity {
         StringRequest queueRequest = new StringRequest(Request.Method.GET,url,new Response.Listener<String>(){
             @Override
             public void onResponse(String response) {
+                Intent refresh = new Intent(myGroups.this, myGroups.class);
+                refresh.putExtra("user name", user_name).putExtra("user id", user_id);
+                startActivity(refresh); //Start the same Activity
+                finish(); //finish Activity.
                 Toast.makeText(myGroups.this, "Group created", Toast.LENGTH_SHORT).show();
-
             }
         },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+
+                        /*startActivity(new Intent(myGroups.this, myGroups.class)
+
+                        finish(); */
+
                         Toast.makeText(myGroups.this, "Unable to add topic", Toast.LENGTH_LONG).show();
-                        startActivity(new Intent(myGroups.this, myGroups.class)
-                                .putExtra("user name", user_name)
-                                .putExtra("user id", user_id));
 
                     }
 
@@ -267,6 +280,66 @@ public class myGroups extends AppCompatActivity {
 
         requestQueue.add(queueRequest);
 
+/*
+        String url2 = IDGROUP_URL + name + "/" + user_id;
+        requestQueue = Volley.newRequestQueue(this);
+
+        System.out.println(url2);
+        JsonObjectRequest jsonObjectRequestID = new JsonObjectRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            joinGroup(response.getInt("group_id"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }},
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(myGroups.this, "Unable to add topic", Toast.LENGTH_LONG).show();
+
+                    }
+
+
+                });
+
+        requestQueue.add(jsonObjectRequestID); */
+
 
     }
+
+    public void joinGroup(int group_id)
+    {
+        String url3 = JOINGROUP_URL + group_id + "/" + user_id;
+        requestQueue = Volley.newRequestQueue(this);
+
+        System.out.println(url3);
+
+        StringRequest queueRequestJOIN = new StringRequest(Request.Method.GET,url3,new Response.Listener<String>(){
+            @Override
+            public void onResponse(String response) {
+
+                Intent refresh = new Intent(myGroups.this, myGroups.class);
+                refresh.putExtra("user name", user_name).putExtra("user id", user_id);
+                startActivity(refresh); //Start the same Activity
+                finish(); //finish Activity.
+                Toast.makeText(myGroups.this, "Group created", Toast.LENGTH_SHORT).show();
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(myGroups.this, "Unable to add topic", Toast.LENGTH_LONG).show();
+
+                    }
+
+
+                });
+        requestQueue.add(queueRequestJOIN);
+
+    }
+
 }
