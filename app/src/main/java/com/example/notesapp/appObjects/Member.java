@@ -1,19 +1,23 @@
 package com.example.notesapp.appObjects;
 
+import android.widget.ImageView;
+
 public class Member {
 
+    private String image;
     private int id;
     private String lastName;
     private String firstName;
     private String email;
     private String user_name;
 
-    public Member(int i,String un )
+    public Member(int i,String un,String image )
     {
         id = i;
         user_name = un;
 
     }
+
 
     public int getId() {
         return id;

@@ -2,10 +2,15 @@ package com.example.notesapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -25,12 +30,14 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class MemberList extends AppCompatActivity {
+    ImageView imageView;
     private RequestQueue requestQueue;
     private static final String MEMBERS_URL = "https://studev.groept.be/api/a21pt103/check_if_member/";
     private int group_id;
     private ArrayList<Member> members;
     LinearLayout layout;
     private int user_id;
+    private Bitmap bitmap2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,14 +76,19 @@ public class MemberList extends AppCompatActivity {
                             try {
                                 o = response.getJSONObject(i);
 
-                                Member m = new Member(o.getInt("user_id"),o.getString("user_name"));
+                                Member m = new Member(o.getInt("user_id"),o.getString("user_name"),o.getString("user_pict"));
                                 members.add(m);
-                                final View view = getLayoutInflater().inflate(R.layout.row_topic, null);
+                                @SuppressLint("InflateParams") final View view = getLayoutInflater().inflate(R.layout.member_row, null);
 
 
                                 Button member_btn = view.findViewById(R.id.button_user_name);
+                                imageView = (ImageView) findViewById(R.id.user_pic_list);
 
                                 member_btn.setText(m.getUser_name());
+                                byte[] imageBytes = Base64.decode(o.getString("user_pict"), Base64.DEFAULT);
+                                Bitmap bitmap2 = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+
+                                imageView.setImageBitmap(bitmap2);
 
                                 member_btn.setOnClickListener(new View.OnClickListener() {
                                     @Override

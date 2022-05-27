@@ -48,11 +48,11 @@
                 </Button>
 
                 <ImageView
-                    android:id="@+id/imageView2"
+                    android:id="@+id/user_pic_list"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="0"
+                    android:layout_marginBottom="0dp"
                     tools:srcCompat="@tools:sample/avatars" />
             </RelativeLayout>
 
