@@ -97,8 +97,9 @@
         android:onClick="onLeave_Clicked"
         android:text="Leave Group"
         android:textColor="#FFFFFF"
-        android:visibility="visible"
         app:cornerRadius="10dp" />
+
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/settings_group"
@@ -110,6 +111,7 @@
         android:layout_marginBottom="13dp"
         android:clickable="true"
         app:srcCompat="@drawable/car_ui_icon_settings" />
+
 
 
 </RelativeLayout>

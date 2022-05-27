@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="216dp"
+        android:padding="10dp">
+
+
+        <Button
+            android:id="@+id/leave_group2"
+            android:layout_width="208dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="92dp"
+            android:backgroundTint="#FF9800"
+            android:foregroundTint="#000000"
+            android:onClick="onLeave_Clicked"
+            android:text="Leave Group"
+            android:textColor="#FFFFFF"
+
+            app:cornerRadius="10dp" />
+
+        <Button
+            android:id="@+id/delete_group2"
+            android:layout_width="208dp"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="77dp"
+            android:layout_marginEnd="99dp"
+            android:backgroundTint="#FF9800"
+            android:foregroundTint="#000000"
+            android:text="DELETE GROUP"
+            android:textColor="#FFFFFF"
+
+            app:cornerRadius="10dp" />
+
+        <Button
+            android:id="@+id/change_photo"
+            android:layout_width="208dp"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="147dp"
+            android:layout_marginEnd="114dp"
+            android:backgroundTint="#FF9800"
+            android:foregroundTint="#000000"
+            android:text="Change photot"
+            android:textColor="#FFFFFF"
+            android:visibility="visible"
+            app:cornerRadius="10dp" />
+    </RelativeLayout>
+
+</RelativeLayout>

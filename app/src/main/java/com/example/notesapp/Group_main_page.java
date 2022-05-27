@@ -25,6 +25,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -56,6 +57,8 @@ public class Group_main_page extends AppCompatActivity  {
     ArrayList<String> adminUsernameList = new ArrayList<>();
     ArrayList<Integer> mems;
     ArrayList<String> mems_name;
+    FloatingActionButton settings;
+    int test;
 
 
 
@@ -64,9 +67,15 @@ public class Group_main_page extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_main_page);
         name_show = findViewById(R.id.groupName);
+
         Button delete = findViewById(R.id.delete_group);
         Button leave = findViewById(R.id.leave_group);
+
+        Button delete2 = findViewById(R.id.delete_group2);
+        Button leave2 = findViewById(R.id.leave_group2);
+        settings = findViewById(R.id.settings_group);
         Bundle extras = getIntent().getExtras();
+        test = 0;
         mems = new ArrayList<>();
         mems_name = new ArrayList<>();
 
@@ -77,10 +86,33 @@ public class Group_main_page extends AppCompatActivity  {
             userName = extras.getString("user name");
             //The key argument here must match that used in the other activity
         }
+        getAdminId();
+        getMemberId();
 
         delete.setVisibility(View.INVISIBLE);
         leave.setVisibility(View.INVISIBLE);
+       // settings.setVisibility(View.INVISIBLE);
+        System.out.println(isAdmin);
+        System.out.println(isMember);
 
+        if(isAdmin || isMember) {
+            settings.setVisibility(View.VISIBLE);
+            settings.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog2.show();
+                }
+            });
+        }
+        else
+        {
+            settings.setVisibility(View.INVISIBLE);
+        }
+        buildDialog1();
+
+
+
+/*
 
         name_show.setText(groupName);
         String url = ADMIN_CHECK + groupid;
@@ -185,6 +217,8 @@ public class Group_main_page extends AppCompatActivity  {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
 
+    }
+    */
     }
 
     @Override
@@ -402,6 +436,7 @@ public class Group_main_page extends AppCompatActivity  {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 changeAdmin(String.valueOf(spinner.getSelectedItem()));
+
             }
         })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -411,8 +446,62 @@ public class Group_main_page extends AppCompatActivity  {
                     }
                 });
         builder.setView(mview);
-        AlertDialog dialog1 = builder.create();
-        dialog1.show();
+         dialog1 = builder.create();
+       // dialog1.show();
+
+
+    }
+    private void buildDialog2(int i) {
+        int k = i;
+        AlertDialog.Builder builder = new AlertDialog.Builder(Group_main_page.this);
+        View mview = getLayoutInflater().inflate(R.layout.settings, null);
+        Button leave2 = mview.findViewById(R.id.leave_group2);
+        Button delete2 = mview.findViewById(R.id.delete_group2);
+        Button photo = mview.findViewById(R.id.change_photo);
+        delete2.setVisibility(View.INVISIBLE);
+        leave2.setVisibility(View.INVISIBLE);
+        photo.setVisibility(View.INVISIBLE);
+
+        if(k == 0)
+        {
+            delete2.setVisibility(View.VISIBLE);
+            System.out.println("deleteeeeee");
+            delete2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    deleteGroup();
+                }
+            });
+            leave2.setVisibility(View.VISIBLE);
+            leave2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog1.show();
+                }
+            });
+            photo.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            leave2.setVisibility(View.VISIBLE);
+            leave2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    leave();
+                }
+            });
+        }
+
+
+        builder.setNegativeButton("EXIT", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+        builder.setView(mview);
+        dialog2 = builder.create();
+        dialog2.show();
 
 
     }
@@ -501,7 +590,7 @@ public class Group_main_page extends AppCompatActivity  {
                         o = response.getJSONObject(i);
                         info += "all gooddddd";
                         Toast.makeText(Group_main_page.this,"pkkkkk", Toast.LENGTH_LONG).show();
-                        adminLeave();
+                        leave();
 
                     }
                     catch (JSONException e)
@@ -519,5 +608,143 @@ public class Group_main_page extends AppCompatActivity  {
         );
         requestQueue.add(queueRequest2);
     }
+    public void getMemberId()
+    {
+        String url1 = IS_A_MEMBER + groupid;
+        System.out.println(url1);
+        requestQueue = Volley.newRequestQueue(Group_main_page.this);
+        JsonArrayRequest queueRequest1;
+        queueRequest1 = new JsonArrayRequest(Request.Method.GET, url1, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                String info = "";
 
+                    for (int i = 0; i < response.length(); ++i) {
+
+                        JSONObject o = null;
+                        try {
+                            o = response.getJSONObject(i);
+                            member = o.getInt("user_id");
+                            mems.add(member);
+
+
+                        }
+                        catch (JSONException e)
+                        {
+                            e.printStackTrace();
+                        }
+
+                    }
+                    for(Integer i: mems)
+                    {
+                        if(i.intValue() == userid)
+                        {
+                            isMember = true;
+                            settings.setVisibility(View.VISIBLE);
+                            settings.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    buildDialog2(1);
+                                }
+                            });
+                        }
+                    }
+            }},
+                error -> Toast.makeText(Group_main_page.this, "Unable to communicate with server", Toast.LENGTH_LONG).show()
+
+        );
+        requestQueue.add(queueRequest1);
+
+
+
+
+
+    }
+    public void getAdminId()
+    {
+        String url1 = ADMIN_CHECK + groupid;
+        System.out.println(url1);
+        requestQueue = Volley.newRequestQueue(Group_main_page.this);
+        JsonArrayRequest queueRequest1;
+        queueRequest1 = new JsonArrayRequest(Request.Method.GET, url1, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                String info = "";
+
+                    for (int i = 0; i < response.length(); ++i) {
+
+                        JSONObject o = null;
+                        try {
+                            o = response.getJSONObject(i);
+                            admin = o.getInt("admin_id");
+                            System.out.println(admin);
+                            int b = admin;
+                            if(b == userid)
+                            {
+
+                                settings.setVisibility(View.VISIBLE);
+                                settings.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        buildDialog2(0);
+                                    }
+                                });
+                            }
+
+                        }
+                        catch (JSONException e)
+                        {
+                            e.printStackTrace();
+                        }
+
+                    }}},
+                error -> Toast.makeText(Group_main_page.this, "Unable to communicate with server", Toast.LENGTH_LONG).show()
+
+        );
+        requestQueue.add(queueRequest1);
+
+
+
+
+
+    }
+    public void leave()
+    {
+        String leave = LEAVE + userid + "/" + groupid;
+        System.out.println(leave);
+        requestQueue = Volley.newRequestQueue(Group_main_page.this);
+        JsonArrayRequest queueRequest;
+        queueRequest = new JsonArrayRequest(Request.Method.POST, leave, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                String info = "";
+                for (int i = 0; i < response.length(); ++i) {
+
+                    JSONObject o = null;
+                    try {
+                        o = response.getJSONObject(i);
+                        info += "all gooddddd";
+
+                    }
+                    catch (JSONException e)
+                    {
+                        e.printStackTrace();
+                    }
+
+                }
+                Intent intent = new Intent(Group_main_page.this, myGroups.class);
+                intent.putExtra("user id", userid );
+                intent.putExtra("user name", userName);
+                intent.putExtra("group id", groupid);
+                intent.putExtra("group name", groupName);
+                startActivity(intent);
+                Toast.makeText(Group_main_page.this,"Leave request is executed", Toast.LENGTH_LONG).show();
+            }
+
+        },
+                error -> Toast.makeText(Group_main_page.this, "Unable to communicate with server", Toast.LENGTH_LONG).show()
+
+        );
+        requestQueue.add(queueRequest);
+    }
    }
