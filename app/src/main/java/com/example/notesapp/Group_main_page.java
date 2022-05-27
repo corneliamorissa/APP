@@ -97,7 +97,7 @@ public class Group_main_page extends AppCompatActivity  {
         join_btn.setVisibility(View.INVISIBLE);
 
         getAdminId();
-        getMemberId();
+
 
 
         System.out.println(isAdmin);
@@ -651,6 +651,10 @@ public class Group_main_page extends AppCompatActivity  {
                                         buildDialog2(0);
                                     }
                                 });
+                            }
+                            else
+                            {
+                                getMemberId();
                             }
 
                         }
