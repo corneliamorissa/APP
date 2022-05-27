@@ -116,11 +116,28 @@ public class Topic_Main_Page extends AppCompatActivity {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        boolean duplicates  = false;
 
-                        newTopic(name.getText().toString());
-                        addTopic(name.getText().toString());
-                        Topic t = new Topic(name.getText().toString(), groupid);
-                        topics.add(t);
+                        for(Topic t : topics)
+                        {
+                            if(t.getName().equals(name.getText().toString()))
+                            {
+                                duplicates = true;
+                                break;
+
+                            }
+
+                        }
+                        if(duplicates)
+                        {
+                            Toast.makeText(Topic_Main_Page.this, "Topic name already exists", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            addTopic(name.getText().toString());
+                            newTopic(name.getText().toString());
+                            Topic t = new Topic(name.getText().toString(), groupid);
+                            topics.add(t);
+                        }
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -174,10 +191,6 @@ public class Topic_Main_Page extends AppCompatActivity {
                         @Override
                         public void onResponse(JSONArray response) {
                             int p;
-                            if(response.length()==0)
-                            {
-
-                            }
                             for (int i = 0; i < response.length(); ++i) {
                                 JSONObject o = null;
                                 layout = findViewById(R.id.container_topic);
@@ -228,8 +241,8 @@ public class Topic_Main_Page extends AppCompatActivity {
 
             String url = NEW_TOPIC_URL;
             requestQueue = Volley.newRequestQueue(this);
+            JSONObject p = new JSONObject();
             String requestURL = url + groupid + "/" + name;
-            System.out.println(requestURL);
 
             JsonArrayRequest queueRequest = new JsonArrayRequest(Request.Method.POST,
                     requestURL,
@@ -252,8 +265,9 @@ public class Topic_Main_Page extends AppCompatActivity {
 
                         });
 
+                        //error -> Toast.makeText(Topic_Main_Page.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show());
 
-            requestQueue.add(queueRequest);
+
         }
     }
 //TODO add topic page  layout
