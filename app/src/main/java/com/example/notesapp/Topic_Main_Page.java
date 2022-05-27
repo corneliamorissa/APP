@@ -20,6 +20,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.notesapp.appObjects.Topic;
 
@@ -112,7 +113,7 @@ public class Topic_Main_Page extends AppCompatActivity {
         final EditText name = view.findViewById(R.id.nameEdit);
 
         builder.setView(view);
-        builder.setTitle("Enter name")
+        builder.setTitle("Create Topic")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -131,6 +132,7 @@ public class Topic_Main_Page extends AppCompatActivity {
                         if(duplicates)
                         {
                             Toast.makeText(Topic_Main_Page.this, "Topic name already exists", Toast.LENGTH_SHORT).show();
+
                         }
                         else{
                             addTopic(name.getText().toString());
@@ -239,18 +241,14 @@ public class Topic_Main_Page extends AppCompatActivity {
         public void newTopic(String name)
         {
 
-            String url = NEW_TOPIC_URL;
+            String url = NEW_TOPIC_URL + groupid + "/" + name;
             requestQueue = Volley.newRequestQueue(this);
-            JSONObject p = new JSONObject();
-            String requestURL = url + groupid + "/" + name;
 
-            JsonArrayRequest queueRequest = new JsonArrayRequest(Request.Method.POST,
-                    requestURL,
-                    null,
-                    new Response.Listener<JSONArray>() {
-                        @Override
-                        public void onResponse(JSONArray response) {
+            System.out.println(url);
 
+            StringRequest queueRequest = new StringRequest(Request.Method.GET,url,new Response.Listener<String>(){
+                @Override
+                public void onResponse(String response) {
                                 Toast.makeText(Topic_Main_Page.this, "topic added", Toast.LENGTH_SHORT).show();
 
                             }
@@ -265,10 +263,10 @@ public class Topic_Main_Page extends AppCompatActivity {
 
                         });
 
-                        //error -> Toast.makeText(Topic_Main_Page.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show());
-
+            requestQueue.add(queueRequest);
 
         }
+
     }
 //TODO add topic page  layout
 

@@ -2,12 +2,15 @@ package com.example.notesapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 
 import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -16,8 +19,10 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.notesapp.appObjects.Group;
+import com.example.notesapp.appObjects.Topic;
 import com.example.notesapp.userInfo.UserInfo;
 
 import org.json.JSONArray;
@@ -28,13 +33,18 @@ import java.util.ArrayList;
 
 public class myGroups extends AppCompatActivity {
     private ArrayList<Group> myGroups;
+    private ArrayList<Group> allGroups;
     private static final String MYGROUP_URL = "https://studev.groept.be/api/a21pt103/my_groups/";
     private static final String GROUP_URL = "https://studev.groept.be/api/a21pt103/grab_Groups/";
+    private static final String ADDGROUP_URL = "https://studev.groept.be/api/a21pt103/add_Group/";
     private UserInfo user;
+
     private RequestQueue requestQueue;
     LinearLayout layout;
     private String user_name;
     private int user_id;
+    AlertDialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,10 +60,79 @@ public class myGroups extends AppCompatActivity {
         }
 
         myGroups = new ArrayList<Group>();
-        System.out.println(user_id);
-        String s = Integer.toString(user_id);
+        allGroups = new ArrayList<Group>();
+        grabAllGroups();
+        grabMyGroups();
 
-        String url = MYGROUP_URL + s;
+        buildDialog();
+
+
+    }
+
+
+    public void onBtnMain_Clicked(View caller) {
+        Intent intent = new Intent(myGroups.this, MainPageActivity.class);
+        intent.putExtra("user id",user_id);
+        startActivity(intent);
+        finish();
+    }
+
+    public void onBtnCreateGroup_Clicked(View caller) {
+        Intent intent = new Intent(myGroups.this, CreateGroupActivity.class);
+        System.out.println(user_id);
+        intent.putExtra("admin_id",user_id);
+        startActivity(intent);
+        finish();
+    }
+
+    public void grabAllGroups() {
+        String url = GROUP_URL;
+        System.out.println(url);
+        requestQueue = Volley.newRequestQueue(this);
+        System.out.println("test");
+        JsonArrayRequest queueRequest;
+
+        queueRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+
+                for (int i = 0; i < response.length(); ++i) {
+
+                    System.out.println("test1");
+                    JSONObject o = null;
+
+                    try {
+                        o = response.getJSONObject(i);
+                        final Group g = new Group(o.getInt("group_id"), o.getString("group_name"), o.getInt("admin_id"), o.getString("add_date"));
+                        System.out.println(g.getName());
+                        System.out.println(g.getId());
+                        allGroups.add(g);
+
+                    }
+                    catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(myGroups.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
+            }
+        });
+
+
+        requestQueue.add(queueRequest);
+
+    }
+
+    public void grabMyGroups()
+    {
+
+        String url = MYGROUP_URL + user_id + "" + user_id;
         System.out.println(url);
 
         JsonArrayRequest queueRequest;
@@ -105,7 +184,7 @@ public class myGroups extends AppCompatActivity {
                 }
 
 
-        }}, new Response.ErrorListener() {
+            }}, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(myGroups.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
@@ -113,91 +192,81 @@ public class myGroups extends AppCompatActivity {
         });
 
         requestQueue.add(queueRequest);
-        //grabGroups();
-
-/*
-        layout = findViewById(R.id.container);
-        for (Group m : myGroups) {
-            final View view = getLayoutInflater().inflate(R.layout.row_group, null);
-            Button g = view.findViewById(R.id.button_name);
-
-            g.setText(m.getName());
-            System.out.println(m.getName());
-
-            g.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(new Intent(myGroups.this, Group_main_page.class)
-                            .putExtra("name", m.getName())
-                            .putExtra("id", m.getId()));
-                }
-            });
-
-            layout.addView(view);
-        }
-        */
-
     }
 
+    private void buildDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View view = getLayoutInflater().inflate(R.layout.add_topic, null);
 
-    public void onBtnMain_Clicked(View caller) {
-        Intent intent = new Intent(myGroups.this, MainPageActivity.class);
-        intent.putExtra("user id",user_id);
-        startActivity(intent);
-        finish();
-    }
+        final EditText name = view.findViewById(R.id.nameEdit);
 
-    public void onBtnCreateGroup_Clicked(View caller) {
-        Intent intent = new Intent(myGroups.this, CreateGroupActivity.class);
-        System.out.println(user_id);
-        intent.putExtra("admin_id",user_id);
-        startActivity(intent);
-        finish();
-    }
-
-    public void grabGroups() {
-        String url = MYGROUP_URL + '1';
-        System.out.println(url);
-        JSONObject p = new JSONObject();
-        requestQueue = Volley.newRequestQueue(this);
-        JsonArrayRequest queueRequest = new JsonArrayRequest(Request.Method.GET,
-                url,
-                null,
-                new Response.Listener<JSONArray>() {
+        builder.setView(view);
+        builder.setTitle("Create Group")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onResponse(JSONArray response) {
+                    public void onClick(DialogInterface dialog, int which) {
+                        boolean duplicates  = false;
 
-                        for (int i = 0; i < response.length(); ++i) {
-                            JSONObject o = null;
-                            try {
-                                o = response.getJSONObject(i);
+                        for(Group g : allGroups)
+                        {
+                            if(g.getName().equals(name.getText().toString()))
+                            {
+                                duplicates = true;
+                                break;
 
-                                int id = (int) o.get("group_id");
-                                System.out.println(id);
-                                String name = o.get("group_name").toString();
-                                System.out.println(name);
-                                String date = o.get("add_date").toString();
-                                System.out.println(date);
-                                int a_id = (int) o.get("admin_id");
-                                Group g = new Group(id, name, a_id, date);
-                                myGroups.add(g);
-                                for (Group m : myGroups) {
-                                    System.out.println(m.getName());
-                                }
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
                             }
 
                         }
+                        if(duplicates)
+                        {
+                            Toast.makeText(myGroups.this, "Group name already in use", Toast.LENGTH_SHORT).show();
 
+                        }
+                        else{
+                            addGroup(name.getText().toString());
+                        }
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
                     }
-                },
-                error -> Toast.makeText(myGroups.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show());
+                });
+
+        dialog = builder.create();
+    }
+
+    public void addGroup(String name)
+    {
+
+        String url = ADDGROUP_URL + name + "/" + user_id;
+        requestQueue = Volley.newRequestQueue(this);
+
+        System.out.println(url);
+
+        StringRequest queueRequest = new StringRequest(Request.Method.GET,url,new Response.Listener<String>(){
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(myGroups.this, "Group created", Toast.LENGTH_SHORT).show();
+
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(myGroups.this, "Unable to add topic", Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(myGroups.this, myGroups.class)
+                                .putExtra("user name", user_name)
+                                .putExtra("user id", user_id));
+
+                    }
+
+
+                });
 
         requestQueue.add(queueRequest);
 
-    }
 
+    }
 }

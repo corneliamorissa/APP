@@ -86,7 +86,7 @@ public class CreateGroupActivity extends AppCompatActivity {
 
                 StringRequest queueRequest;
 
-                queueRequest = new StringRequest(Request.Method.POST,url,new Response.Listener<String>(){
+                queueRequest = new StringRequest(Request.Method.GET,url,new Response.Listener<String>(){
                     @Override
                     public void onResponse(String response){
                     requestQueue.add(queueRequest2);
