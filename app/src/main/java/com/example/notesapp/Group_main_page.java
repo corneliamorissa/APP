@@ -78,11 +78,8 @@ public class Group_main_page extends AppCompatActivity  {
             //The key argument here must match that used in the other activity
         }
 
-
         delete.setVisibility(View.INVISIBLE);
         leave.setVisibility(View.INVISIBLE);
-
-
 
 
         name_show.setText(groupName);
@@ -207,10 +204,51 @@ public class Group_main_page extends AppCompatActivity  {
     }
 
     public void onTopic_Clicked(View caller) {
-        startActivity(new Intent(Group_main_page.this, Topic_Main_Page.class)
-                .putExtra("group name",groupName)
-                .putExtra("group id",groupid));
-        finish();
+        String url1 = IS_A_MEMBER + userid + "/" + groupid;
+        System.out.println(url1);
+        requestQueue = Volley.newRequestQueue(Group_main_page.this);
+        JsonArrayRequest queueRequest1;
+        queueRequest1 = new JsonArrayRequest(Request.Method.GET, url1, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                String info = "";
+                if(response.length()==0)
+                {
+                    Toast.makeText(Group_main_page.this, "Join the Group First", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    for (int i = 0; i < response.length(); ++i) {
+
+                        JSONObject o = null;
+                        try {
+                            o = response.getJSONObject(i);
+
+                            member = o.getInt("user_id");
+                            if(userid == member)
+                            {
+                                startActivity(new Intent(Group_main_page.this, Topic_Main_Page.class)
+                                        .putExtra("group name",groupName)
+                                        .putExtra("group id",groupid)
+                                        .putExtra("user id",userid)
+                                        .putExtra("user name", userName));
+                                finish();
+                            }
+
+                        }
+                        catch (JSONException e)
+                        {
+                            e.printStackTrace();
+                        }
+
+                    }}}},
+                error -> Toast.makeText(Group_main_page.this, "Unable to communicate with server", Toast.LENGTH_LONG).show()
+
+        );
+        requestQueue.add(queueRequest1);
+
+
+
+
     }
     public void onMemebrs_Clicked(View caller) {
         startActivity(new Intent(Group_main_page.this, MemberList.class)

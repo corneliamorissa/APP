@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -41,7 +42,7 @@ public class GroupList extends AppCompatActivity {
     private UserInfo user;
     LinearLayout layout;
     String user_name;
-    int user_id;
+    int user_id, groupid;
 
 
     @Override
@@ -59,6 +60,7 @@ public class GroupList extends AppCompatActivity {
         alreadyRequested = new ArrayList<Integer>();
         checkIfRequested();
 
+        Button btn_join = (Button) findViewById(R.id.join_group);
         Button btn_creategroup = (Button) findViewById(R.id.createGroup);
 
     }
@@ -98,6 +100,7 @@ public class GroupList extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
 
+
                                 startActivity(new Intent(GroupList.this, Group_main_page.class)
                                         .putExtra("group name", g.getName())
                                         .putExtra("group id", g.getId())
@@ -110,6 +113,8 @@ public class GroupList extends AppCompatActivity {
                         if(alreadyRequested.contains(g.getId()))
                         {
                             join.setText("requested");
+                            join.setTextColor(Color.parseColor("#FFFF9800"));
+                            join.setBackgroundColor(Color.parseColor("#FF393939"));
                             //join.setClickable(false);
                             //join.setBackgroundColor(Color.GRAY);
                             System.out.println("buttontest1");
@@ -150,27 +155,32 @@ public class GroupList extends AppCompatActivity {
     }
 
     public void sendJoinRequest(int id) {
-        String url = REQUESTJOIN_URL + id + user_id + id ;
+
+        String url = REQUESTJOIN_URL + id + "/" + user_id +"/"+ id ;
         System.out.println(url);
-
-        StringRequest queueRequest;
-
-        queueRequest = new StringRequest(Request.Method.POST,url,new Response.Listener<String>(){
+        requestQueue = Volley.newRequestQueue(this);
+        JsonArrayRequest queueRequest;
+        queueRequest = new JsonArrayRequest(Request.Method.POST, url, null, new Response.Listener<JSONArray>() {
             @Override
-            public void onResponse(String response) {
+            public void onResponse(JSONArray response) {
+                String info = "";
+                Toast.makeText(GroupList.this, "Join Request Sent", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(GroupList.this, Group_main_page.class);
-                intent.putExtra("user_id", user_id);
-                intent.putExtra("id", id);
+                intent.putExtra("user id", user_id);
+                intent.putExtra("group id", id);
                 startActivity(intent);
+                finish();
             }
-        },new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(GroupList.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
-            }
-        });
 
+
+
+        }
+                ,
+                error -> Toast.makeText(GroupList.this, "Unable to communicate with server", Toast.LENGTH_LONG).show()
+
+        );
         requestQueue.add(queueRequest);
+
 
 
     }
