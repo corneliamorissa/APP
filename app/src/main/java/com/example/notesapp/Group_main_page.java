@@ -94,6 +94,7 @@ public class Group_main_page extends AppCompatActivity  {
 
         }
         name_show.setText(groupName);
+        join_btn.setVisibility(View.INVISIBLE);
 
         getAdminId();
         getMemberId();
@@ -743,7 +744,9 @@ public class Group_main_page extends AppCompatActivity  {
 
 
                 }
+                join_btn.setVisibility(View.VISIBLE);
                 if(alreadyRequested.contains(userid)) {
+
                     join_btn.setText("requested");
                     join_btn.setTextColor(Color.parseColor("#FFFF9800"));
                     join_btn.setBackgroundColor(Color.parseColor("#FF393939"));
