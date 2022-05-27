@@ -213,8 +213,8 @@ public class Group_main_page extends AppCompatActivity  {
         finish();
     }
     public void onMemebrs_Clicked(View caller) {
-        startActivity(new Intent(Group_main_page.this, Topic_Main_Page.class)
-                .putExtra("group name",groupName)
+        startActivity(new Intent(Group_main_page.this, MemberList.class)
+                .putExtra("user id",userid)
                 .putExtra("group id",groupid));
         finish();
     }

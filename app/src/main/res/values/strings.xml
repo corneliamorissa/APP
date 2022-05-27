@@ -132,10 +132,6 @@
     </string-array>
 
 
-
-
-
-
     <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
     <string name="retrieve_image">Retrieve Note</string>
     <string name="selected_image">Selected Image</string>

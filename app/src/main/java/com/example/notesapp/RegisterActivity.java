@@ -59,6 +59,13 @@ public class RegisterActivity extends AppCompatActivity {
        // showing the back button in action bar
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+
+
+
+
+
+
        members();
 
 
@@ -101,7 +108,6 @@ public class RegisterActivity extends AppCompatActivity {
                             }
                             startActivity(new Intent(RegisterActivity.this, MainPageActivity.class));
                             getIntent().putExtra("User Info", user);
-                            getIntent().putExtra("user name", eUserName);
                             Toast.makeText(RegisterActivity.this, "Successfully Registered", Toast.LENGTH_LONG).show();
 
                         }
@@ -116,9 +122,6 @@ public class RegisterActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent intent = new Intent(RegisterActivity.this,LoginActivity.class);
-                intent.putExtra("user name",names);
-                startActivity(intent);
                 this.finish();
                 return true;
         }

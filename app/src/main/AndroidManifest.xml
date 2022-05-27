@@ -14,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NotesApp">
         <activity
+            android:name=".MemberList"
+            android:exported="false" />
+        <activity
             android:name=".FullScreenImage"
             android:exported="false" />
         <activity
