@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -24,6 +25,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -44,6 +46,8 @@ public class Group_main_page extends AppCompatActivity  {
     private static final String MEMBER_CHECK ="https://studev.groept.be/api/a21pt103/check_if_user_member/";
     private static final String getId = "https://studev.groept.be/api/a21pt103/getId/";
     private static final String IS_A_MEMBER = "https://studev.groept.be/api/a21pt103/isMember/";
+    private static final String REQUESTJOIN_URL = "https://studev.groept.be/api/a21pt103/send_join_request/";
+    private static final String CHECK_URL = "https://studev.groept.be/api/a21pt103/check_if_request_sent/";
     Integer admin, member;
     boolean isAdmin;
     boolean isMember;
@@ -59,6 +63,7 @@ public class Group_main_page extends AppCompatActivity  {
     ArrayList<String> mems_name;
     FloatingActionButton settings;
     int test;
+    Button join_btn;
 
 
 
@@ -68,11 +73,13 @@ public class Group_main_page extends AppCompatActivity  {
         setContentView(R.layout.activity_group_main_page);
         name_show = findViewById(R.id.groupName);
 
-        Button delete = findViewById(R.id.delete_group);
-        Button leave = findViewById(R.id.leave_group);
+
+        //Button delete = findViewById(R.id.delete_group);
+        //Button leave = findViewById(R.id.leave_group);
 
         Button delete2 = findViewById(R.id.delete_group2);
         Button leave2 = findViewById(R.id.leave_group2);
+        join_btn = findViewById(R.id.join_button);
         settings = findViewById(R.id.settings_group);
         Bundle extras = getIntent().getExtras();
         test = 0;
@@ -84,32 +91,16 @@ public class Group_main_page extends AppCompatActivity  {
             groupid = extras.getInt("group id");
             userid = extras.getInt("user id");
             userName = extras.getString("user name");
-            //The key argument here must match that used in the other activity
+
         }
+        name_show.setText(groupName);
+
         getAdminId();
         getMemberId();
 
-        delete.setVisibility(View.INVISIBLE);
-        leave.setVisibility(View.INVISIBLE);
-       // settings.setVisibility(View.INVISIBLE);
+
         System.out.println(isAdmin);
         System.out.println(isMember);
-
-        if(isAdmin || isMember) {
-            settings.setVisibility(View.VISIBLE);
-            settings.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog2.show();
-                }
-            });
-        }
-        else
-        {
-            settings.setVisibility(View.INVISIBLE);
-        }
-        buildDialog1();
-
 
 
 /*
@@ -452,7 +443,6 @@ public class Group_main_page extends AppCompatActivity  {
 
     }
     private void buildDialog2(int i) {
-        int k = i;
         AlertDialog.Builder builder = new AlertDialog.Builder(Group_main_page.this);
         View mview = getLayoutInflater().inflate(R.layout.settings, null);
         Button leave2 = mview.findViewById(R.id.leave_group2);
@@ -462,7 +452,7 @@ public class Group_main_page extends AppCompatActivity  {
         leave2.setVisibility(View.INVISIBLE);
         photo.setVisibility(View.INVISIBLE);
 
-        if(k == 0)
+        if(i == 0)
         {
             delete2.setVisibility(View.VISIBLE);
             System.out.println("deleteeeeee");
@@ -476,7 +466,7 @@ public class Group_main_page extends AppCompatActivity  {
             leave2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    dialog1.show();
+                    buildDialog1();
                 }
             });
             photo.setVisibility(View.VISIBLE);
@@ -535,25 +525,10 @@ public class Group_main_page extends AppCompatActivity  {
         String leave = LEAVE + userid + "/" + groupid;
         System.out.println(leave);
         requestQueue = Volley.newRequestQueue(Group_main_page.this);
-        JsonArrayRequest queueRequest1;
-        queueRequest1 = new JsonArrayRequest(Request.Method.POST, leave, null, new Response.Listener<JSONArray>() {
+        StringRequest queueRequest1;
+        queueRequest1 = new StringRequest(Request.Method.GET, leave, new Response.Listener<String>() {
             @Override
-            public void onResponse(JSONArray response) {
-                String info = "";
-                for (int i = 0; i < response.length(); ++i) {
-
-                    JSONObject o = null;
-                    try {
-                        o = response.getJSONObject(i);
-                        info += "all gooddddd";
-
-                    }
-                    catch (JSONException e)
-                    {
-                        e.printStackTrace();
-                    }
-
-                }
+            public void onResponse(String response) {
                 Intent intent = new Intent(Group_main_page.this, myGroups.class);
                 intent.putExtra("user id", userid );
                 intent.putExtra("user name", userName);
@@ -578,28 +553,13 @@ public class Group_main_page extends AppCompatActivity  {
         String change = UPDATE_ADMIN + id + "/" + groupid;
         System.out.println(change);
         requestQueue = Volley.newRequestQueue(Group_main_page.this);
-        JsonArrayRequest queueRequest2;
-        queueRequest2 = new JsonArrayRequest(Request.Method.POST, change, null, new Response.Listener<JSONArray>() {
+        StringRequest queueRequest2;
+        queueRequest2 = new StringRequest(Request.Method.GET, change,new Response.Listener<String>() {
             @Override
-            public void onResponse(JSONArray response) {
-                String info = "";
-                for (int i = 0; i < response.length(); ++i) {
+            public void onResponse(String response) {
 
-                    JSONObject o = null;
-                    try {
-                        o = response.getJSONObject(i);
-                        info += "all gooddddd";
-                        Toast.makeText(Group_main_page.this,"pkkkkk", Toast.LENGTH_LONG).show();
-                        leave();
-
-                    }
-                    catch (JSONException e)
-                    {
-                        e.printStackTrace();
-                    }
-
-                }
                 Toast.makeText(Group_main_page.this,"Change admin request is executed", Toast.LENGTH_LONG).show();
+                leave();
             }
 
         },
@@ -626,8 +586,6 @@ public class Group_main_page extends AppCompatActivity  {
                             o = response.getJSONObject(i);
                             member = o.getInt("user_id");
                             mems.add(member);
-
-
                         }
                         catch (JSONException e)
                         {
@@ -635,6 +593,7 @@ public class Group_main_page extends AppCompatActivity  {
                         }
 
                     }
+
                     for(Integer i: mems)
                     {
                         if(i.intValue() == userid)
@@ -645,20 +604,22 @@ public class Group_main_page extends AppCompatActivity  {
                                 @Override
                                 public void onClick(View v) {
                                     buildDialog2(1);
-                                }
-                            });
+                                }});
+                        }
+                        else
+                        {
+                            isMember = false;
                         }
                     }
+                    if(!isMember)
+                    {
+                        checkIfRequested();
+
+                    }
+
             }},
-                error -> Toast.makeText(Group_main_page.this, "Unable to communicate with server", Toast.LENGTH_LONG).show()
-
-        );
+                error -> Toast.makeText(Group_main_page.this, "Unable to communicate with server", Toast.LENGTH_LONG).show());
         requestQueue.add(queueRequest1);
-
-
-
-
-
     }
     public void getAdminId()
     {
@@ -702,36 +663,16 @@ public class Group_main_page extends AppCompatActivity  {
 
         );
         requestQueue.add(queueRequest1);
-
-
-
-
-
     }
     public void leave()
     {
         String leave = LEAVE + userid + "/" + groupid;
         System.out.println(leave);
         requestQueue = Volley.newRequestQueue(Group_main_page.this);
-        JsonArrayRequest queueRequest;
-        queueRequest = new JsonArrayRequest(Request.Method.POST, leave, null, new Response.Listener<JSONArray>() {
+        StringRequest queueRequest;
+        queueRequest = new StringRequest(Request.Method.GET ,leave, new Response.Listener<String>() {
             @Override
-            public void onResponse(JSONArray response) {
-                String info = "";
-                for (int i = 0; i < response.length(); ++i) {
-
-                    JSONObject o = null;
-                    try {
-                        o = response.getJSONObject(i);
-                        info += "all gooddddd";
-
-                    }
-                    catch (JSONException e)
-                    {
-                        e.printStackTrace();
-                    }
-
-                }
+            public void onResponse(String response) {
                 Intent intent = new Intent(Group_main_page.this, myGroups.class);
                 intent.putExtra("user id", userid );
                 intent.putExtra("user name", userName);
@@ -739,12 +680,95 @@ public class Group_main_page extends AppCompatActivity  {
                 intent.putExtra("group name", groupName);
                 startActivity(intent);
                 Toast.makeText(Group_main_page.this,"Leave request is executed", Toast.LENGTH_LONG).show();
-            }
-
-        },
+            }},
                 error -> Toast.makeText(Group_main_page.this, "Unable to communicate with server", Toast.LENGTH_LONG).show()
 
         );
+        requestQueue.add(queueRequest);
+    }
+    public void join()
+    {
+        String url = REQUESTJOIN_URL + groupid + "/" + userid +"/"+ groupid ;
+        System.out.println(url);
+        requestQueue = Volley.newRequestQueue(this);
+        JsonArrayRequest queueRequest;
+        queueRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                Toast.makeText(Group_main_page.this, "Join Request Sent", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(Group_main_page.this, Group_main_page.class);
+                intent.putExtra("user id", userid);
+                intent.putExtra("group id", groupid);
+                intent.putExtra("user name", userName);
+                startActivity(intent);
+                finish();
+            }
+
+
+
+        }
+                ,
+                error -> Toast.makeText(Group_main_page.this, "Unable to communicate with server", Toast.LENGTH_LONG).show()
+
+        );
+        requestQueue.add(queueRequest);
+    }
+
+    public void checkIfRequested()
+    {
+        String url = CHECK_URL + userid;
+        System.out.println(url);
+        requestQueue = Volley.newRequestQueue(this);
+        System.out.println("test");
+        ArrayList<Integer> alreadyRequested = new ArrayList<>();
+        JsonArrayRequest queueRequest;
+
+        queueRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                String info = "";
+                for (int i = 0; i < response.length(); ++i) {
+
+                    System.out.println("test1");
+                    JSONObject o = null;
+
+                    try {
+                        o = response.getJSONObject(i);
+                        int r_id = o.getInt("group_id");
+                        alreadyRequested.add(r_id);
+                        System.out.println(r_id);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+                if(alreadyRequested.contains(userid)) {
+                    join_btn.setText("requested");
+                    join_btn.setTextColor(Color.parseColor("#FFFF9800"));
+                    join_btn.setBackgroundColor(Color.parseColor("#FF393939"));
+
+                }
+                else
+                {
+                    join_btn.setVisibility(View.VISIBLE);
+                    join_btn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            join();
+                        }});
+
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(Group_main_page.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show(); }
+        });
+
+
         requestQueue.add(queueRequest);
     }
    }

@@ -99,7 +99,7 @@ public class MemberList extends AppCompatActivity {
                                 Button member_btn = view.findViewById(R.id.button_user_name);
 
                                 member_btn.setText(m.getUser_name());
-                                imageView.setImageBitmap(bitmap2);
+                                //imageView.setImageBitmap(bitmap2);
 
                                 member_btn.setOnClickListener(new View.OnClickListener() {
                                     @Override
