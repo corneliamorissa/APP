@@ -1,5 +1,7 @@
 package com.example.notesapp;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
@@ -8,6 +10,7 @@ import android.os.Bundle;
 
 
 import android.content.Intent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -48,6 +51,7 @@ public class myGroups extends AppCompatActivity {
     private String user_name;
     private int user_id;
     AlertDialog dialog;
+    boolean mainPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +64,7 @@ public class myGroups extends AppCompatActivity {
         if (extras != null) {
             user_name = extras.getString("user name");
             user_id = extras.getInt("user id");
+            mainPage = extras.getBoolean("main page");
             //The key argument here must match that used in the other activity
         }
 
@@ -72,6 +77,43 @@ public class myGroups extends AppCompatActivity {
 
         buildDialog();
 
+        ActionBar actionBar = getSupportActionBar();
+        // Customize the back button
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_west_24);
+        actionBar.setTitle("My Groups");
+        // showing the back button in action bar
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(mainPage) {
+            switch (item.getItemId()) {
+                case android.R.id.home:
+                    Intent intent = new Intent(myGroups.this, MainPageActivity.class);
+                    intent.putExtra("user id", user_id);
+                    intent.putExtra("user name", user_name);
+                    startActivity(intent);
+                    this.finish();
+                    return true;
+            }
+            return super.onOptionsItemSelected(item);
+        }
+        else
+        {
+            switch (item.getItemId()) {
+                case android.R.id.home:
+                    Intent intent = new Intent(myGroups.this, NaviagtionPage.class);
+                    intent.putExtra("user id", user_id);
+                    intent.putExtra("user name", user_name);
+                    startActivity(intent);
+                    this.finish();
+                    return true;
+            }
+            return super.onOptionsItemSelected(item);
+        }
 
     }
 
@@ -175,6 +217,7 @@ public class myGroups extends AppCompatActivity {
                                 startActivity(new Intent(myGroups.this, Group_main_page.class)
                                         .putExtra("group name", g.getName())
                                         .putExtra("group id", g.getId())
+                                        .putExtra("my groups", true)
                                         .putExtra("user id", user_id));
                             }
                         });

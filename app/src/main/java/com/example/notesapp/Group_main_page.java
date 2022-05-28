@@ -65,6 +65,7 @@ public class Group_main_page extends AppCompatActivity  {
     int test;
     Button join_btn;
     Button topic;
+    boolean myGroups;
 
 
 
@@ -93,6 +94,7 @@ public class Group_main_page extends AppCompatActivity  {
             groupid = extras.getInt("group id");
             userid = extras.getInt("user id");
             userName = extras.getString("user name");
+            myGroups = extras.getBoolean(" my groups");
 
         }
         name_show.setText(groupName);
@@ -229,18 +231,35 @@ public class Group_main_page extends AppCompatActivity  {
     }*/
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                Intent intent = new Intent(Group_main_page.this,GroupList.class);
-                intent.putExtra("user id", userid );
-                intent.putExtra("user name", userName);
-                intent.putExtra("group id", groupid);
-                intent.putExtra("group name", groupName);
-                startActivity(intent);
-                this.finish();
-                return true;
+        if(myGroups)
+        {
+            switch (item.getItemId()) {
+                case android.R.id.home:
+                    Intent intent = new Intent(Group_main_page.this, myGroups.class);
+                    intent.putExtra("user id", userid);
+                    intent.putExtra("user name", userName);
+                    intent.putExtra("group id", groupid);
+                    intent.putExtra("group name", groupName);
+                    startActivity(intent);
+                    this.finish();
+                    return true;
+            }
+            return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
+        else {
+            switch (item.getItemId()) {
+                case android.R.id.home:
+                    Intent intent = new Intent(Group_main_page.this, GroupList.class);
+                    intent.putExtra("user id", userid);
+                    intent.putExtra("user name", userName);
+                    intent.putExtra("group id", groupid);
+                    intent.putExtra("group name", groupName);
+                    startActivity(intent);
+                    this.finish();
+                    return true;
+            }
+            return super.onOptionsItemSelected(item);
+        }
     }
 
 
