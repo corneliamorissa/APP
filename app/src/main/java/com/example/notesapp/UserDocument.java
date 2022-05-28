@@ -29,6 +29,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.notesapp.userInfo.UserInfo;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
 import org.json.JSONException;
@@ -51,6 +52,7 @@ public class UserDocument extends AppCompatActivity implements RecyclerViewInter
     Bitmap image;
     Integer image_id;
     boolean mainpage;
+    FloatingActionButton upload;
 
 
     @Override
@@ -60,6 +62,7 @@ public class UserDocument extends AppCompatActivity implements RecyclerViewInter
         requestQueue = Volley.newRequestQueue(this);
         imgList = new ArrayList<ImageModel>();
         imageView = findViewById(R.id.imageRetrieved);
+        upload = findViewById(R.id.upload_float);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             user_name = extras.getString("user name");
@@ -86,6 +89,16 @@ public class UserDocument extends AppCompatActivity implements RecyclerViewInter
 
     }
 
+    public void onFloatingBtn (View v)
+    {
+        Intent intent = new Intent(UserDocument.this, UploadActivity.class);
+        intent.putExtra("user id", user_id);
+        intent.putExtra("user name", user_name);
+        intent.putExtra("email", email);
+        intent.putExtra("main page", mainpage);
+        startActivity(intent);
+        this.finish();
+    }
 
     public void grabNotes()
     {
