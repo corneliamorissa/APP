@@ -109,126 +109,8 @@ public class Group_main_page extends AppCompatActivity  {
 
         getAdminId();
 
-
-
-/*
-
-        name_show.setText(groupName);
-        String url = ADMIN_CHECK + groupid;
-        requestQueue = Volley.newRequestQueue(this);
-        JsonArrayRequest queueRequest;
-        queueRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                for (int i = 0; i < response.length(); ++i) {
-
-                    JSONObject o = null;
-                    try {
-                        o = response.getJSONObject(0);
-
-                        admin = o.getInt("admin_id");
-                        System.out.println(admin);
-                        if(userid == admin)
-                        {
-                            isAdmin = true;
-                            //if admin then they can delete group and when leave group must appoint new admin
-
-                            delete.setVisibility(View.VISIBLE);
-                            delete.setOnClickListener( new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        deleteGroup();
-
-                                    }});
-
-                            leave.setVisibility(View.VISIBLE);
-
-
-
-                        }
-                        else
-                        {
-                            String url1 = IS_A_MEMBER + userid + "/" + groupid;
-                            System.out.println(url1);
-                            requestQueue = Volley.newRequestQueue(Group_main_page.this);
-                            JsonArrayRequest queueRequest1;
-                            queueRequest1 = new JsonArrayRequest(Request.Method.GET, url1, null, new Response.Listener<JSONArray>() {
-                                @Override
-                                public void onResponse(JSONArray response) {
-                                    String info = "";
-                                    if(response.length()==0)
-                                    {
-                                        leave.setVisibility(View.INVISIBLE);
-                                        delete.setVisibility(View.INVISIBLE);
-                                    }
-                                    else{
-                                        for (int i = 0; i < response.length(); ++i) {
-
-                                            JSONObject o = null;
-                                            try {
-                                                o = response.getJSONObject(i);
-
-                                                member = o.getInt("user_id");
-                                                if(userid == member)
-                                                {
-                                                    leave.setVisibility(View.VISIBLE);
-                                                    delete.setVisibility(View.INVISIBLE);
-                                                }
-
-                                            }
-                                            catch (JSONException e)
-                                            {
-                                                e.printStackTrace();
-                                            }
-
-                                        }}}},
-                                    error -> Toast.makeText(Group_main_page.this, "Unable to communicate with server", Toast.LENGTH_LONG).show()
-
-                            );
-                            requestQueue.add(queueRequest1);
-                        }
-
-
-
-                    }
-                    catch (JSONException e)
-                    {
-                        e.printStackTrace();
-                    }
-
-                }}},
-                error -> Toast.makeText(Group_main_page.this, "Unable to communicate with server", Toast.LENGTH_LONG).show()
-
-        );
-        requestQueue.add(queueRequest);
-
-
-        ActionBar actionBar = getSupportActionBar();
-
-
-        // Customize the back button
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_view_headline_24);
-        actionBar.setTitle("Group Home Page");
-
-
-        // showing the back button in action bar
-        assert actionBar != null;
-        actionBar.setDisplayHomeAsUpEnabled(true);
-
-
     }
-    */
-    }
-    /*
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                this.finish();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }*/
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(myGroups)
@@ -475,7 +357,7 @@ public class Group_main_page extends AppCompatActivity  {
                 });
         builder.setView(mview);
          dialog1 = builder.create();
-       // dialog1.show();
+        dialog1.show();
 
 
     }
@@ -503,6 +385,7 @@ public class Group_main_page extends AppCompatActivity  {
             leave2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    System.out.println("adminleave");
                     buildDialog1();
                 }
             });
@@ -652,6 +535,7 @@ public class Group_main_page extends AppCompatActivity  {
                                             .putExtra("user name", userName));
                                     finish();
                                 }});
+
                             break;
 
                         }

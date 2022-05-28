@@ -197,6 +197,12 @@ public class MainPageActivity extends AppCompatActivity {
 
                                 join(n.getUser_id(),n.getGroup_id(),n.getRequest_id());
                                 System.out.println("testaccept");
+                                Intent refresh = new Intent(MainPageActivity.this, MainPageActivity.class);
+                                refresh.putExtra("user name", user_name)
+                                        .putExtra("user id", user_id)
+                                        .putExtra("email", email);
+                                startActivity(refresh); //Start the same Activity
+                                finish(); //finish Activity.
 
 
                             }
@@ -207,6 +213,12 @@ public class MainPageActivity extends AppCompatActivity {
                                 deleteRequest(n.getRequest_id());
                                 Toast.makeText(MainPageActivity.this, "User rejected", Toast.LENGTH_LONG).show();
                                 System.out.println("testreject");
+                                Intent refresh = new Intent(MainPageActivity.this, MainPageActivity.class);
+                                refresh.putExtra("user name", user_name)
+                                        .putExtra("user id", user_id)
+                                        .putExtra("email", email);
+                                startActivity(refresh); //Start the same Activity
+                                finish(); //finish Activity.
 
 
                             }
