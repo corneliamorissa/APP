@@ -1,9 +1,12 @@
 package com.example.notesapp;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -26,6 +29,14 @@ public class NaviagtionPage extends AppCompatActivity {
             email = extras.getString("email");
             //The key argument here must match that used in the other activity
         }
+
+        ActionBar actionBar = getSupportActionBar();
+        // Customize the back button
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_west_24);
+        actionBar.setTitle("Navigation Bar");
+        // showing the back button in action bar
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
 
         Button group = findViewById(R.id.groups_nav);
         group.setOnClickListener(new View.OnClickListener() {
@@ -84,20 +95,22 @@ public class NaviagtionPage extends AppCompatActivity {
             }
         });
 
-        ImageButton back = findViewById(R.id.back_nav);
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()) {
+            case android.R.id.home:
                 Intent intent = new Intent(NaviagtionPage.this, MainPageActivity.class);
                 intent.putExtra("user id", id);
                 intent.putExtra("user name", name);
-                intent.putExtra("email", email);
                 startActivity(intent);
-            }
-        });
-
-
-
+                this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
 
     }
 }

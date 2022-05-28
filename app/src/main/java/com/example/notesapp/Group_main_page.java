@@ -103,7 +103,7 @@ public class Group_main_page extends AppCompatActivity  {
         ActionBar actionBar = getSupportActionBar();
         // Customize the back button
         actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_west_24);
-        actionBar.setTitle("Topic Notes");
+        actionBar.setTitle("Group Page");
         // showing the back button in action bar
         actionBar.setDisplayHomeAsUpEnabled(true);
 
@@ -235,7 +235,7 @@ public class Group_main_page extends AppCompatActivity  {
         {
             switch (item.getItemId()) {
                 case android.R.id.home:
-                    Intent intent = new Intent(Group_main_page.this, myGroups.class);
+                    Intent intent = new Intent(Group_main_page.this, GroupList.class);
                     intent.putExtra("user id", userid);
                     intent.putExtra("user name", userName);
                     intent.putExtra("group id", groupid);
@@ -249,7 +249,7 @@ public class Group_main_page extends AppCompatActivity  {
         else {
             switch (item.getItemId()) {
                 case android.R.id.home:
-                    Intent intent = new Intent(Group_main_page.this, GroupList.class);
+                    Intent intent = new Intent(Group_main_page.this, myGroups.class);
                     intent.putExtra("user id", userid);
                     intent.putExtra("user name", userName);
                     intent.putExtra("group id", groupid);

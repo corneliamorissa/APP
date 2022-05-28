@@ -1,11 +1,14 @@
 package com.example.notesapp;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -63,6 +66,30 @@ public class GroupList extends AppCompatActivity {
         Button btn_join = (Button) findViewById(R.id.join_group);
         Button btn_creategroup = (Button) findViewById(R.id.createGroup);
 
+        ActionBar actionBar = getSupportActionBar();
+        // Customize the back button
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_west_24);
+        actionBar.setTitle("All Groups");
+        // showing the back button in action bar
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+            switch (item.getItemId()) {
+                case android.R.id.home:
+                    Intent intent = new Intent(GroupList.this, NaviagtionPage.class);
+                    intent.putExtra("user id", user_id);
+                    intent.putExtra("user name", user_name);
+                    startActivity(intent);
+                    this.finish();
+                    return true;
+            }
+            return super.onOptionsItemSelected(item);
+
+
     }
 
     public void addButtons()
@@ -105,6 +132,7 @@ public class GroupList extends AppCompatActivity {
                                         .putExtra("group name", g.getName())
                                         .putExtra("group id", g.getId())
                                         .putExtra("user id", user_id)
+                                        .putExtra("my groups", false)
                                         .putExtra("user name", user_name));
 
                             }

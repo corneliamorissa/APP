@@ -8,14 +8,6 @@
     android:backgroundTint="#FFFFFF"
     tools:context=".NaviagtionPage">
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainerView3"
-        android:layout_width="367dp"
-        android:layout_height="52dp"
-        android:background="#000000"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
 
     <Button
         android:id="@+id/groups_nav"
@@ -96,19 +88,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.848" />
-
-    <ImageButton
-        android:id="@+id/back_nav"
-        android:layout_width="72dp"
-        android:layout_height="50dp"
-        android:background="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/fragmentContainerView3"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/ic_baseline_west_24"
-        app:tint="#FFFFFF" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
