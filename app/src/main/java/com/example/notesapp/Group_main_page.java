@@ -467,10 +467,17 @@ public class Group_main_page extends AppCompatActivity  {
 
 
     public void changeAdmin(String newAdmin)
-    {   int index_name  = mems_name.indexOf(newAdmin);
-        int id = mems.get(index_name);
+    {
+        for(int j = 0; j<adminUsernameList.size();j++)
+        {
+            if(adminUsernameList.get(j).equals(newAdmin))
+            {
+                admin = adminIdList.get(j);
+            }
+        }
+
         /***to implement update admin***/
-        String change = UPDATE_ADMIN + id + "/" + groupid;
+        String change = UPDATE_ADMIN + admin + "/" + groupid;
         System.out.println(change);
         requestQueue = Volley.newRequestQueue(Group_main_page.this);
         StringRequest queueRequest2;
