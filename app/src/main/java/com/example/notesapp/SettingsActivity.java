@@ -1,5 +1,6 @@
 package com.example.notesapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import androidx.preference.PreferenceFragmentCompat;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,6 +36,7 @@ public class SettingsActivity extends AppCompatActivity {
     private RequestQueue requestQueue;
     AlertDialog dialog, dialog2;
     LinearLayout layout;
+    boolean isMainPage = false;
 
 
 
@@ -50,13 +53,46 @@ public class SettingsActivity extends AppCompatActivity {
             user_name = extras.getString("user name");
             user_id = extras.getInt("user id");
             email = extras.getString("email");
+            isMainPage = extras.getBoolean("main page");
             //The key argument here must match that used in the other activity
         }
+
+        ActionBar actionBar = getSupportActionBar();
+        // Customize the back button
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_west_24);
+        actionBar.setTitle("Settings");
+        // showing the back button in action bar
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         buildDialogChangePass();
         dialogDelAcc();
 
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                if(isMainPage) {
+                    Intent intent = new Intent(SettingsActivity.this, MainPageActivity.class);
+                    intent.putExtra("user id", user_id);
+                    intent.putExtra("user name", user_name);
+                    startActivity(intent);
+                    this.finish();
+                    return true;
+                }
+                else
+                {
+                    Intent intent = new Intent(SettingsActivity.this, NaviagtionPage.class);
+                    intent.putExtra("user id", user_id);
+                    intent.putExtra("user name", user_name);
+                    startActivity(intent);
+                    this.finish();
+                    return true;
+                }
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void changePasswordBtn_Click (View view)

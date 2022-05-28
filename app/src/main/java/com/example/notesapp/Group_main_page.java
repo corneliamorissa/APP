@@ -231,7 +231,7 @@ public class Group_main_page extends AppCompatActivity  {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent intent = new Intent(Group_main_page.this,NaviagtionPage.class);
+                Intent intent = new Intent(Group_main_page.this,GroupList.class);
                 intent.putExtra("user id", userid );
                 intent.putExtra("user name", userName);
                 intent.putExtra("group id", groupid);
