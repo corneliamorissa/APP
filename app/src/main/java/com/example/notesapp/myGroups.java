@@ -314,7 +314,7 @@ public class myGroups extends AppCompatActivity {
 
                         finish(); */
 
-                        Toast.makeText(myGroups.this, "Unable to add topic", Toast.LENGTH_LONG).show();
+                        Toast.makeText(myGroups.this, "Unable to add group", Toast.LENGTH_LONG).show();
 
                     }
 
@@ -322,34 +322,6 @@ public class myGroups extends AppCompatActivity {
                 });
 
         requestQueue.add(queueRequest);
-
-/*
-        String url2 = IDGROUP_URL + name + "/" + user_id;
-        requestQueue = Volley.newRequestQueue(this);
-
-        System.out.println(url2);
-        JsonObjectRequest jsonObjectRequestID = new JsonObjectRequest
-                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            joinGroup(response.getInt("group_id"));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }},
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(myGroups.this, "Unable to add topic", Toast.LENGTH_LONG).show();
-
-                    }
-
-
-                });
-
-        requestQueue.add(jsonObjectRequestID); */
 
 
     }

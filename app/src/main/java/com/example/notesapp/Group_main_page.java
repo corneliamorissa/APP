@@ -321,35 +321,37 @@ public class Group_main_page extends AppCompatActivity  {
 
 
     public void deleteGroup(){
-            String delete = DELETE + groupid +  "/" + groupid +  "/" + groupid;
+            String delete = DELETE + groupid +  "/" + groupid +  "/" + groupid +  "/" + groupid;
             System.out.println(delete);
             requestQueue = Volley.newRequestQueue(this);
-            JsonArrayRequest queueRequest;
-            queueRequest = new JsonArrayRequest(Request.Method.POST, delete, null, new Response.Listener<JSONArray>() {
+
+            StringRequest queueRequest;
+            queueRequest = new StringRequest(Request.Method.GET, delete, new Response.Listener<String>() {
                 @Override
-                public void onResponse(JSONArray response) {
-                    String info = "";
-                    for (int i = 0; i < response.length(); ++i) {
+                public void onResponse(String response) {
 
-                        JSONObject o = null;
-                        try {
-                            o = response.getJSONObject(i);
-                            info += "all gooddddd";
+                    Toast.makeText(Group_main_page.this,"Group Deleted", Toast.LENGTH_LONG).show();
 
-                        }
-                        catch (JSONException e)
-                        {
-                            e.printStackTrace();
-                        }
+                    if(myGroups)
+                    {
+                        Intent intent = new Intent(Group_main_page.this, myGroups.class);
+                        intent.putExtra("user id", userid );
+                        intent.putExtra("user name", userName);
+                        intent.putExtra("group id", groupid);
+                        intent.putExtra("group name", groupName);
+                        startActivity(intent);
+                        Toast.makeText(Group_main_page.this,"Delete request is executed", Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        Intent intent = new Intent(Group_main_page.this, GroupList.class);
+                        intent.putExtra("user id", userid );
+                        intent.putExtra("user name", userName);
+                        intent.putExtra("group id", groupid);
+                        intent.putExtra("group name", groupName);
+                        startActivity(intent);
 
                     }
-                    Intent intent = new Intent(Group_main_page.this, myGroups.class);
-                    intent.putExtra("user id", userid );
-                    intent.putExtra("user name", userName);
-                    intent.putExtra("group id", groupid);
-                    intent.putExtra("group name", groupName);
-                    startActivity(intent);
-                    Toast.makeText(Group_main_page.this,"Delete request is executed", Toast.LENGTH_LONG).show();
+
                 }
 
             },
