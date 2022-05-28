@@ -53,6 +53,7 @@ public class Topic_Activity extends AppCompatActivity implements RecyclerViewInt
     AlertDialog dialog;
     String topicName, userName, groupName;
     FloatingActionButton delete;
+    boolean frommygroups, mainpage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +72,9 @@ public class Topic_Activity extends AppCompatActivity implements RecyclerViewInt
             topicName = extras.getString("topic name");
             userName = extras.getString("user name");
             groupName = extras.getString("group name");
+            frommygroups = extras.getBoolean("my groups");
+            mainpage = extras.getBoolean("main page");
+
             //The key argument here must match that used in the other activity
         }
 
@@ -108,6 +112,9 @@ public class Topic_Activity extends AppCompatActivity implements RecyclerViewInt
                         intent.putExtra("group id", group_id);
                         intent.putExtra("group name", groupName);
                         intent.putExtra("topic id", topic_id);
+                        intent.putExtra("my groups", frommygroups);
+                        intent.putExtra("main page", mainpage);
+                        startActivity(intent);
                         Toast.makeText(Topic_Activity.this, "No Topic Documents were found", Toast.LENGTH_SHORT).show();
                         startActivity(intent);
                         this.finish();
@@ -167,6 +174,8 @@ public class Topic_Activity extends AppCompatActivity implements RecyclerViewInt
                 intent.putExtra("group id", group_id);
                 intent.putExtra("topic name", topicName);
                 intent.putExtra("group name", groupName);
+                intent.putExtra("my groups", frommygroups);
+                intent.putExtra("main page", mainpage);
                 startActivity(intent);
                 this.finish();
                 return true;
@@ -181,6 +190,12 @@ public class Topic_Activity extends AppCompatActivity implements RecyclerViewInt
         Intent intent = new Intent(Topic_Activity.this, FullScreenImage.class);
         intent.putExtra("image", imgList.get(position).getPict());
         intent.putExtra("image id", imgList.get(position).getImageId());
+        intent.putExtra("my groups", frommygroups);
+        intent.putExtra("main page", mainpage);
+        intent.putExtra("user id", user_id );
+        intent.putExtra("user name",userName);
+        intent.putExtra("group id", group_id );
+        intent.putExtra("group name", groupName);
         startActivity(intent);
 
     }
@@ -220,11 +235,13 @@ public class Topic_Activity extends AppCompatActivity implements RecyclerViewInt
             public void onResponse(JSONArray response) {
 
                 Toast.makeText(Topic_Activity.this,"This topic is deleted", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(Topic_Activity.this,NaviagtionPage.class);
+                Intent intent = new Intent(Topic_Activity.this,Topic_Activity.class);
                 intent.putExtra("user id", user_id );
                 intent.putExtra("user name",userName);
                 intent.putExtra("group id", group_id );
                 intent.putExtra("group name", groupName);
+                intent.putExtra("my groups", frommygroups);
+                intent.putExtra("main page", mainpage);
                 startActivity(intent);
                 finish();
             }

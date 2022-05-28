@@ -43,6 +43,7 @@ public class Topic_Main_Page extends AppCompatActivity {
     AlertDialog dialog;
     LinearLayout layout;
     Button btn_nav;
+    boolean mainpage, mygroups;
     //this page is the list of topics of the group
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +53,12 @@ public class Topic_Main_Page extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
 
-            groupName = extras.getString("group name").toUpperCase(Locale.ROOT);
+            groupName = extras.getString("group name");
             groupid = extras.getInt("group id");
             userid = extras.getInt("user id");
             userName = extras.getString("user name");
+            mainpage = extras.getBoolean("main page");
+            mygroups = extras.getBoolean("my groups");
             //The key argument here must match that used in the other activity
         }
 
@@ -81,7 +84,7 @@ public class Topic_Main_Page extends AppCompatActivity {
 
 
         // Customize the back button
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_view_headline_24);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_west_24);
         actionBar.setTitle("Topics");
 
 
@@ -94,11 +97,13 @@ public class Topic_Main_Page extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent intent = new Intent(Topic_Main_Page.this,NaviagtionPage.class);
+                Intent intent = new Intent(Topic_Main_Page.this,Group_main_page.class);
                 intent.putExtra("user id", userid );
                 intent.putExtra("user name", userName);
                 intent.putExtra("group id", groupid);
                 intent.putExtra("group name", groupName);
+                intent.putExtra("main page", mainpage);
+                intent.putExtra("my groups", mygroups);
                 startActivity(intent);
                 this.finish();
                 return true;
@@ -170,6 +175,8 @@ public class Topic_Main_Page extends AppCompatActivity {
                         .putExtra("user name", userName)
                         .putExtra("user id", userid)
                         .putExtra("group name", groupName)
+                        .putExtra("main page",mainpage)
+                        .putExtra("my groups", mygroups)
 
                         );
             }
@@ -194,43 +201,50 @@ public class Topic_Main_Page extends AppCompatActivity {
                         @Override
                         public void onResponse(JSONArray response) {
                             int p;
-                            for (int i = 0; i < response.length(); ++i) {
-                                JSONObject o = null;
-                                layout = findViewById(R.id.container_topic);
-                                try {
-                                    o = response.getJSONObject(i);
+                            if(response.length()==0)
+                            {
 
-                                    Topic t = new Topic(o.getInt("topic_id"),o.getString("topic_name"),groupid);
-                                   topics.add(t);
-                                    final View view = getLayoutInflater().inflate(R.layout.row_topic, null);
+                            }
+                            else {
+                                for (int i = 0; i < response.length(); ++i) {
+                                    JSONObject o = null;
+                                    layout = findViewById(R.id.container_topic);
+                                    try {
+                                        o = response.getJSONObject(i);
+
+                                        Topic t = new Topic(o.getInt("topic_id"), o.getString("topic_name"), groupid);
+                                        topics.add(t);
+                                        final View view = getLayoutInflater().inflate(R.layout.row_topic, null);
 
 
-                                    Button topic_btn = view.findViewById(R.id.button__topic_name);
+                                        Button topic_btn = view.findViewById(R.id.button__topic_name);
 
-                                    topic_btn.setText(t.getName());
+                                        topic_btn.setText(t.getName());
 
-                                    topic_btn.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            startActivity(new Intent(Topic_Main_Page.this, Topic_Activity.class)
-                                                    .putExtra("topic name",t.getName())
-                                                    .putExtra("topic id",t.getId())
-                                                    .putExtra("group id",groupid)
-                                                    .putExtra("user id", userid)
-                                                    .putExtra("user name", userName)
-                                                    .putExtra("group name", groupName)
-                                            );
-                                        }
-                                    });
+                                        topic_btn.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                startActivity(new Intent(Topic_Main_Page.this, Topic_Activity.class)
+                                                        .putExtra("topic name", t.getName())
+                                                        .putExtra("topic id", t.getId())
+                                                        .putExtra("group id", groupid)
+                                                        .putExtra("user id", userid)
+                                                        .putExtra("user name", userName)
+                                                        .putExtra("group name", groupName)
+                                                        .putExtra("main page", mainpage)
+                                                        .putExtra("my groups", mygroups)
+                                                );
+                                            }
+                                        });
 
-                                    layout.addView(view);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
+                                        layout.addView(view);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
                                 }
 
                             }
-
-
                         }
                     },
                     error -> Toast.makeText(Topic_Main_Page.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show());

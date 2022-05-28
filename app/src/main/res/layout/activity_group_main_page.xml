@@ -17,6 +17,8 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="108dp"
         android:layout_marginBottom="459dp"
+        android:onClick="onBtnPickClicked"
+        android:scaleType="centerCrop"
         app:srcCompat="@drawable/group" />
 
     <TextView

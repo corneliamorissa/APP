@@ -88,7 +88,14 @@ public class UserProfileActivity extends AppCompatActivity {
         userName.setText(user_name);
         email.setText(my_email);
 
+        grabSumNotes();
+        grabPProfilePict();
+        grabSumGroups();
 
+    }
+
+    public void grabSumNotes()
+    {
         String url = SUM_NOTES + user_name;
         System.out.println(url);
         requestQueue = Volley.newRequestQueue(this);
@@ -117,8 +124,10 @@ public class UserProfileActivity extends AppCompatActivity {
 
         );
         requestQueue.add(queueRequest);
+    }
 
-
+    public void grabPProfilePict()
+    {
         JsonArrayRequest retrieveImageRequest = new JsonArrayRequest(Request.Method.GET, GET_IMAGE_URL + user_name, null,
                 response -> {
                     //Check if the DB actually contains an image
@@ -127,13 +136,20 @@ public class UserProfileActivity extends AppCompatActivity {
                             JSONObject o;
                             try {
                                 o = response.getJSONObject(0);
-
                                 //converting base64 string to image
                                 String b64String = o.getString("user_pict");
-                                byte[] imageBytes = Base64.decode(b64String, Base64.DEFAULT);
-                                Bitmap bitmap2 = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+                                email.setText(o.getString("email"));
 
-                                imageView.setImageBitmap(bitmap2);
+                                if(b64String.equals("null"))
+                                {
+                                    imageView.setImageDrawable(getDrawable(R.drawable.user));
+                                }
+                                else {
+                                    byte[] imageBytes = Base64.decode(b64String, Base64.DEFAULT);
+                                    Bitmap bitmap2 = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+
+                                    imageView.setImageBitmap(bitmap2);
+                                }
 
 
 
@@ -146,13 +162,20 @@ public class UserProfileActivity extends AppCompatActivity {
                         Toast.makeText(UserProfileActivity.this, "User Profile Refreshed", Toast.LENGTH_SHORT).show();
 
                     }
+                    else{
+
+                    }
 
                 },
                 error -> Toast.makeText(UserProfileActivity.this, "Unable to communicate with server", Toast.LENGTH_LONG).show()
         );
         requestQueue.add(retrieveImageRequest);
 
+    }
 
+    public void grabSumGroups()
+    {
+        totalGrp.setText("0");
         String url1 = SUM_GROUPS + user_id;
         System.out.println(url1);
         requestQueue = Volley.newRequestQueue(this);
@@ -179,10 +202,6 @@ public class UserProfileActivity extends AppCompatActivity {
 
         );
         requestQueue.add(queueRequest1);
-
-
-
-
     }
 
     // this event will enable the back

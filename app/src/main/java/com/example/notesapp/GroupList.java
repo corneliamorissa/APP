@@ -64,6 +64,7 @@ public class GroupList extends AppCompatActivity {
         if (extras != null) {
             user_name = extras.getString("user name");
             user_id = extras.getInt("user id");
+
             //The key argument here must match that used in the other activity
         }
         mems = new ArrayList<>();
@@ -148,7 +149,9 @@ public class GroupList extends AppCompatActivity {
                                         .putExtra("group id", g.getId())
                                         .putExtra("user id", user_id)
                                         .putExtra("my groups", false)
+                                        .putExtra("main page", false)
                                         .putExtra("user name", user_name));
+                                finish();
 
                             }
                         });
@@ -215,6 +218,7 @@ public class GroupList extends AppCompatActivity {
                 intent.putExtra("user id", user_id);
                 intent.putExtra("group id", id);
                 intent.putExtra("user name", user_name);
+                intent.putExtra("main page", false);
                 startActivity(intent);
                 finish();
             }
@@ -298,7 +302,7 @@ public class GroupList extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 Intent refresh = new Intent(GroupList.this, GroupList.class);
-                refresh.putExtra("user name", user_name).putExtra("user id", user_id);
+                refresh.putExtra("user name", user_name).putExtra("user id", user_id).putExtra("main page", false);
                 startActivity(refresh); //Start the same Activity
                 finish(); //finish Activity.
                 Toast.makeText(GroupList.this, "Group created", Toast.LENGTH_SHORT).show();
@@ -441,7 +445,9 @@ public void onErrorResponse(VolleyError error) {
                                         .putExtra("group id", g.getId())
                                         .putExtra("user id", user_id)
                                         .putExtra("my groups", false)
-                                        .putExtra("user name", user_name));
+                                        .putExtra("user name", user_name)
+                                        .putExtra("main page", false)
+                                );
 
                             }
                         });

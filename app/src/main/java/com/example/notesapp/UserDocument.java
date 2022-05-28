@@ -50,6 +50,7 @@ public class UserDocument extends AppCompatActivity implements RecyclerViewInter
     int user_id;
     Bitmap image;
     Integer image_id;
+    boolean mainpage;
 
 
     @Override
@@ -64,17 +65,40 @@ public class UserDocument extends AppCompatActivity implements RecyclerViewInter
             user_name = extras.getString("user name");
             user_id = extras.getInt("user id");
             email = extras.getString("email");
+            mainpage = extras.getBoolean("main page");
             //The key argument here must match that used in the other activity
         }
 
+
+
+        // calling the action bar
+        ActionBar actionBar = getSupportActionBar();
+
+
+        // Customize the back button
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_west_24);
+        actionBar.setTitle("My Notes");
+
+        // showing the back button in action bar
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+        grabNotes();
+
+    }
+
+
+    public void grabNotes()
+    {
         imgList.clear();
-        System.out.println(user_name);
-        String userName = user_name;
+
         //Standard Volley request. We don't need any parameters for this one
-        @SuppressLint("NotifyDataSetChanged") JsonArrayRequest retrieveImageRequest = new JsonArrayRequest(Request.Method.GET, GET_IMAGE_URL + userName, null,
+        @SuppressLint("NotifyDataSetChanged") JsonArrayRequest retrieveImageRequest = new JsonArrayRequest(Request.Method.GET, GET_IMAGE_URL + user_name, null,
                 response -> {
                     //Check if the DB actually contains an image
-                    if (response.length() > 0) {
+                    if (response.length() == 0) {
+
+                    }
+                    else{
                         for (int i = 0; i < response.length(); ++i) {
                             JSONObject o;
                             try {
@@ -88,13 +112,11 @@ public class UserDocument extends AppCompatActivity implements RecyclerViewInter
                                 this.image_id = o.getInt("id");
                                 byte[] imageBytes = Base64.decode(b64String, Base64.DEFAULT);
                                 Bitmap bitmap2 = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-
-
                                 this.image = bitmap2;
-                                System.out.println(titleI);
-                                System.out.println(descI);
                                 ImageModel imageModel = new ImageModel(bitmap2,titleI,descI,topicI,image_id);
                                 imgList.add(imageModel);
+
+
 
 
 
@@ -105,28 +127,26 @@ public class UserDocument extends AppCompatActivity implements RecyclerViewInter
 
                         //Just a double-check to tell us the request has completed
                         Toast.makeText(UserDocument.this, "Image retrieved from DB", Toast.LENGTH_SHORT).show();
-                        adapter = new RecyclerAdapter(imgList, this);
-                        recyclerView = (RecyclerView) findViewById(R.id.recyclerView_Gallery_Images);
-                        recyclerView.setAdapter(adapter);
-                        recyclerView.setLayoutManager(new LinearLayoutManager(UserDocument.this));
+                        if(imgList.isEmpty())
+                        {
+
+                        }
+                        else {
+                            adapter = new RecyclerAdapter(imgList, this);
+                            recyclerView = (RecyclerView) findViewById(R.id.recyclerView_Gallery_Images);
+                            recyclerView.setAdapter(adapter);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(UserDocument.this));
+                            adapter.notifyDataSetChanged();
+
+                        }
+
                     }
-                    adapter.notifyDataSetChanged();
+                    //adapter.notifyDataSetChanged();
 
                 },
                 error -> Toast.makeText(UserDocument.this, "Unable to communicate with server", Toast.LENGTH_LONG).show()
         );
         requestQueue.add(retrieveImageRequest);
-
-        // calling the action bar
-        ActionBar actionBar = getSupportActionBar();
-
-
-        // Customize the back button
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_west_24);
-        actionBar.setTitle("My Notes");
-
-        // showing the back button in action bar
-        actionBar.setDisplayHomeAsUpEnabled(true);
 
     }
 
@@ -134,13 +154,26 @@ public class UserDocument extends AppCompatActivity implements RecyclerViewInter
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent intent = new Intent(UserDocument.this,MainPageActivity.class);
-                intent.putExtra("user id", user_id );
-                intent.putExtra("user name",user_name);
-                intent.putExtra("email", email);
-                startActivity(intent);
-                this.finish();
-                return true;
+                if(mainpage) {
+                    Intent intent = new Intent(UserDocument.this, MainPageActivity.class);
+                    intent.putExtra("user id", user_id);
+                    intent.putExtra("user name", user_name);
+                    intent.putExtra("email", email);
+                    intent.putExtra("main page", mainpage);
+                    startActivity(intent);
+                    this.finish();
+                    return true;
+                }
+                else{
+                    Intent intent = new Intent(UserDocument.this, NaviagtionPage.class);
+                    intent.putExtra("user id", user_id);
+                    intent.putExtra("user name", user_name);
+                    intent.putExtra("email", email);
+                    intent.putExtra("main page", mainpage);
+                    startActivity(intent);
+                    this.finish();
+                    return true;
+                }
         }
         return super.onOptionsItemSelected(item);
     }

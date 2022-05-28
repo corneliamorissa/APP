@@ -28,8 +28,10 @@ public class FullScreenImage extends AppCompatActivity {
     Button btnClose;
     ImageButton btnDelete;
     Integer imgId;
+    Bitmap bmp;
     private RequestQueue requestQueue;
     private static final String DELETE = "https://studev.groept.be/api/a21pt103/deleteImage/";
+    boolean mainpage, mygroup;
 
 
 
@@ -40,11 +42,26 @@ public class FullScreenImage extends AppCompatActivity {
 
         ImageView fullScreenImageView = (ImageView) findViewById(R.id.fullScreenImageView);
 
+        //Bundle extras = getIntent().getExtras();
         Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            imgId = extras.getInt("image id");
+            bmp = extras.getParcelable("image");
+            mainpage = extras.getBoolean("main page");
+            mygroup = extras.getBoolean("my groups");
+            //The key argument here must match that used in the other activity
+        }
+        else{
+
+        }
+        /*Bundle extras = getIntent().getExtras();
         Bitmap bmp = (Bitmap) extras.getParcelable("image");
-        imgId = extras.getInt("image id");
+        imgId = extras.getInt("image id");*/
         btnClose = (Button) findViewById(R.id.btnClose);
         btnDelete = (ImageButton) findViewById(R.id.delete_image);
+
+
+
 
         btnClose.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

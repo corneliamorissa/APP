@@ -121,6 +121,7 @@ public class myGroups extends AppCompatActivity {
     public void onBtnMain_Clicked(View caller) {
         Intent intent = new Intent(myGroups.this, MainPageActivity.class);
         intent.putExtra("user id",user_id);
+        intent.putExtra("user name", user_name);
         startActivity(intent);
         finish();
     }
@@ -218,7 +219,11 @@ public class myGroups extends AppCompatActivity {
                                         .putExtra("group name", g.getName())
                                         .putExtra("group id", g.getId())
                                         .putExtra("my groups", true)
-                                        .putExtra("user id", user_id));
+                                        .putExtra("user id", user_id)
+                                        .putExtra("user name", user_name)
+                                        .putExtra("main page", mainPage)
+                                );
+                                finish();
                             }
                         });
 
@@ -300,7 +305,7 @@ public class myGroups extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 Intent refresh = new Intent(myGroups.this, myGroups.class);
-                refresh.putExtra("user name", user_name).putExtra("user id", user_id);
+                refresh.putExtra("user name", user_name).putExtra("user id", user_id).putExtra("my groups", true).putExtra("main page", mainPage);
                 startActivity(refresh); //Start the same Activity
                 finish(); //finish Activity.
                 Toast.makeText(myGroups.this, "Group created", Toast.LENGTH_SHORT).show();
@@ -338,7 +343,7 @@ public class myGroups extends AppCompatActivity {
             public void onResponse(String response) {
 
                 Intent refresh = new Intent(myGroups.this, myGroups.class);
-                refresh.putExtra("user name", user_name).putExtra("user id", user_id);
+                refresh.putExtra("user name", user_name).putExtra("user id", user_id).putExtra("my groups", true).putExtra("main page", mainPage);
                 startActivity(refresh); //Start the same Activity
                 finish(); //finish Activity.
                 Toast.makeText(myGroups.this, "Group created", Toast.LENGTH_SHORT).show();

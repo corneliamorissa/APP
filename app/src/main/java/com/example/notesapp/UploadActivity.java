@@ -1,5 +1,7 @@
 package com.example.notesapp;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -15,6 +17,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
@@ -61,7 +64,7 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
     private ProgressDialog progressDialog;
     private EditText title, desc;
     private CheckBox check_g, check_p;
-    private String etitle, edesc;
+    private String etitle , edesc;
     private int isGroup = 0 ;
     private Spinner stopic, sgroup;
     ArrayList<String> topicList = new ArrayList<>();
@@ -70,12 +73,13 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
     ArrayList<String> groupList = new ArrayList<>();
     ArrayAdapter<String> topicAdapter;
     ArrayAdapter<String> groupAdapter;
-    private String selectedTopic;
-    private String selectedGroup;
-    private int groupId = 0, topicId = 0;
+    private String selectedTopic ;
+    private String selectedGroup ;
+    private int groupId = 0 , topicId ;
     private TextView groupSel, topicSel;
     String user_name;
     int user_id;
+    boolean mainpage;
 
 
 
@@ -90,40 +94,82 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
         desc = (EditText) findViewById(R.id.desc_img);
         check_g = (CheckBox) findViewById(R.id.checkBoxg);
         check_p = (CheckBox) findViewById(R.id.checkBoxp);
-        check_p.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
-                if (isChecked) {
-                    groupSel.setVisibility(View.INVISIBLE);
-                    topicSel.setVisibility(View.INVISIBLE);
-                    sgroup.setVisibility(View.INVISIBLE);
-                    stopic.setVisibility(View.INVISIBLE);
-                }
-
-                else
-                {
-                    stopic.setVisibility(View.VISIBLE);
-                    sgroup.setVisibility(View.VISIBLE);
-                    groupSel.setVisibility(View.VISIBLE);
-                    topicSel.setVisibility(View.VISIBLE);
-                }
-            }
-        }
-        );
         stopic = (Spinner) findViewById(R.id.spinner_topic);
         sgroup = (Spinner) findViewById(R.id.spinner_group);
         groupSel = (TextView)findViewById(R.id.selected_group);
         topicSel = (TextView)findViewById(R.id.selected_topic);
         groupSel.setText("Select");
 
+        check_p.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+                if (isChecked) {
+                    isGroup = 0;
+                    selectedGroup = "0";
+                    selectedTopic ="null";
+                    groupId = 0;
+                    topicId = 0;
+                    groupSel.setVisibility(View.INVISIBLE);
+                    topicSel.setVisibility(View.INVISIBLE);
+                    sgroup.setVisibility(View.INVISIBLE);
+                    stopic.setVisibility(View.INVISIBLE);
+
+                }
+            }
+        }
+        );
+
+        check_g.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+                if (isChecked) {
+                    isGroup = 1;
+                    topicId = 0;
+                    groupId = 0;
+                    selectedTopic = "";
+                    selectedGroup="";
+                    grabGroupsforSpinner();
+                    stopic.setVisibility(View.VISIBLE);
+                    sgroup.setVisibility(View.VISIBLE);
+                    groupSel.setVisibility(View.VISIBLE);
+                    topicSel.setVisibility(View.VISIBLE);
+                }
+
+
+            }
+        }
+        );
+
+
+
+
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             user_name = extras.getString("user name");
             user_id = extras.getInt("user id");
+            mainpage = extras.getBoolean("main page");
             //The key argument here must match that used in the other activity
         }
 
+
+
+        // calling the action bar
+        ActionBar actionBar = getSupportActionBar();
+
+
+        // Customize the back button
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_west_24);
+        actionBar.setTitle("Upload");
+
+        // showing the back button in action bar
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+
+    }
+
+    public void grabGroupsforSpinner()
+    {
         String url = "https://studev.groept.be/api/a21pt103/grabGroupName/" + user_id;
         JsonArrayRequest queueRequest = new JsonArrayRequest(Request.Method.GET,
                 url, null,
@@ -161,10 +207,20 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
         });
         requestQueue.add(queueRequest);
         sgroup.setOnItemSelectedListener(this);
+    }
 
-
-
-
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent intent = new Intent(UploadActivity.this,MainPageActivity.class);
+                intent.putExtra("user id", user_id );
+                intent.putExtra("user name", user_name);
+                startActivity(intent);
+                this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 
@@ -216,9 +272,12 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
         if(check_p.isChecked()){
             isGroup = 0;
             selectedTopic = "";
+            groupId = 0;
         }
 
         System.out.println(isGroup);
+        etitle ="";
+        edesc="";
         etitle = title.getText().toString();
 
         edesc = desc.getText().toString();
@@ -246,6 +305,7 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
                 Intent intent = new Intent(UploadActivity.this, UserDocument.class);
                 intent.putExtra("user id", user_id );
                 intent.putExtra("user name",user_name);
+                intent.putExtra("main page", mainpage);
                 startActivity(intent);
                 finish();
             }
@@ -303,10 +363,10 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
 
         topicSel.setText("Select Your Topic");
 
-
         if(adapterView.getId() == R.id.spinner_group)
         {
             topicList.clear();
+            topicIdList.clear();
             selectedGroup = adapterView.getSelectedItem().toString();
             groupSel.setText(selectedGroup);
             System.out.println(selectedGroup);
@@ -327,12 +387,19 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
                         @Override
                         public void onResponse(JSONArray response) {
 
+                            if(response.length() ==0)
+                            {
+                                topicId = 0;
+                                selectedTopic = "";
+                            }
+                            else{
                             for(int i=0; i<response.length();i++){
                                 try {
                                     JSONObject o = null;
                                     o = response.getJSONObject(i);
                                     String topicName = o.get("topic_name").toString();
                                     Integer topicId = o.getInt("topic_id");
+
                                     topicList.add(topicName);
                                     topicIdList.add(topicId);
                                     topicAdapter = new ArrayAdapter<String>(UploadActivity.this,
@@ -353,8 +420,8 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
                                     e.printStackTrace();
                                 }
                             }
-                            //selectedTopic = adapterView.getSelectedItem().toString();
-                            //topicSel.setText(selectedTopic);
+                            }
+
 
 
                         }

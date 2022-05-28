@@ -115,6 +115,7 @@ public class MainPageActivity extends AppCompatActivity {
                 intent.putExtra("user id", user_id );
                 intent.putExtra("user name", user_name);
                 intent.putExtra("email", email);
+                intent.putExtra("main page", true);
                 startActivity(intent);
                 finish();
 
@@ -129,6 +130,7 @@ public class MainPageActivity extends AppCompatActivity {
                 intent.putExtra("user id", user_id);
                 intent.putExtra("user name", user_name);
                 intent.putExtra("email", email);
+                intent.putExtra("main page", true);
                 startActivity(intent);
                 finish();
 

@@ -1,5 +1,7 @@
 package com.example.notesapp;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -8,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -31,7 +34,7 @@ import java.util.Locale;
 
 public class MemberList extends AppCompatActivity {
     ImageView imageView;
-    String email, getUsername;
+    String email, getUsername, username, groupname;
     Integer getId;
     private RequestQueue requestQueue;
     private static final String MEMBERS_URL = "https://studev.groept.be/api/a21pt103/check_if_member/";
@@ -41,6 +44,8 @@ public class MemberList extends AppCompatActivity {
     LinearLayout layout;
     private int user_id;
     private Bitmap bitmap2;
+    boolean mainpage, frommygroup ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +55,10 @@ public class MemberList extends AppCompatActivity {
 
             group_id = extras.getInt("group id");
             user_id = extras.getInt("user id");
-
+            frommygroup = extras.getBoolean("my groups");
+            mainpage = extras.getBoolean("main page");
+            username = extras.getString("user name");
+            groupname = extras.getString("group name");
         }
         members = new ArrayList<>();
         requestQueue = Volley.newRequestQueue(this);
@@ -58,8 +66,35 @@ public class MemberList extends AppCompatActivity {
 
         populateMembers();
 
+        ActionBar actionBar = getSupportActionBar();
+        // Customize the back button
+        assert actionBar != null;
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_west_24);
+        actionBar.setTitle("Members");
+        // showing the back button in action bar
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
     }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent intent = new Intent(MemberList.this,Group_main_page.class);
+                intent.putExtra("user id", user_id );
+                intent.putExtra("user name", username);
+                intent.putExtra("group id", group_id);
+                intent.putExtra("group name", groupname);
+                intent.putExtra("my groups", frommygroup);
+                intent.putExtra("main page", mainpage);
+                startActivity(intent);
+                this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
     public void populateMembers()
     {
         String url = MEMBERS_URL + group_id;
@@ -99,7 +134,7 @@ public class MemberList extends AppCompatActivity {
                                 Button member_btn = view.findViewById(R.id.button_user_name);
 
                                 member_btn.setText(m.getUser_name());
-                                //imageView.setImageBitmap(bitmap2);
+                                imageView.setImageBitmap(bitmap2);
 
                                 member_btn.setOnClickListener(new View.OnClickListener() {
                                     @Override

@@ -48,7 +48,7 @@ public class SettingsActivity extends AppCompatActivity {
     private static final String UPDATE_ADMIN ="https://studev.groept.be/api/a21pt103/make_another_admin/";
     private static final String GROUP_URL = "https://studev.groept.be/api/a21pt103/grab_Groups";
     String user_name,email;
-    Integer user_id;
+    Integer user_id, group_id;
     private RequestQueue requestQueue;
     AlertDialog dialog, dialog2;
     LinearLayout layout;
@@ -59,6 +59,7 @@ public class SettingsActivity extends AppCompatActivity {
     ArrayAdapter<String> adminAdapter;
     String selectedAdmin;
     private ArrayList<Group> groups;
+    Integer admin, groupid;
 
 
 
@@ -337,14 +338,14 @@ public class SettingsActivity extends AppCompatActivity {
         /***to implement update admin***/
         String change = UPDATE_ADMIN + admin + "/" + groupid;
         System.out.println(change);
-        requestQueue = Volley.newRequestQueue(Group_main_page.this);
+        requestQueue = Volley.newRequestQueue(SettingsActivity.this);
         StringRequest queueRequest2;
         queueRequest2 = new StringRequest(Request.Method.GET, change,new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
                 Toast.makeText(SettingsActivity.this,"Change admin request is executed", Toast.LENGTH_LONG).show();
-                leave();
+                //leave();
             }
 
         },

@@ -45,6 +45,7 @@ public class NaviagtionPage extends AppCompatActivity {
                 Intent intent = new Intent(NaviagtionPage.this, GroupList.class);
                 intent.putExtra("user id", id);
                 intent.putExtra("user name", name);
+                intent.putExtra("main page", false);
                 intent.putExtra("email", email);
                 startActivity(intent);
             }
@@ -68,6 +69,7 @@ public class NaviagtionPage extends AppCompatActivity {
                 Intent intent = new Intent(NaviagtionPage.this, SettingsActivity.class);
                 intent.putExtra("user id", id);
                 intent.putExtra("user name", name);
+                intent.putExtra("main page", false);
                 intent.putExtra("email", email);
                 startActivity(intent);
             }
@@ -80,6 +82,7 @@ public class NaviagtionPage extends AppCompatActivity {
                 intent.putExtra("user id", id);
                 intent.putExtra("user name", name);
                 intent.putExtra("email", email);
+                intent.putExtra("main page", false);
                 startActivity(intent);
             }
         });
