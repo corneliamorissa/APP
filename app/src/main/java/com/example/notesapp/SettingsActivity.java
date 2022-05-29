@@ -47,6 +47,8 @@ public class SettingsActivity extends AppCompatActivity {
     private static final String ADMIN_CHECK ="https://studev.groept.be/api/a21pt103/get_admin_id/";
     private static final String UPDATE_ADMIN ="https://studev.groept.be/api/a21pt103/make_another_admin/";
     private static final String GROUP_URL = "https://studev.groept.be/api/a21pt103/grab_Groups";
+    private static final String IS_A_MEMBER = "https://studev.groept.be/api/a21pt103/isMember/";
+    ArrayList<Integer> mems;
     String user_name,email;
     Integer user_id, group_id;
     private RequestQueue requestQueue;
@@ -79,6 +81,7 @@ public class SettingsActivity extends AppCompatActivity {
             isMainPage = extras.getBoolean("main page");
             //The key argument here must match that used in the other activity
         }
+        mems = new ArrayList<>();
         groups = new ArrayList<Group>();
         ActionBar actionBar = getSupportActionBar();
         // Customize the back button
@@ -194,36 +197,11 @@ public class SettingsActivity extends AppCompatActivity {
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String delete = DELETE_ACC + user_id +"/"+ user_name;
-                        System.out.println(delete);
-                        JsonArrayRequest queueRequest;
-                        queueRequest = new JsonArrayRequest(Request.Method.GET, delete, null, new Response.Listener<JSONArray>() {
-                            @Override
-                            public void onResponse(JSONArray response) {
 
 
 
 
-
-
-
-                                Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
-                                startActivity(intent);
-                                finish();
-                                Toast.makeText(SettingsActivity.this,"Account Deleted", Toast.LENGTH_LONG).show();
-
-
-                            }
-
-                        }
-                                ,
-                                error -> Toast.makeText(SettingsActivity.this, "Unable to communicate with server", Toast.LENGTH_LONG).show()
-
-                        );
-                        requestQueue.add(queueRequest);
-                    }
-
-                })
+                }})
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -234,6 +212,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         dialog2 = builder.create();
     }
+
 
 
     private void buildDialog1( int groupid , String groupName) {
@@ -355,6 +334,97 @@ public class SettingsActivity extends AppCompatActivity {
         requestQueue.add(queueRequest2);
 
     }
+
+    public void grabGroups() {
+        String url = GROUP_URL;
+        System.out.println(url);
+
+        System.out.println("test");
+        JsonArrayRequest queueRequest;
+
+        queueRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                String info = "";
+                for (int i = 0; i < response.length(); ++i) {
+                    System.out.println("test1");
+                    JSONObject o = null;
+                    try {
+                        o = response.getJSONObject(i);
+                        Group g = new Group(o.getInt("group_id"), o.getString("group_name"), o.getInt("admin_id"), o.getString("add_date"));
+                        groups.add(g);
+                        System.out.println("test2");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                for(Group m: groups)
+                {
+                    check(m);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(SettingsActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
+            }
+        });
+        requestQueue.add(queueRequest);
+        requestQueue = Volley.newRequestQueue(this);
+    }
+
+    public void check(Group g)
+    {
+
+        if(g.getA_id() == user_id)
+        {
+            buildDialog1(g.getId(),g.getName());
+        }
+        else
+        {
+            getMemberId(g.getId());
+        }
+    }
+
+    public void getMemberId(int g_id)
+    {
+        String url1 = IS_A_MEMBER + g_id;
+        System.out.println(url1);
+        requestQueue = Volley.newRequestQueue(SettingsActivity.this);
+        JsonArrayRequest queueRequest1;
+        queueRequest1 = new JsonArrayRequest(Request.Method.GET, url1, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                String info = "";
+
+                for (int i = 0; i < response.length(); ++i) {
+
+                    JSONObject o = null;
+                    try {
+                        o = response.getJSONObject(i);
+                        int member = o.getInt("user_id");
+                        mems.add(member);
+                    }
+                    catch (JSONException e)
+                    {
+                        e.printStackTrace();
+                    }
+
+                }
+
+                for(Integer i: mems) {
+                    if (i.intValue() == user_id) {
+                        leave(g_id);
+                    }
+                }
+
+
+            }},
+                error -> Toast.makeText(SettingsActivity.this, "Unable to communicate with server", Toast.LENGTH_LONG).show());
+        requestQueue.add(queueRequest1);
+    }
+
     public void leave(int groupid)
     {
         String leave = LEAVE + user_id + "/" + groupid;
@@ -418,6 +488,40 @@ public class SettingsActivity extends AppCompatActivity {
 
         requestQueue.add(queueRequest);
     }
+public void delete()
+{
+
+
+    String delete = DELETE_ACC + user_id +"/"+ user_name;
+    System.out.println(delete);
+    JsonArrayRequest queueRequest;
+    queueRequest = new JsonArrayRequest(Request.Method.GET, delete, null, new Response.Listener<JSONArray>() {
+        @Override
+        public void onResponse(JSONArray response) {
+
+
+
+
+
+
+
+            Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+            Toast.makeText(SettingsActivity.this,"Account Deleted", Toast.LENGTH_LONG).show();
+
+
+        }
+
+    }
+            ,
+            error -> Toast.makeText(SettingsActivity.this, "Unable to communicate with server", Toast.LENGTH_LONG).show()
+
+    );
+    requestQueue.add(queueRequest);
+}
+
+
 
 
 }
