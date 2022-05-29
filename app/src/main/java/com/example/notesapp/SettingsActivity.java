@@ -364,6 +364,7 @@ public class SettingsActivity extends AppCompatActivity {
                 {
                     check(m);
                 }
+                delete();
             }
         }, new Response.ErrorListener() {
             @Override
