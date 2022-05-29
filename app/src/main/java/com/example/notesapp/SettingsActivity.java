@@ -197,6 +197,7 @@ public class SettingsActivity extends AppCompatActivity {
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        grabGroups();
 
 
 
