@@ -1,4 +1,4 @@
-package com.example.notesapp;
+package com.example.notesapp.appObjects;
 
 import android.graphics.Bitmap;
 

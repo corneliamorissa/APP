@@ -106,7 +106,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     e.printStackTrace();
                                 }
                             }
-                            startActivity(new Intent(RegisterActivity.this, MainPageActivity.class));
+                            startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                             getIntent().putExtra("User Info", user);
                             Toast.makeText(RegisterActivity.this, "Successfully Registered", Toast.LENGTH_LONG).show();
 
