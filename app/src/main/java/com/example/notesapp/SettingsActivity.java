@@ -269,7 +269,7 @@ public class SettingsActivity extends AppCompatActivity {
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                changeAdmin(String.valueOf(spinner.getSelectedItem()));
+                changeAdmin(String.valueOf(spinner.getSelectedItem()),groupid);
 
             }
         })
@@ -305,7 +305,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         }
     }
-    public void changeAdmin(String newAdmin)
+    public void changeAdmin(String newAdmin,int g)
     {
         for(int j = 0; j<adminUsernameList.size();j++)
         {
@@ -316,7 +316,7 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         /***to implement update admin***/
-        String change = UPDATE_ADMIN + admin + "/" + groupid;
+        String change = UPDATE_ADMIN + admin + "/" + g;
         System.out.println(change);
         requestQueue = Volley.newRequestQueue(SettingsActivity.this);
         StringRequest queueRequest2;
@@ -333,6 +333,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         );
         requestQueue.add(queueRequest2);
+
 
     }
 
@@ -418,6 +419,7 @@ public class SettingsActivity extends AppCompatActivity {
                 for(Integer i: mems) {
                     if (i.intValue() == user_id) {
                         leave(g_id);
+
                     }
                 }
 
@@ -437,6 +439,8 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 Toast.makeText(SettingsActivity.this,"Leave request is executed", Toast.LENGTH_LONG).show();
+
+                groups.remove(groupid);
             }},
                 error -> Toast.makeText(SettingsActivity.this, "Unable to communicate with server", Toast.LENGTH_LONG).show()
 
