@@ -363,8 +363,35 @@ public class SettingsActivity extends AppCompatActivity {
 
                 for(Group m: groups)
                 {
-                    check(m);
+                    boolean memebr = false;
+                    getMemberId(m.getId());
+                    for(Integer i: mems) {
+                        if (i.intValue() == user_id) {
+                            memebr = true;
+                            break;
+
+                        }
+                    }
+                    if(m.getA_id() == user_id)
+                    {
+                        buildDialog1(m.getId(),m.getName());
+                        groups.remove(m);
+                    }
+                    else
+                    {
+                        if(memebr == true)
+                        {
+                            leave(m.getId());
+                            groups.remove(m);
+                        }
+                        else
+                        {
+                            groups.remove(m);
+                        }
+
+                    }
                 }
+
                 delete();
             }
         }, new Response.ErrorListener() {
@@ -415,7 +442,7 @@ public class SettingsActivity extends AppCompatActivity {
                     }
 
                 }
-
+/*
                 for(Integer i: mems) {
                     if (i.intValue() == user_id) {
                         leave(g_id);
@@ -423,7 +450,7 @@ public class SettingsActivity extends AppCompatActivity {
                     }
                 }
 
-
+*/
             }},
                 error -> Toast.makeText(SettingsActivity.this, "Unable to communicate with server", Toast.LENGTH_LONG).show());
         requestQueue.add(queueRequest1);
