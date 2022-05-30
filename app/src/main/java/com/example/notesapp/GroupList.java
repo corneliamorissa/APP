@@ -79,6 +79,7 @@ public class GroupList extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         // Customize the back button
+        assert actionBar != null;
         actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_west_24);
         actionBar.setTitle("All Groups");
         // showing the back button in action bar

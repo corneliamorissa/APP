@@ -21,14 +21,13 @@ import android.view.MenuItem;
 import android.view.View;
 
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.notesapp.userInfo.UserInfo;
+import com.example.notesapp.appObjects.ImageModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
