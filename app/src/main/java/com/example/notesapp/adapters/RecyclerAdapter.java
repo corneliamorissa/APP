@@ -81,7 +81,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         holder.imageView.setImageBitmap(imageModel.getPict());
         holder.title.setText(imageModel.getTitle());
         holder.desc.setText(imageModel.getDesc());
-        holder.topic.setText("Topic: " + imageModel.getTopic());
+        holder.topic.setText(imageModel.getTopic());
 
 
 
