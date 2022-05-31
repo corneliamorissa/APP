@@ -1,4 +1,4 @@
-package com.example.notesapp;
+package com.example.notesapp.topic_pages;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -22,6 +22,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.notesapp.group_pages.Group_main_page;
+import com.example.notesapp.R;
 import com.example.notesapp.appObjects.Topic;
 
 import org.json.JSONArray;
@@ -29,13 +31,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class Topic_Main_Page extends AppCompatActivity {
     private RequestQueue requestQueue;
     private static final String TOPIC_URL = "https://studev.groept.be/api/a21pt103/grap_topics/";
     private static final String NEW_TOPIC_URL = "https://studev.groept.be/api/a21pt103/add_topic/";
-    private static final String DELETE = "https://studev.groept.be/api/a21pt103/deleteTopic/";
     private ArrayList<Topic> topics;
     Integer groupid, userid;
     String groupName,userName;
@@ -70,7 +70,7 @@ public class Topic_Main_Page extends AppCompatActivity {
 
         grabTopics();
 
-        buildDialog();
+        createTopicDialog();
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,7 +97,7 @@ public class Topic_Main_Page extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent intent = new Intent(Topic_Main_Page.this,Group_main_page.class);
+                Intent intent = new Intent(Topic_Main_Page.this, Group_main_page.class);
                 intent.putExtra("user id", userid );
                 intent.putExtra("user name", userName);
                 intent.putExtra("group id", groupid);
@@ -112,7 +112,7 @@ public class Topic_Main_Page extends AppCompatActivity {
     }
 
 
-    private void buildDialog() {
+    private void createTopicDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.add_topic, null);
 
@@ -127,7 +127,7 @@ public class Topic_Main_Page extends AppCompatActivity {
 
                         for(Topic t : topics)
                         {
-                            if(t.getName().equals(name.getText().toString()))
+                            if(t.getName().equals(name.getText().toString())) //to check if topic sith same name already exisits in group
                             {
                                 duplicates = true;
                                 break;
@@ -186,7 +186,7 @@ public class Topic_Main_Page extends AppCompatActivity {
     }
 
 
-    //TODO method to grab all topic for a group
+    // method to grab all topic for a group
     private void grabTopics()
     {
             String url = TOPIC_URL + groupid;
@@ -283,6 +283,6 @@ public class Topic_Main_Page extends AppCompatActivity {
         }
 
     }
-//TODO add topic page  layout
+
 
 

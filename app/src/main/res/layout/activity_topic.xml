@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     android:backgroundTint="#FFFFFF"
-    tools:context=".Topic_Activity">
+    tools:context=".topic_pages.Topic_Activity">
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

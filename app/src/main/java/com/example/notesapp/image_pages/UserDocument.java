@@ -1,4 +1,4 @@
-package com.example.notesapp;
+package com.example.notesapp.image_pages;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -27,6 +27,11 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.notesapp.MainPageActivity;
+import com.example.notesapp.NaviagtionPage;
+import com.example.notesapp.R;
+import com.example.notesapp.adapters.RecyclerAdapter;
+import com.example.notesapp.RecyclerViewInterface;
 import com.example.notesapp.appObjects.ImageModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -37,7 +42,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class UserDocument extends AppCompatActivity implements RecyclerViewInterface{
+public class UserDocument extends AppCompatActivity implements RecyclerViewInterface {
 
 
     private RequestQueue requestQueue;

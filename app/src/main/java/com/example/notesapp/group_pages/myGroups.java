@@ -1,4 +1,4 @@
-package com.example.notesapp;
+package com.example.notesapp.group_pages;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -22,12 +22,12 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.notesapp.MainPageActivity;
+import com.example.notesapp.NaviagtionPage;
+import com.example.notesapp.R;
 import com.example.notesapp.appObjects.Group;
-import com.example.notesapp.appObjects.Topic;
-import com.example.notesapp.userInfo.UserInfo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,8 +41,6 @@ public class myGroups extends AppCompatActivity {
     private static final String MYGROUP_URL = "https://studev.groept.be/api/a21pt103/my_groups/";
     private static final String GROUP_URL = "https://studev.groept.be/api/a21pt103/grab_Groups/";
     private static final String ADDGROUP_URL = "https://studev.groept.be/api/a21pt103/add_Group/";
-    private static final String JOINGROUP_URL = "https://studev.groept.be/api/a21pt103/join_group/";
-    private static final String IDGROUP_URL = "https://studev.groept.be/api/a21pt103/get_Group_id/";
     private RequestQueue requestQueue;
     LinearLayout layout;
     private String user_name;
@@ -71,7 +69,7 @@ public class myGroups extends AppCompatActivity {
 
         grabAllGroups();// grabing all group to be used for add groups fucntionallity
 
-        buildDialog(); // this is for add groups
+        createGroupDialog(); // this is for add groups
 
         ActionBar actionBar = getSupportActionBar(); // for the back button
         // Customize the back button
@@ -231,7 +229,7 @@ public class myGroups extends AppCompatActivity {
         requestQueue.add(queueRequest);
     }
 //add group dialog
-    private void buildDialog() {
+    private void createGroupDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.add_topic, null);
 

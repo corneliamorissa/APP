@@ -23,14 +23,13 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.notesapp.appObjects.Member;
-import com.example.notesapp.appObjects.Topic;
+import com.example.notesapp.group_pages.Group_main_page;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class MemberList extends AppCompatActivity {
     ImageView imageView;
@@ -80,7 +79,7 @@ public class MemberList extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent intent = new Intent(MemberList.this,Group_main_page.class);
+                Intent intent = new Intent(MemberList.this, Group_main_page.class);
                 intent.putExtra("user id", user_id );
                 intent.putExtra("user name", username);
                 intent.putExtra("group id", group_id);

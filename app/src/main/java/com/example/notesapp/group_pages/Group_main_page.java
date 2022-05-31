@@ -1,4 +1,4 @@
-package com.example.notesapp;
+package com.example.notesapp.group_pages;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -35,6 +35,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.notesapp.MemberList;
+import com.example.notesapp.R;
+import com.example.notesapp.topic_pages.Topic_Main_Page;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
@@ -124,9 +127,6 @@ public class Group_main_page extends AppCompatActivity  {
 
 
     }
-
-
-
     /**
      * Helper method to create a rescaled bitmap. You enter a desired width, and the height is scaled uniformly
      */
@@ -235,7 +235,7 @@ public class Group_main_page extends AppCompatActivity  {
         if(myGroups)
         {
             if (item.getItemId() == android.R.id.home) {
-                Intent intent = new Intent(Group_main_page.this, myGroups.class);
+                Intent intent = new Intent(Group_main_page.this, com.example.notesapp.group_pages.myGroups.class);
                 intent.putExtra("user id", userid);
                 intent.putExtra("user name", userName);
                 intent.putExtra("group id", groupid);

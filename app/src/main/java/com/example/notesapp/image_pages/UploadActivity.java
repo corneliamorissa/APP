@@ -1,17 +1,16 @@
-package com.example.notesapp;
+package com.example.notesapp.image_pages;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.notesapp.userInfo.UserLog;
+import com.example.notesapp.MainPageActivity;
+import com.example.notesapp.R;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,14 +18,12 @@ import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,15 +36,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.notesapp.userInfo.UserInfo;
-import com.example.notesapp.userInfo.UserLog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -213,7 +207,7 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent intent = new Intent(UploadActivity.this,MainPageActivity.class);
+                Intent intent = new Intent(UploadActivity.this, MainPageActivity.class);
                 intent.putExtra("user id", user_id );
                 intent.putExtra("user name", user_name);
                 startActivity(intent);

@@ -9,13 +9,15 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
+
+import com.example.notesapp.group_pages.GroupList;
+import com.example.notesapp.group_pages.myGroups;
+import com.example.notesapp.image_pages.UserDocument;
 
 public class NaviagtionPage extends AppCompatActivity {
 
     int id;
     String name, email;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

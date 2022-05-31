@@ -1,4 +1,4 @@
-package com.example.notesapp;
+package com.example.notesapp.group_pages;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -23,6 +23,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.notesapp.MainPageActivity;
+import com.example.notesapp.NaviagtionPage;
+import com.example.notesapp.R;
 import com.example.notesapp.appObjects.Group;
 
 import org.json.JSONArray;

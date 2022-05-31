@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     android:orientation="vertical"
-    tools:context=".Group_main_page">
+    tools:context=".group_pages.Group_main_page">
 
     <ImageView
         android:id="@+id/imageView3"
