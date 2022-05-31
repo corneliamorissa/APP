@@ -118,7 +118,7 @@ public class Group_main_page extends AppCompatActivity  {
 
         ActionBar actionBar = getSupportActionBar(); // Customize the back button
         actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_west_24);
-        actionBar.setTitle("Group Page");
+        actionBar.setTitle(groupName);
         // showing the back button in action bar
         actionBar.setDisplayHomeAsUpEnabled(true);
 
@@ -456,7 +456,6 @@ public class Group_main_page extends AppCompatActivity  {
         if(i == 0)
         {
             delete2.setVisibility(View.VISIBLE);
-            System.out.println("deleteeeeee");
             delete2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -467,7 +466,6 @@ public class Group_main_page extends AppCompatActivity  {
             leave2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    System.out.println("adminleave");
                     changeAdminDialog();
                 }
             });

@@ -93,7 +93,7 @@ public class UserDocument extends AppCompatActivity implements RecyclerViewInter
     public void grabImages()
     {
         imgList.clear();
-        @SuppressLint("NotifyDataSetChanged") JsonArrayRequest retrieveImageRequest = new JsonArrayRequest(Request.Method.GET, GET_IMAGE_URL + user_name, null,
+        @SuppressLint("NotifyDataSetChanged") JsonArrayRequest retrieveImageRequest = new JsonArrayRequest(Request.Method.GET, GET_IMAGE_URL + user_id, null,
                 response -> {
                     //Check if the DB actually contains an image
                     if (response.length() == 0) {

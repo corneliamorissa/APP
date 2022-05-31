@@ -108,9 +108,7 @@ public class GroupList extends AppCompatActivity {
     public void addButtons()
     {
         String url = GROUP_URL;
-        System.out.println(url);
         requestQueue = Volley.newRequestQueue(this);
-        System.out.println("test");
         JsonArrayRequest queueRequest;
 
         queueRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
@@ -120,14 +118,11 @@ public class GroupList extends AppCompatActivity {
                 layout = findViewById(R.id.container);
                 for (int i = 0; i < response.length(); ++i) {
 
-                    System.out.println("test1");
                     JSONObject o = null;
 
                     try {
                         o = response.getJSONObject(i);
                         final Group g = new Group(o.getInt("group_id"), o.getString("group_name"), o.getInt("admin_id"), o.getString("add_date"));
-                        System.out.println(g.getName());
-                        System.out.println(g.getId());
                         groups.add(g);
 
                         getMemberId(g);
@@ -137,7 +132,6 @@ public class GroupList extends AppCompatActivity {
                         Button join = view.findViewById(R.id.join_group);
 
                         b.setText(g.getName());
-                        System.out.println(g.getName());
 
                         b.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -161,9 +155,7 @@ public class GroupList extends AppCompatActivity {
                             join.setText("requested");
                             join.setTextColor(Color.parseColor("#FFFF9800"));
                             join.setBackgroundColor(Color.parseColor("#FF393939"));
-                            //join.setClickable(false);
-                            //join.setBackgroundColor(Color.GRAY);
-                            System.out.println("buttontest1");
+
                         }
                         else if(g.getA_id() == user_id)
                         {
@@ -188,9 +180,7 @@ public class GroupList extends AppCompatActivity {
 
 
                 }
-                for (Group m : groups) {
-                    System.out.println(m.getName());
-                }
+
 
             }
         }, new Response.ErrorListener() {
@@ -297,7 +287,7 @@ public class GroupList extends AppCompatActivity {
 
         requestQueue = Volley.newRequestQueue(this);
 
-        System.out.println(url);
+        System.out.println("adding group = "+ url);
 
         StringRequest queueRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
@@ -337,14 +327,13 @@ public class GroupList extends AppCompatActivity {
         layout = findViewById(R.id.container);
         for (int i = 0; i < response.length(); ++i) {
 
-            System.out.println("test1");
+
             JSONObject o = null;
 
             try {
                 o = response.getJSONObject(i);
                 int r_id = o.getInt("group_id");
                 alreadyRequested.add(r_id);
-                System.out.println(r_id);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -363,7 +352,7 @@ public void onErrorResponse(VolleyError error) {
 
         requestQueue.add(queueRequest);
     }
-    // checks if user is memebr of a group: to determin precense of join button
+    // checks if user is member of a group: to determine presence of join button
     public void getMemberId(Group g)
     {
 
@@ -390,7 +379,6 @@ public void onErrorResponse(VolleyError error) {
                         Button join = view.findViewById(R.id.join_group);
 
                         b.setText(g.getName());
-                        System.out.println(g.getName());
                         for(Integer id: mems) {
                             if (id.intValue() == user_id) {
                                 isMember = true;
@@ -419,9 +407,7 @@ public void onErrorResponse(VolleyError error) {
                             join.setText("requested");
                             join.setTextColor(Color.parseColor("#FFFF9800"));
                             join.setBackgroundColor(Color.parseColor("#FF393939"));
-                            //join.setClickable(false);
-                            //join.setBackgroundColor(Color.GRAY);
-                            System.out.println("buttontest1");
+
                         }
                         else if((g.getA_id() == user_id) || isMember)
                         {
@@ -455,10 +441,7 @@ public void onErrorResponse(VolleyError error) {
     {
         requestQueue = Volley.newRequestQueue(this);
         String url2 = JOIN_URL+ g_id + "/" + user_id ;
-        System.out.println(url2);
-
-
-        System.out.println("test");
+        System.out.println("adding admin as member ="+url2);
 
         StringRequest queueRequest2;
 
@@ -481,7 +464,7 @@ public void onErrorResponse(VolleyError error) {
     {
 
         String url1 = GROUPID_URL + name;
-        System.out.println(url1);
+        System.out.println("get group id ="+url1);
         requestQueue = Volley.newRequestQueue(GroupList.this);
         JsonArrayRequest queueRequest1;
         queueRequest1 = new JsonArrayRequest(Request.Method.GET, url1, null, new Response.Listener<JSONArray>() {
