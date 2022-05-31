@@ -302,6 +302,7 @@ public class GroupList extends AppCompatActivity {
         StringRequest queueRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                getGroupId(name);
                 Intent refresh = new Intent(GroupList.this, GroupList.class);
                 refresh.putExtra("user name", user_name).putExtra("user id", user_id).putExtra("main page", false);
                 startActivity(refresh); //Start the same Activity
