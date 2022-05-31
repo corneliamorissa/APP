@@ -244,6 +244,7 @@ public class GroupList extends AppCompatActivity {
         View view = getLayoutInflater().inflate(R.layout.add_topic, null);
 
         final EditText name = view.findViewById(R.id.nameEdit);
+        String group_name = name.getText().toString();
 
         builder.setView(view);
         builder.setTitle("Create Group")
@@ -251,6 +252,7 @@ public class GroupList extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         boolean duplicates  = false;
+
 
                         for(Group g : groups)
                         {
@@ -379,6 +381,7 @@ public void onErrorResponse(VolleyError error) {
                         Button join = view.findViewById(R.id.join_group);
 
                         b.setText(g.getName());
+                        System.out.println("button:::::"+ b.getText().toString());
                         for(Integer id: mems) {
                             if (id.intValue() == user_id) {
                                 isMember = true;
@@ -445,7 +448,7 @@ public void onErrorResponse(VolleyError error) {
 
         StringRequest queueRequest2;
 
-        queueRequest2 = new StringRequest(Request.Method.GET,url2,new Response.Listener<String>(){
+        queueRequest2 = new StringRequest(Request.Method.POST,url2,new Response.Listener<String>(){
             @Override
             public void onResponse(String response) {
                 Toast.makeText(GroupList.this, "group ok", Toast.LENGTH_LONG).show();
@@ -478,7 +481,7 @@ public void onErrorResponse(VolleyError error) {
                     try {
                         boolean isMember = false;
                         o = response.getJSONObject(i);
-                        addToMember(o.getInt("group id"));
+                        addToMember(o.getInt("group_id"));
 
 
 
