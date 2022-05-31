@@ -221,7 +221,6 @@ public class Topic_Activity extends AppCompatActivity implements RecyclerViewInt
 
         dialog = builder.create();
     }
-
     public void onDeleteTopic_Click(View view)
     {
         String delete = DELETE + topic_id;

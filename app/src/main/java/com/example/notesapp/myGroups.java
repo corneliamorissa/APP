@@ -43,9 +43,6 @@ public class myGroups extends AppCompatActivity {
     private static final String ADDGROUP_URL = "https://studev.groept.be/api/a21pt103/add_Group/";
     private static final String JOINGROUP_URL = "https://studev.groept.be/api/a21pt103/join_group/";
     private static final String IDGROUP_URL = "https://studev.groept.be/api/a21pt103/get_Group_id/";
-    private UserInfo user;
-    private int group_id;
-
     private RequestQueue requestQueue;
     LinearLayout layout;
     private String user_name;
@@ -70,14 +67,13 @@ public class myGroups extends AppCompatActivity {
 
         myGroups = new ArrayList<Group>();
         allGroups = new ArrayList<Group>();
-        grabMyGroups();
+        grabMyGroups(); //grabing all group for which user is memeber
 
-        grabAllGroups();
+        grabAllGroups();// grabing all group to be used for add groups fucntionallity
 
+        buildDialog(); // this is for add groups
 
-        buildDialog();
-
-        ActionBar actionBar = getSupportActionBar();
+        ActionBar actionBar = getSupportActionBar(); // for the back button
         // Customize the back button
         actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_west_24);
         actionBar.setTitle("My Groups");
@@ -87,7 +83,7 @@ public class myGroups extends AppCompatActivity {
 
     }
 
-    @Override
+    @Override // back button
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(mainPage) {
             switch (item.getItemId()) {
@@ -117,24 +113,11 @@ public class myGroups extends AppCompatActivity {
 
     }
 
-
-    public void onBtnMain_Clicked(View caller) {
-        Intent intent = new Intent(myGroups.this, MainPageActivity.class);
-        intent.putExtra("user id",user_id);
-        intent.putExtra("user name", user_name);
-        startActivity(intent);
-        finish();
-    }
-
+// add button
     public void onBtnCreateGroup_Clicked(View caller) {
         dialog.show();
-       /* Intent intent = new Intent(myGroups.this, CreateGroupActivity.class);
-        System.out.println(user_id);
-        intent.putExtra("admin_id",user_id);
-        startActivity(intent);
-        finish(); */
     }
-
+// making array list of all groups
     public void grabAllGroups() {
         String url = GROUP_URL;
         System.out.println(url);
@@ -178,10 +161,9 @@ public class myGroups extends AppCompatActivity {
         requestQueue.add(queueRequest);
 
     }
-
+// grabing groups to be displayed
     public void grabMyGroups()
     {
-
         String url = MYGROUP_URL + user_id + "/" + user_id;
         System.out.println(url);
 
@@ -248,7 +230,7 @@ public class myGroups extends AppCompatActivity {
 
         requestQueue.add(queueRequest);
     }
-
+//add group dialog
     private void buildDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.add_topic, null);
@@ -291,10 +273,9 @@ public class myGroups extends AppCompatActivity {
 
         dialog = builder.create();
     }
-
+// add group query
     public void addGroup(String name)
     {
-        int group_id;
         String url = ADDGROUP_URL + name + "/" + user_id;
 
         requestQueue = Volley.newRequestQueue(this);
@@ -314,52 +295,12 @@ public class myGroups extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
-                        /*startActivity(new Intent(myGroups.this, myGroups.class)
-
-                        finish(); */
-
                         Toast.makeText(myGroups.this, "Unable to add group", Toast.LENGTH_LONG).show();
-
                     }
-
 
                 });
 
         requestQueue.add(queueRequest);
 
-
     }
-
-    public void joinGroup(int group_id)
-    {
-        String url3 = JOINGROUP_URL + group_id + "/" + user_id;
-        requestQueue = Volley.newRequestQueue(this);
-
-        System.out.println(url3);
-
-        StringRequest queueRequestJOIN = new StringRequest(Request.Method.GET,url3,new Response.Listener<String>(){
-            @Override
-            public void onResponse(String response) {
-
-                Intent refresh = new Intent(myGroups.this, myGroups.class);
-                refresh.putExtra("user name", user_name).putExtra("user id", user_id).putExtra("my groups", true).putExtra("main page", mainPage);
-                startActivity(refresh); //Start the same Activity
-                finish(); //finish Activity.
-                Toast.makeText(myGroups.this, "Group created", Toast.LENGTH_SHORT).show();
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(myGroups.this, "Unable to add topic", Toast.LENGTH_LONG).show();
-
-                    }
-
-
-                });
-        requestQueue.add(queueRequestJOIN);
-
-    }
-
 }

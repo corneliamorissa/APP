@@ -37,15 +37,13 @@ import java.util.Locale;
 public class MainPageActivity extends AppCompatActivity {
     private String user_name, email;
     private int user_id;
-    //RecyclerView notifview;
     private ArrayList<Notify> joins;
-    private static final String USER_URL = "https://studev.groept.be/api/a21pt103/user_from_id/";
     private static final String JOINS_URL = "https://studev.groept.be/api/a21pt103/grab_join_request/";
     private static final String JOIN_URL = "https://studev.groept.be/api/a21pt103/join_group/";
     private static final String DELETE_URL ="https://studev.groept.be/api/a21pt103/delete_request/";
     private RequestQueue requestQueue;
     LinearLayout layout;
-    ScrollView notifview;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +61,6 @@ public class MainPageActivity extends AppCompatActivity {
 
         joins = new ArrayList<>();
 
-        //LinearLayoutManager layoutManager = new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
-       // notifview.setLayoutManager(layoutManager);
-
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             user_name = extras.getString("user name");
@@ -73,7 +68,7 @@ public class MainPageActivity extends AppCompatActivity {
             email = extras.getString("email");
             //The key argument here must match that used in the other activity
         }
-        populateNotifList();
+        populateNotifList(); // grabs all join requests fro the groups fro which the user is admin
 
 
         //goes to my groups
@@ -158,7 +153,7 @@ public class MainPageActivity extends AppCompatActivity {
 
     }
 
-    //notification
+    //notifications
     private void populateNotifList()
     {
         requestQueue = Volley.newRequestQueue(this);
@@ -246,32 +241,7 @@ public class MainPageActivity extends AppCompatActivity {
         requestQueue.add(queueRequest);
 
     }
-    public void getUserName(Notify n)
-    {
-        String u_name;
-        String url = USER_URL + n.getUser_id();
-        System.out.println(url);
-
-        System.out.println("test");
-
-        StringRequest queueRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                n.setUser_name(response);
-
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(MainPageActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
-            }
-        });
-
-        requestQueue.add(queueRequest);
-        requestQueue = Volley.newRequestQueue(this);
-    }
-
+    // if user clicks accept for the join request the requesting user is then added to the group
     public void join(int u_id,int g_id,int r_id)
     {
 
@@ -301,6 +271,7 @@ public class MainPageActivity extends AppCompatActivity {
 
 
     }
+    // where the request is accepted or rejected , the request is deleted
     public void deleteRequest(int r_id)
     {
         requestQueue = Volley.newRequestQueue(this);
@@ -342,8 +313,4 @@ public class MainPageActivity extends AppCompatActivity {
 
 
     }
-
-
-
-
 }

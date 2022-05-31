@@ -3,7 +3,6 @@ package com.example.notesapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -25,7 +24,6 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.notesapp.appObjects.Group;
-import com.example.notesapp.userInfo.UserInfo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,19 +34,14 @@ import java.util.ArrayList;
 
 public class GroupList extends AppCompatActivity {
     private ArrayList<Group> groups;
-    private ArrayList<Group> my_groups;
     private ArrayList<Integer> alreadyRequested;
 
     private static final String GROUP_URL = "https://studev.groept.be/api/a21pt103/grab_Groups";
-    private static final String JOINGroup_URL = "https://studev.groept.be/api/a21pt103/join_group/";
     private static final String REQUESTJOIN_URL = "https://studev.groept.be/api/a21pt103/send_join_request/";
     private static final String CHECK_URL = "https://studev.groept.be/api/a21pt103/check_if_request_sent/";
-    private static final String ADMIN_CHECK ="https://studev.groept.be/api/a21pt103/get_admin_id/";
     private static final String IS_A_MEMBER = "https://studev.groept.be/api/a21pt103/isMember/";
     private static final String ADDGROUP_URL = "https://studev.groept.be/api/a21pt103/add_Group/";
-    RecyclerView recyclerView;
     private RequestQueue requestQueue;
-    private UserInfo user;
     LinearLayout layout;
     String user_name;
     int user_id, groupid;
@@ -72,7 +65,7 @@ public class GroupList extends AppCompatActivity {
         alreadyRequested = new ArrayList<Integer>();
         checkIfRequested();
 
-        buildDialog();
+        createGroupDialog();
 
         Button btn_join = (Button) findViewById(R.id.join_group);
         Button btn_creategroup = (Button) findViewById(R.id.createGroup);
@@ -105,7 +98,8 @@ public class GroupList extends AppCompatActivity {
 
 
     }
-
+// this populates the screen with all the groups from the database including the ones the memeber is already memeber of. If memeber of a group there is no extra button .
+// Otherwise there is a join or requested button next to group name
     public void addButtons()
     {
         String url = GROUP_URL;
@@ -204,7 +198,7 @@ public class GroupList extends AppCompatActivity {
 
         requestQueue.add(queueRequest);
     }
-
+// if user clikc join button of one of the groups this query is sent
     public void sendJoinRequest(int id) {
 
         String url = REQUESTJOIN_URL + id + "/" + user_id +"/"+ id ;
@@ -249,7 +243,8 @@ public class GroupList extends AppCompatActivity {
         dialog.show();
 
     }
-    private void buildDialog() {
+    //if user wants to create group
+    private void createGroupDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View view = getLayoutInflater().inflate(R.layout.add_topic, null);
 
@@ -264,7 +259,7 @@ public class GroupList extends AppCompatActivity {
 
                         for(Group g : groups)
                         {
-                            if(g.getName().equals(name.getText().toString()))
+                            if(g.getName().equals(name.getText().toString())) //checks if group name aready exists
                             {
                                 duplicates = true;
                                 break;
@@ -291,8 +286,8 @@ public class GroupList extends AppCompatActivity {
 
         dialog = builder.create();
     }
+    //query to add group
     public void addGroup(String name) {
-        int group_id;
         String url = ADDGROUP_URL + name + "/" + user_id;
 
         requestQueue = Volley.newRequestQueue(this);
@@ -312,54 +307,14 @@ public class GroupList extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
-                        /*startActivity(new Intent(myGroups.this, myGroups.class)
-
-                        finish(); */
-
                         Toast.makeText(GroupList.this, "Unable to add group", Toast.LENGTH_LONG).show();
-
                     }
-
 
                 });
 
         requestQueue.add(queueRequest);
     }
-    public void grabGroups() {
-        String url = GROUP_URL;
-        System.out.println(url);
-
-        System.out.println("test");
-        JsonArrayRequest queueRequest;
-
-        queueRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                String info = "";
-                for (int i = 0; i < response.length(); ++i) {
-                    System.out.println("test1");
-                    JSONObject o = null;
-                    try {
-                        o = response.getJSONObject(i);
-                        Group g = new Group(o.getInt("group_id"), o.getString("group_name"), o.getInt("admin_id"), o.getString("add_date"));
-                        groups.add(g);
-                        System.out.println("test2");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(GroupList.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
-            }
-        });
-        requestQueue.add(queueRequest);
-        requestQueue = Volley.newRequestQueue(this);
-    }
+    // this query checks if join request is already sent to dtermin layout of the join button
     public void checkIfRequested()
     {
         String url = CHECK_URL + user_id;
@@ -402,7 +357,7 @@ public void onErrorResponse(VolleyError error) {
 
         requestQueue.add(queueRequest);
     }
-
+    // checks if user is memebr of a group: to determin precense of join button
     public void getMemberId(Group g)
     {
 
@@ -492,6 +447,5 @@ public void onErrorResponse(VolleyError error) {
                 error -> Toast.makeText(GroupList.this, "Unable to communicate with server", Toast.LENGTH_LONG).show());
         requestQueue.add(queueRequest1);
     }
-
 
 }

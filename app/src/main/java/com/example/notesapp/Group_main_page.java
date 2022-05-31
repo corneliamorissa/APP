@@ -17,13 +17,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -46,7 +44,6 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 public class Group_main_page extends AppCompatActivity  {
@@ -56,14 +53,11 @@ public class Group_main_page extends AppCompatActivity  {
     private static final String SPINNER = "https://studev.groept.be/api/a21pt103/geab_all_memebrs_of_a_group/";
     private static final String ADMIN_CHECK ="https://studev.groept.be/api/a21pt103/get_admin_id/";
     private static final String UPDATE_ADMIN ="https://studev.groept.be/api/a21pt103/make_another_admin/";
-    private static final String MEMBER_CHECK ="https://studev.groept.be/api/a21pt103/check_if_user_member/";
-    private static final String getId = "https://studev.groept.be/api/a21pt103/getId/";
     private static final String IS_A_MEMBER = "https://studev.groept.be/api/a21pt103/isMember/";
     private static final String REQUESTJOIN_URL = "https://studev.groept.be/api/a21pt103/send_join_request/";
     private static final String CHECK_URL = "https://studev.groept.be/api/a21pt103/check_if_request_sent/";
     private static final String GET_IMAGE_URL = "https://studev.groept.be/api/a21pt103/groupPict/";
     private static final String POST_URL = "https://studev.groept.be/api/a21pt103/insertGroupPict/";
-
 
     private int PICK_IMAGE_REQUEST = 111;
     private RequestQueue requestQueue;
@@ -96,12 +90,8 @@ public class Group_main_page extends AppCompatActivity  {
         setContentView(R.layout.activity_group_main_page);
         name_show = findViewById(R.id.groupName);
 
-
-        //Button delete = findViewById(R.id.delete_group);
-        //Button leave = findViewById(R.id.leave_group);
-
-        Button delete2 = findViewById(R.id.delete_group2);
-        Button leave2 = findViewById(R.id.leave_group2);
+        //Button delete2 = findViewById(R.id.delete_group2);
+        //Button leave2 = findViewById(R.id.leave_group2);
         join_btn = findViewById(R.id.join_button);
         settings = findViewById(R.id.settings_group);
         topic = findViewById(R.id.topics);
@@ -123,8 +113,7 @@ public class Group_main_page extends AppCompatActivity  {
         name_show.setText(groupName);
         join_btn.setVisibility(View.INVISIBLE);
 
-        ActionBar actionBar = getSupportActionBar();
-        // Customize the back button
+        ActionBar actionBar = getSupportActionBar(); // Customize the back button
         actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_west_24);
         actionBar.setTitle("Group Page");
         // showing the back button in action bar
@@ -245,90 +234,38 @@ public class Group_main_page extends AppCompatActivity  {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(myGroups)
         {
-            switch (item.getItemId()) {
-                case android.R.id.home:
-                    Intent intent = new Intent(Group_main_page.this, myGroups.class);
-                    intent.putExtra("user id", userid);
-                    intent.putExtra("user name", userName);
-                    intent.putExtra("group id", groupid);
-                    intent.putExtra("group name", groupName);
-                    intent.putExtra("main page", mainpage);
-                    intent.putExtra("my groups" , myGroups);
-                    startActivity(intent);
-                    this.finish();
-                    return true;
+            if (item.getItemId() == android.R.id.home) {
+                Intent intent = new Intent(Group_main_page.this, myGroups.class);
+                intent.putExtra("user id", userid);
+                intent.putExtra("user name", userName);
+                intent.putExtra("group id", groupid);
+                intent.putExtra("group name", groupName);
+                intent.putExtra("main page", mainpage);
+                intent.putExtra("my groups", myGroups);
+                startActivity(intent);
+                this.finish();
+                return true;
             }
             return super.onOptionsItemSelected(item);
         }
         else {
-            switch (item.getItemId()) {
-                case android.R.id.home:
-                    Intent intent = new Intent(Group_main_page.this, GroupList.class);
-                    intent.putExtra("user id", userid);
-                    intent.putExtra("user name", userName);
-                    intent.putExtra("group id", groupid);
-                    intent.putExtra("group name", groupName);
-                    intent.putExtra("main page", mainpage);
-                    intent.putExtra("my groups", myGroups);
-                    startActivity(intent);
-                    this.finish();
-                    return true;
+            if (item.getItemId() == android.R.id.home) {
+                Intent intent = new Intent(Group_main_page.this, GroupList.class);
+                intent.putExtra("user id", userid);
+                intent.putExtra("user name", userName);
+                intent.putExtra("group id", groupid);
+                intent.putExtra("group name", groupName);
+                intent.putExtra("main page", mainpage);
+                intent.putExtra("my groups", myGroups);
+                startActivity(intent);
+                this.finish();
+                return true;
             }
             return super.onOptionsItemSelected(item);
         }
     }
 
 
-    public void onTopic_Clicked(View caller) {
-        String url1 = MEMBER_CHECK + userid + "/" + groupid;
-        System.out.println(url1);
-        requestQueue = Volley.newRequestQueue(Group_main_page.this);
-        JsonArrayRequest queueRequest1;
-        queueRequest1 = new JsonArrayRequest(Request.Method.GET, url1, null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                String info = "";
-                if(response.length()==0)
-                {
-                    Toast.makeText(Group_main_page.this, "Join the Group First", Toast.LENGTH_LONG).show();
-                }
-                else{
-                    for (int i = 0; i < response.length(); ++i) {
-
-                        JSONObject o = null;
-                        try {
-                            o = response.getJSONObject(i);
-
-                            member = o.getInt("user_id");
-                            if(userid == member)
-                            {
-                                startActivity(new Intent(Group_main_page.this, Topic_Main_Page.class)
-                                        .putExtra("group name",groupName)
-                                        .putExtra("group id",groupid)
-                                        .putExtra("user id",userid)
-                                        .putExtra("user name", userName)
-                                        .putExtra("main page", mainpage)
-                                        .putExtra("my groups", myGroups)
-                                );
-                                finish();
-                            }
-
-                        }
-                        catch (JSONException e)
-                        {
-                            e.printStackTrace();
-                        }
-
-                    }}}},
-                error -> Toast.makeText(Group_main_page.this, "Unable to communicate with server", Toast.LENGTH_LONG).show()
-
-        );
-        requestQueue.add(queueRequest1);
-
-
-
-
-    }
     public void onMemebrs_Clicked(View caller) {
         startActivity(new Intent(Group_main_page.this, MemberList.class)
                 .putExtra("user id",userid)
@@ -342,7 +279,7 @@ public class Group_main_page extends AppCompatActivity  {
 
 
 
-
+// if user is group admin they have the power to delete group
     public void deleteGroup(){
             String delete = DELETE + groupid +  "/" + groupid +  "/" + groupid +  "/" + groupid;
             System.out.println(delete);
@@ -390,58 +327,8 @@ public class Group_main_page extends AppCompatActivity  {
         }
 
 
-    public void onLeave_Clicked(View v)
-    {
-
-        if(isAdmin)
-        {
-            buildDialog1();
-        }
-
-        else{
-            String leave = LEAVE + userid + "/" + groupid;
-            System.out.println(leave);
-            requestQueue = Volley.newRequestQueue(Group_main_page.this);
-            JsonArrayRequest queueRequest;
-            queueRequest = new JsonArrayRequest(Request.Method.POST, leave, null, new Response.Listener<JSONArray>() {
-                @Override
-                public void onResponse(JSONArray response) {
-                    String info = "";
-                    for (int i = 0; i < response.length(); ++i) {
-
-                        JSONObject o = null;
-                        try {
-                            o = response.getJSONObject(i);
-                            info += "all gooddddd";
-
-                        }
-                        catch (JSONException e)
-                        {
-                            e.printStackTrace();
-                        }
-
-                    }
-                    Intent intent = new Intent(Group_main_page.this, myGroups.class);
-                    intent.putExtra("user id", userid );
-                    intent.putExtra("user name", userName);
-                    intent.putExtra("group id", groupid);
-                    intent.putExtra("group name", groupName);
-                    intent.putExtra("main page", mainpage);
-                    intent.putExtra("my groups", myGroups);
-                    finish();
-                    startActivity(intent);
-                    Toast.makeText(Group_main_page.this,"Leave request is executed", Toast.LENGTH_LONG).show();
-                }
-
-            },
-                    error -> Toast.makeText(Group_main_page.this, "Unable to communicate with server", Toast.LENGTH_LONG).show()
-
-            );
-            requestQueue.add(queueRequest);
-        }
-    }
-
-    private void buildDialog1( ) {
+// if admin wants to leave group they must first transfer admin powers to another user
+    private void changeAdminDialog( ) {
         AlertDialog.Builder builder = new AlertDialog.Builder(Group_main_page.this);
         View mview = getLayoutInflater().inflate(R.layout.dialog, null);
         builder.setTitle("Choose new Admin : ");
@@ -555,8 +442,8 @@ public class Group_main_page extends AppCompatActivity  {
         requestQueue.add(submitRequest);
     }
 
-
-    private void buildDialog2(int i) {
+//this doalog shows the possible actions a group memebr can take: leave and if admin they can also delte group and change group picture
+    private void GroupSettingDialog(int i) {
         AlertDialog.Builder builder = new AlertDialog.Builder(Group_main_page.this);
         View mview = getLayoutInflater().inflate(R.layout.settings, null);
         Button leave2 = mview.findViewById(R.id.leave_group2);
@@ -581,7 +468,7 @@ public class Group_main_page extends AppCompatActivity  {
                 @Override
                 public void onClick(View v) {
                     System.out.println("adminleave");
-                    buildDialog1();
+                    changeAdminDialog();
                 }
             });
             photo.setVisibility(View.VISIBLE);
@@ -639,37 +526,8 @@ public class Group_main_page extends AppCompatActivity  {
     }
 
 
-    public void adminLeave()
-    {
-        requestQueue = Volley.newRequestQueue(this);
 
-        String leave = LEAVE + userid + "/" + groupid;
-        System.out.println(leave);
-        requestQueue = Volley.newRequestQueue(Group_main_page.this);
-        StringRequest queueRequest1;
-        queueRequest1 = new StringRequest(Request.Method.GET, leave, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Intent intent = new Intent(Group_main_page.this, myGroups.class);
-                intent.putExtra("user id", userid );
-                intent.putExtra("user name", userName);
-                intent.putExtra("group id", groupid);
-                intent.putExtra("group name", groupName);
-                intent.putExtra("main page", mainpage);
-                intent.putExtra("my groups", myGroups);
-                finish();
-                startActivity(intent);
-                Toast.makeText(Group_main_page.this,"Leave request is executed", Toast.LENGTH_LONG).show();
-            }
-
-        },
-                error -> Toast.makeText(Group_main_page.this, "Unable to communicate with server", Toast.LENGTH_LONG).show()
-
-        );
-        requestQueue.add(queueRequest1);
-    }
-
-
+// sends query to change admin of the group
     public void changeAdmin(String newAdmin)
     {
         for(int j = 0; j<adminUsernameList.size();j++)
@@ -699,6 +557,8 @@ public class Group_main_page extends AppCompatActivity  {
         );
         requestQueue.add(queueRequest2);
     }
+
+    // gets a list of all members of the group
     public void getMemberId()
     {
         String url1 = IS_A_MEMBER + groupid;
@@ -734,7 +594,7 @@ public class Group_main_page extends AppCompatActivity  {
                             settings.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    buildDialog2(1);
+                                    GroupSettingDialog(1);
                                 }});
                             topic.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -768,6 +628,7 @@ public class Group_main_page extends AppCompatActivity  {
                 error -> Toast.makeText(Group_main_page.this, "Unable to communicate with server", Toast.LENGTH_LONG).show());
         requestQueue.add(queueRequest1);
     }
+    //gets the admin if of a group
     public void getAdminId()
     {
         String url1 = ADMIN_CHECK + groupid;
@@ -794,7 +655,7 @@ public class Group_main_page extends AppCompatActivity  {
                                 settings.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        buildDialog2(0);
+                                        GroupSettingDialog(0);
                                     }
                                 });
                                 topic.setOnClickListener(new View.OnClickListener() {
@@ -829,6 +690,7 @@ public class Group_main_page extends AppCompatActivity  {
         );
         requestQueue.add(queueRequest1);
     }
+    // delets the member from the group
     public void leave()
     {
         String leave = LEAVE + userid + "/" + groupid;
@@ -854,6 +716,7 @@ public class Group_main_page extends AppCompatActivity  {
         );
         requestQueue.add(queueRequest);
     }
+    //if a non memebr is vieing the group, and clicks the join button a join request will be sent to the group admin
     public void join()
     {
         String url = REQUESTJOIN_URL + groupid + "/" + userid +"/"+ groupid ;
@@ -884,7 +747,7 @@ public class Group_main_page extends AppCompatActivity  {
         );
         requestQueue.add(queueRequest);
     }
-
+    // this checks if a user has already requested to join the group=> to determine if join button should be disabled
     public void checkIfRequested()
     {
         String url = CHECK_URL + userid;
