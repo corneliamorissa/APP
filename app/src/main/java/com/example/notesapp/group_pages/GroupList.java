@@ -44,6 +44,8 @@ public class GroupList extends AppCompatActivity {
     private static final String CHECK_URL = "https://studev.groept.be/api/a21pt103/check_if_request_sent/";
     private static final String IS_A_MEMBER = "https://studev.groept.be/api/a21pt103/isMember/";
     private static final String ADDGROUP_URL = "https://studev.groept.be/api/a21pt103/add_Group/";
+    private static final String JOIN_URL = "https://studev.groept.be/api/a21pt103/join_group/";
+    private static final String GROUPID_URL = "https://studev.groept.be/api/a21pt103/grab_group_from_name/";
     private RequestQueue requestQueue;
     LinearLayout layout;
     String user_name;
@@ -443,12 +445,73 @@ public void onErrorResponse(VolleyError error) {
                     }
 
                 }
-
-
-
             }},
                 error -> Toast.makeText(GroupList.this, "Unable to communicate with server", Toast.LENGTH_LONG).show());
         requestQueue.add(queueRequest1);
     }
 
+    public void addToMember(int g_id)
+    {
+        requestQueue = Volley.newRequestQueue(this);
+        String url2 = JOIN_URL+ g_id + "/" + user_id ;
+        System.out.println(url2);
+
+
+        System.out.println("test");
+
+        StringRequest queueRequest2;
+
+        queueRequest2 = new StringRequest(Request.Method.GET,url2,new Response.Listener<String>(){
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(GroupList.this, "group ok", Toast.LENGTH_LONG).show();
+
+            }
+        },new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(GroupList.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
+            }
+        });
+        requestQueue.add(queueRequest2);
+    }
+
+    public void getGroupId(String name)
+    {
+
+        String url1 = GROUPID_URL + name;
+        System.out.println(url1);
+        requestQueue = Volley.newRequestQueue(GroupList.this);
+        JsonArrayRequest queueRequest1;
+        queueRequest1 = new JsonArrayRequest(Request.Method.GET, url1, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                String info = "";
+
+                for (int i = 0; i < response.length(); ++i) {
+
+                    JSONObject o = null;
+                    try {
+                        boolean isMember = false;
+                        o = response.getJSONObject(i);
+                        addToMember(o.getInt("group id"));
+
+
+
+                    }
+
+                    catch (JSONException e)
+                    {
+                        e.printStackTrace();
+                    }
+
+                }
+            }},
+                error -> Toast.makeText(GroupList.this, "Unable to communicate with server", Toast.LENGTH_LONG).show());
+        requestQueue.add(queueRequest1);
 }
+
+
+    }
+
+
