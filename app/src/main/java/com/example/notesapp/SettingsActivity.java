@@ -214,6 +214,133 @@ public class SettingsActivity extends AppCompatActivity {
         dialog2 = builder.create();
     }
 
+    public void grabGroups() {
+        String url = GROUP_URL;
+        System.out.println(url);
+
+        System.out.println("test");
+        JsonArrayRequest queueRequest;
+
+        queueRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                String info = "";
+                for (int i = 0; i < response.length(); ++i) {
+                    System.out.println("test1");
+                    JSONObject o = null;
+                    try {
+                        o = response.getJSONObject(i);
+                        Group g = new Group(o.getInt("group_id"), o.getString("group_name"), o.getInt("admin_id"), o.getString("add_date"));
+                        groups.add(g);
+                        System.out.println("test2");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+/*
+                for(Group m: groups)
+                {
+                    if(m.getA_id() == user_id)
+                    {
+                        buildDialog1(m.getId(),m.getName());
+
+                    }
+                    else
+                    {
+                        getMemberId(m.getId());
+
+                    }
+                }
+
+                delete(); */
+                for (int i = 0; i < groups.size(); ++i) {
+                    Group g = groups.get(i);
+                    requestQueue = Volley.newRequestQueue(SettingsActivity.this);
+                    if(g.getA_id() == user_id)
+                    {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
+                        View mview = getLayoutInflater().inflate(R.layout.dialog, null);
+                        builder.setTitle("Choose new Admin for " + g.getName());
+                        Spinner spinner = (Spinner) mview.findViewById(R.id.choose_admin_spinner);
+
+                        String url = SPINNER + g.getId();
+                        System.out.println(url);
+                        JsonArrayRequest queueRequest = new JsonArrayRequest(Request.Method.GET,
+                                url, null,
+                                new Response.Listener<JSONArray>() {
+                                    @Override
+                                    public void onResponse(JSONArray response) {
+
+                                        for(int i=0; i<response.length();i++){
+                                            try {
+                                                JSONObject o = null;
+                                                o = response.getJSONObject(i);
+                                                String groupName = o.get("user_name").toString();
+                                                Integer groupId = o.getInt("user_id");
+                                                adminUsernameList.add(groupName);
+                                                adminIdList.add(groupId);
+                                                //groupIdList.add(group_id);
+                                                adminAdapter = new ArrayAdapter<String>(SettingsActivity.this,
+                                                        android.R.layout.simple_spinner_item, adminUsernameList);
+                                                adminAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                                spinner.setAdapter(adminAdapter);
+                                                System.out.println("test thursday 3");
+
+                                                adminAdapter.notifyDataSetChanged();
+
+                                            }
+                                            catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    }
+                                }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+
+                            }
+                        });
+
+                        spinner.setOnItemSelectedListener(new SettingsActivity.OnSpinnerItemClicked());
+                        requestQueue.add(queueRequest);
+
+                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                changeAdmin(String.valueOf(spinner.getSelectedItem()),groupid);
+
+
+                            }
+                        })
+                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                    }
+                                });
+                        builder.setView(mview);
+                        dialog1 = builder.create();
+                        dialog1.show();
+
+
+
+
+
+                    }
+
+                }
+                delete();
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(SettingsActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
+            }
+        });
+        requestQueue.add(queueRequest);
+        requestQueue = Volley.newRequestQueue(this);
+    }
 
 
     private void buildDialog1( int groupid , String groupName) {
@@ -337,86 +464,8 @@ public class SettingsActivity extends AppCompatActivity {
 
     }
 
-    public void grabGroups() {
-        String url = GROUP_URL;
-        System.out.println(url);
 
-        System.out.println("test");
-        JsonArrayRequest queueRequest;
-
-        queueRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                String info = "";
-                for (int i = 0; i < response.length(); ++i) {
-                    System.out.println("test1");
-                    JSONObject o = null;
-                    try {
-                        o = response.getJSONObject(i);
-                        Group g = new Group(o.getInt("group_id"), o.getString("group_name"), o.getInt("admin_id"), o.getString("add_date"));
-                        groups.add(g);
-                        System.out.println("test2");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                for(Group m: groups)
-                {
-                    boolean memebr = false;
-                    getMemberId(m.getId());
-                    for(Integer i: mems) {
-                        if (i.intValue() == user_id) {
-                            memebr = true;
-                            break;
-
-                        }
-                    }
-                    if(m.getA_id() == user_id)
-                    {
-                        buildDialog1(m.getId(),m.getName());
-                        groups.remove(m);
-                    }
-                    else
-                    {
-                        if(memebr == true)
-                        {
-                            leave(m.getId());
-                            groups.remove(m);
-                        }
-                        else
-                        {
-                            groups.remove(m);
-                        }
-
-                    }
-                }
-
-                delete();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(SettingsActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
-            }
-        });
-        requestQueue.add(queueRequest);
-        requestQueue = Volley.newRequestQueue(this);
-    }
-
-    public void check(Group g)
-    {
-
-        if(g.getA_id() == user_id)
-        {
-            buildDialog1(g.getId(),g.getName());
-        }
-        else
-        {
-            getMemberId(g.getId());
-        }
-    }
-
+    /*
     public void getMemberId(int g_id)
     {
         String url1 = IS_A_MEMBER + g_id;
@@ -442,7 +491,7 @@ public class SettingsActivity extends AppCompatActivity {
                     }
 
                 }
-/*
+
                 for(Integer i: mems) {
                     if (i.intValue() == user_id) {
                         leave(g_id);
@@ -450,7 +499,7 @@ public class SettingsActivity extends AppCompatActivity {
                     }
                 }
 
-*/
+
             }},
                 error -> Toast.makeText(SettingsActivity.this, "Unable to communicate with server", Toast.LENGTH_LONG).show());
         requestQueue.add(queueRequest1);
@@ -521,40 +570,30 @@ public class SettingsActivity extends AppCompatActivity {
 
         requestQueue.add(queueRequest);
     }
+
+    */
+
 public void delete()
 {
 
 
-    String delete = DELETE_ACC + user_id +"/"+ user_name;
+    String delete = DELETE_ACC + user_id +"/"+ user_name +"/" + user_id +"/"+ user_id ;
     System.out.println(delete);
     JsonArrayRequest queueRequest;
     queueRequest = new JsonArrayRequest(Request.Method.GET, delete, null, new Response.Listener<JSONArray>() {
         @Override
         public void onResponse(JSONArray response) {
-
-
-
-
-
-
-
             Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
             Toast.makeText(SettingsActivity.this,"Account Deleted", Toast.LENGTH_LONG).show();
-
-
         }
 
-    }
-            ,
+    },
             error -> Toast.makeText(SettingsActivity.this, "Unable to communicate with server", Toast.LENGTH_LONG).show()
-
     );
     requestQueue.add(queueRequest);
 }
-
-
 
 
 }
