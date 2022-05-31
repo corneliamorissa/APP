@@ -1,4 +1,4 @@
-package com.example.notesapp;
+package com.example.notesapp.topic_pages;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,7 +15,6 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -25,6 +23,10 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.notesapp.image_pages.FullScreenImage;
+import com.example.notesapp.R;
+import com.example.notesapp.adapters.RecyclerAdapter;
+import com.example.notesapp.RecyclerViewInterface;
 import com.example.notesapp.appObjects.ImageModel;
 import com.example.notesapp.appObjects.Topic;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -34,8 +36,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-
-public class Topic_Activity extends AppCompatActivity implements RecyclerViewInterface{
+//this page shows all the pictures in a topic
+public class Topic_Activity extends AppCompatActivity implements RecyclerViewInterface {
     private RequestQueue requestQueue;
     private static final String GET_IMAGE_URL = "https://studev.groept.be/api/a21pt103/getImagewithTopic/";
     private static final String DELETE = "https://studev.groept.be/api/a21pt103/deleteTopic/";
@@ -52,7 +54,6 @@ public class Topic_Activity extends AppCompatActivity implements RecyclerViewInt
     String topicName, userName, groupName;
     FloatingActionButton delete;
     boolean frommygroups, mainpage;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,7 +95,7 @@ public class Topic_Activity extends AppCompatActivity implements RecyclerViewInt
         //buildDialog();
 
     }
-
+//this pulls all the pictures from database and the button avoid the page from crashing
     public void onButtonRetrieveNote(View view)
     {
         imgList.clear();
@@ -161,12 +162,11 @@ public class Topic_Activity extends AppCompatActivity implements RecyclerViewInt
         requestQueue.add(retrieveImageRequest);
 
     }
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent intent = new Intent(Topic_Activity.this,Topic_Main_Page.class);
+                Intent intent = new Intent(Topic_Activity.this, Topic_Main_Page.class);
                 intent.putExtra("user id", user_id );
                 intent.putExtra("user name", userName);
                 intent.putExtra("group id", group_id);
@@ -180,7 +180,6 @@ public class Topic_Activity extends AppCompatActivity implements RecyclerViewInt
         }
         return super.onOptionsItemSelected(item);
     }
-
 
     @Override
     public void onItemClick(int position) {
@@ -197,30 +196,7 @@ public class Topic_Activity extends AppCompatActivity implements RecyclerViewInt
         startActivity(intent);
 
     }
-
-    private void buildDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View view = getLayoutInflater().inflate(R.layout.add_topic, null);
-
-        final Button topic_delete= view.findViewById(R.id.delete_topic);
-
-        builder.setView(view);
-        builder.setTitle("Enter name")
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-
-        dialog = builder.create();
-    }
+// to delete a topic
     public void onDeleteTopic_Click(View view)
     {
         String delete = DELETE + topic_id;
@@ -250,8 +226,6 @@ public class Topic_Activity extends AppCompatActivity implements RecyclerViewInt
         );
         requestQueue.add(queueRequest);
     }
-
-
     }
 
 

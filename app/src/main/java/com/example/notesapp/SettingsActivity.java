@@ -48,10 +48,9 @@ public class SettingsActivity extends AppCompatActivity {
 
     ArrayList<Integer> mems;
     String user_name, email;
-    Integer user_id, group_id;
+    Integer user_id;
     private RequestQueue requestQueue;
     AlertDialog dialog, dialog2;
-    LinearLayout layout;
     boolean isMainPage = false;
     AlertDialog dialog1;
     ArrayList<Integer> adminIdList = new ArrayList<>();
@@ -59,9 +58,8 @@ public class SettingsActivity extends AppCompatActivity {
     ArrayAdapter<String> adminAdapter;
     String selectedAdmin;
     private ArrayList<Group> groups;
-    Integer admin, groupid;
+    Integer admin;
     private int last;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,7 +119,6 @@ public class SettingsActivity extends AppCompatActivity {
         dialog.show();
     }
 
-
     public void buildDialogChangePass() {
         AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
         View view = getLayoutInflater().inflate(R.layout.dialog_change_pass, null);
@@ -166,18 +163,16 @@ public class SettingsActivity extends AppCompatActivity {
         dialog = builder.create();
     }
 
-
     public void LogOutBtn_Click(View view) {
         Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
     }
 
-
     public void DeleteAccBtn(View view) {
         dialog2.show();
     }
-
+//first dialog which lets the user know that they have to ransfer admin
     public void dialogDelAcc() {
         AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
 
@@ -203,7 +198,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         dialog2 = builder.create();
     }
-
+// grab all groups that the user is admin off
     public void grabGroups() {
         String url = GROUP_URL + user_id;
         System.out.println(url);
@@ -226,7 +221,7 @@ public class SettingsActivity extends AppCompatActivity {
 
                         if(i == response.length() - 1)
                         {
-                            last = 1;
+                            last = 1; //this is to know when last group has been checked
                         }
                         System.out.println("test2");
                         requestQueue = Volley.newRequestQueue(SettingsActivity.this);
@@ -315,77 +310,7 @@ public class SettingsActivity extends AppCompatActivity {
         requestQueue.add(queueRequest);
         requestQueue = Volley.newRequestQueue(this);
     }
-/*
 
-    private void buildDialog1(int groupid, String groupName) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
-        View mview = getLayoutInflater().inflate(R.layout.dialog, null);
-        builder.setTitle("Choose new Admin for " + groupName);
-        Spinner spinner = (Spinner) mview.findViewById(R.id.choose_admin_spinner);
-
-
-        requestQueue = Volley.newRequestQueue(this);
-
-        String url = SPINNER + groupid;
-        System.out.println(url);
-        JsonArrayRequest queueRequest = new JsonArrayRequest(Request.Method.GET,
-                url, null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-
-                        for (int i = 0; i < response.length(); i++) {
-                            try {
-                                JSONObject o = null;
-                                o = response.getJSONObject(i);
-                                String groupName = o.get("user_name").toString();
-                                Integer groupId = o.getInt("user_id");
-                                adminUsernameList.add(groupName);
-                                adminIdList.add(groupId);
-                                //groupIdList.add(group_id);
-                                adminAdapter = new ArrayAdapter<String>(SettingsActivity.this,
-                                        android.R.layout.simple_spinner_item, adminUsernameList);
-                                adminAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                                spinner.setAdapter(adminAdapter);
-                                System.out.println("test thursday 3");
-
-                                adminAdapter.notifyDataSetChanged();
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
-
-        spinner.setOnItemSelectedListener(new SettingsActivity.OnSpinnerItemClicked());
-        requestQueue.add(queueRequest);
-
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                changeAdmin(String.valueOf(spinner.getSelectedItem()), groupid);
-
-            }
-        })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-        builder.setView(mview);
-        dialog1 = builder.create();
-        dialog1.show();
-
-
-    }
-*/
     public class OnSpinnerItemClicked implements AdapterView.OnItemSelectedListener {
 
         @Override
@@ -439,7 +364,6 @@ public class SettingsActivity extends AppCompatActivity {
 
     }
 
-
     public void delete() {
 
 
@@ -460,7 +384,7 @@ public class SettingsActivity extends AppCompatActivity {
         );
         requestQueue.add(queueRequest);
     }
-
+//finla confirmation that the user want account to be deleted
     public void finaldialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
 

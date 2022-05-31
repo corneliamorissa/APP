@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     android:backgroundTint="#FFFFFF"
-    tools:context=".Topic_Main_Page">
+    tools:context=".topic_pages.Topic_Main_Page">
 
 
     <ScrollView

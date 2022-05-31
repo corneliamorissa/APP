@@ -17,54 +17,40 @@
             android:name=".MemberList"
             android:exported="false" />
         <activity
-            android:name=".FullScreenImage"
+            android:name=".image_pages.FullScreenImage"
             android:exported="false" />
         <activity
             android:name=".NaviagtionPage"
             android:exported="false" />
         <activity
-            android:name=".Group_main_page"
+            android:name=".group_pages.Group_main_page"
             android:exported="false" />
         <activity
-            android:name=".myGroups"
+            android:name=".group_pages.myGroups"
             android:exported="false" />
         <activity
-            android:name=".test"
-            android:exported="false" />
-        <activity
-            android:name=".UserDocument"
-            android:exported="false" />
-        <activity
-            android:name=".DrawerActivity"
-            android:exported="false" />
-        <activity
-            android:name=".NavigationDrawerActivity"
-            android:exported="false"
-            android:label="@string/title_activity_navigation_drawer"
-            android:theme="@style/Theme.NotesApp.NoActionBar" />
-        <activity
-            android:name=".AddTopicActivity"
+            android:name=".image_pages.UserDocument"
             android:exported="false" />
         <activity
             android:name=".CreateGroupActivity"
             android:exported="false" />
         <activity
-            android:name=".Topic_Activity"
+            android:name=".topic_pages.Topic_Activity"
             android:exported="false" />
         <activity
-            android:name=".Topic_Main_Page"
+            android:name=".topic_pages.Topic_Main_Page"
             android:exported="false" />
         <activity
             android:name=".MainPageActivity"
             android:exported="false" />
         <activity
-            android:name=".GroupList"
+            android:name=".group_pages.GroupList"
             android:exported="false" />
         <activity
             android:name=".SettingsActivity"
             android:exported="false" />
         <activity
-            android:name=".UploadActivity"
+            android:name=".image_pages.UploadActivity"
             android:exported="false" />
         <activity
             android:name=".UserProfileActivity"

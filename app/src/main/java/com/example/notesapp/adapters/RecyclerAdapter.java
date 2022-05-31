@@ -1,4 +1,4 @@
-package com.example.notesapp;
+package com.example.notesapp.adapters;
 
 
 import android.annotation.SuppressLint;
@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.notesapp.R;
+import com.example.notesapp.RecyclerViewInterface;
 import com.example.notesapp.appObjects.ImageModel;
 
 import java.io.File;
