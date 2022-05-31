@@ -1,4 +1,4 @@
-package com.example.notesapp;
+package com.example.notesapp.image_pages;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.graphics.Bitmap;
@@ -13,6 +13,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.notesapp.R;
+
 import org.json.JSONArray;
 
 
