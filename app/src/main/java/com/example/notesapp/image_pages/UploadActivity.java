@@ -3,10 +3,6 @@ package com.example.notesapp.image_pages;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.notesapp.MainPageActivity;
-import com.example.notesapp.R;
-
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -27,7 +23,6 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -36,11 +31,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-
+import com.example.notesapp.MainPageActivity;
+import com.example.notesapp.R;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,7 +47,6 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
     private ImageView imageRetrieved;
     private RequestQueue requestQueue;
     private static final String POST_URL = "https://studev.groept.be/api/a21pt103/insertImage/";
-    private static final String GET_IMAGE_URL = "https://studev.groept.be/api/a21pt103/getLastImage/";
     private int PICK_IMAGE_REQUEST = 111;
     private Bitmap bitmap;
     private ProgressDialog progressDialog;
@@ -94,6 +88,8 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
         topicSel = (TextView)findViewById(R.id.selected_topic);
         groupSel.setText("Select");
 
+
+        /***if private checkbox checked, spinner is invisible, user cannot upload images with topic***/
         check_p.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
@@ -112,6 +108,7 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
             }
         }
         );
+        /***if group checkbox checked, spinner is visible, user can upload images with topic according to specific group***/
 
         check_g.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -135,9 +132,6 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
         );
 
 
-
-
-
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             user_name = extras.getString("user name");
@@ -150,18 +144,16 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
 
         // calling the action bar
         ActionBar actionBar = getSupportActionBar();
-
-
         // Customize the back button
         actionBar.setHomeAsUpIndicator(R.drawable.ic_baseline_west_24);
         actionBar.setTitle("Upload");
-
         // showing the back button in action bar
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-
     }
 
+
+    /***grabbing groups name from databse and populate them into spinner***/
     public void grabGroupsforSpinner()
     {
         String url = "https://studev.groept.be/api/a21pt103/grabGroupName/" + user_id;
@@ -177,10 +169,8 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
                                 o = response.getJSONObject(i);
                                 String groupName = o.get("group_name").toString();
                                 Integer groupId = o.getInt("group_id");
-                                //Integer group_id = o.getInt("group_id");
                                 groupList.add(groupName);
                                 groupIdList.add(groupId);
-                                //groupIdList.add(group_id);
                                 groupAdapter = new ArrayAdapter<String>(UploadActivity.this,
                                         android.R.layout.simple_spinner_item, groupList);
                                 groupAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -203,6 +193,7 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
         sgroup.setOnItemSelectedListener(this);
     }
 
+    //back button functionality if clicked
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -219,6 +210,7 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
 
 
 
+    /***when user pick images from the storage***/
     public void onBtnPickClicked(View caller)
     {
         Intent intent = new Intent();
@@ -259,21 +251,22 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
     @SuppressLint("NonConstantResourceId")
     public void onBtnPostClicked(View caller)
     {
-        // Is the view now checked?
+        // If group checked, this will set default value 1 which return true in database
         if(check_g.isChecked()){
             isGroup = 1;
         }
+
+        //if private is checked, this will set default value to 0 for database
         if(check_p.isChecked()){
             isGroup = 0;
             selectedTopic = "";
             groupId = 0;
         }
 
-        System.out.println(isGroup);
+        //initialized value for database for not null data input
         etitle ="";
         edesc="";
         etitle = title.getText().toString();
-
         edesc = desc.getText().toString();
 
         //Start an animating progress widget
@@ -319,14 +312,13 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
                 params.put("ig", String.valueOf(isGroup));
                 params.put("top", selectedTopic);
                 params.put("gi", String.valueOf(groupId));
-                params.put("topid", String.valueOf(topicId) );
+                params.put("topid", String.valueOf(topicId));
+                params.put("uid", String.valueOf(user_id));
                 return params;
             }
 
 
         };
-
-
 
         requestQueue.add(submitRequest);
     }
@@ -351,11 +343,9 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
         return resizedBitmap;
     }
 
-
+/***when group is automatically selected, the listener will grab topics from selected group id to populate topic spinner***/
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-        topicSel.setText("Select Your Topic");
 
         if(adapterView.getId() == R.id.spinner_group)
         {
@@ -363,7 +353,8 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
             topicIdList.clear();
             selectedGroup = adapterView.getSelectedItem().toString();
             groupSel.setText(selectedGroup);
-            System.out.println(selectedGroup);
+
+            /***to convert from group name to group id for database***/
             for(int j = 0; j<groupList.size();j++)
             {
                 if(groupList.get(j).equals(selectedGroup))
@@ -371,10 +362,7 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
                     groupId = groupIdList.get(j);
                 }
             }
-
-            System.out.println(groupId);
             String url = "https://studev.groept.be/api/a21pt103/grabTopicGroup/" + groupId;
-            System.out.println(url);
             JsonArrayRequest queueRequest = new JsonArrayRequest(Request.Method.GET,
                     url, null,
                     new Response.Listener<JSONArray>() {
@@ -401,13 +389,6 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
                                     topicAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                     topicAdapter.notifyDataSetChanged();
                                     stopic.setAdapter(topicAdapter);
-
-                                    System.out.println("this is a test:"+adapterView.getSelectedItem().toString());
-
-
-
-
-                                    System.out.println("topics:"+ topicName);
                                 }
 
                                 catch (JSONException e) {
@@ -431,6 +412,7 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
         }
         selectedTopic = adapterView.getSelectedItem().toString();
 
+        /***to convert topic name to topic id for database***/
         for(int j = 0; j<topicList.size();j++)
         {
             if(topicList.get(j).equals(selectedTopic))
@@ -442,15 +424,10 @@ public class UploadActivity extends AppCompatActivity implements AdapterView.OnI
 
     }
 
-
-
-
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
 
     }
 
-
-    //TODO back button
 }
