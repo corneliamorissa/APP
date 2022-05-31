@@ -42,14 +42,12 @@ public class SettingsActivity extends AppCompatActivity {
     Button changePass, logOut, delete;
     private final String CHANGE_PASS = "https://studev.groept.be/api/a21pt103/changePassword/";
     private final String DELETE_ACC = "https://studev.groept.be/api/a21pt103/deleteAccount/";
-    private static final String LEAVE = "https://studev.groept.be/api/a21pt103/leave_group/";
     private static final String SPINNER = "https://studev.groept.be/api/a21pt103/geab_all_memebrs_of_a_group/";
-    private static final String ADMIN_CHECK ="https://studev.groept.be/api/a21pt103/get_admin_id/";
-    private static final String UPDATE_ADMIN ="https://studev.groept.be/api/a21pt103/make_another_admin/";
-    private static final String GROUP_URL = "https://studev.groept.be/api/a21pt103/grab_Groups";
-    private static final String IS_A_MEMBER = "https://studev.groept.be/api/a21pt103/isMember/";
+    private static final String UPDATE_ADMIN = "https://studev.groept.be/api/a21pt103/make_another_admin/";
+    private static final String GROUP_URL = "https://studev.groept.be/api/a21pt103/grab_admin_group/";
+
     ArrayList<Integer> mems;
-    String user_name,email;
+    String user_name, email;
     Integer user_id, group_id;
     private RequestQueue requestQueue;
     AlertDialog dialog, dialog2;
@@ -62,8 +60,7 @@ public class SettingsActivity extends AppCompatActivity {
     String selectedAdmin;
     private ArrayList<Group> groups;
     Integer admin, groupid;
-
-
+    private int last;
 
 
     @Override
@@ -81,6 +78,7 @@ public class SettingsActivity extends AppCompatActivity {
             isMainPage = extras.getBoolean("main page");
             //The key argument here must match that used in the other activity
         }
+        last = 0;
         mems = new ArrayList<>();
         groups = new ArrayList<Group>();
         ActionBar actionBar = getSupportActionBar();
@@ -100,16 +98,14 @@ public class SettingsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                if(isMainPage) {
+                if (isMainPage) {
                     Intent intent = new Intent(SettingsActivity.this, MainPageActivity.class);
                     intent.putExtra("user id", user_id);
                     intent.putExtra("user name", user_name);
                     startActivity(intent);
                     this.finish();
                     return true;
-                }
-                else
-                {
+                } else {
                     Intent intent = new Intent(SettingsActivity.this, NaviagtionPage.class);
                     intent.putExtra("user id", user_id);
                     intent.putExtra("user name", user_name);
@@ -121,14 +117,12 @@ public class SettingsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void changePasswordBtn_Click (View view)
-    {
+    public void changePasswordBtn_Click(View view) {
         dialog.show();
     }
 
 
-    public void buildDialogChangePass()
-    {
+    public void buildDialogChangePass() {
         AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
         View view = getLayoutInflater().inflate(R.layout.dialog_change_pass, null);
 
@@ -140,7 +134,7 @@ public class SettingsActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String change = CHANGE_PASS + newPass.getText() + "/" + user_id;
-                        System.out.println("try to change pass :"+ change);
+                        System.out.println("try to change pass :" + change);
 
                         JsonArrayRequest queueRequest;
                         queueRequest = new JsonArrayRequest(Request.Method.GET, change, null, new Response.Listener<JSONArray>() {
@@ -148,8 +142,7 @@ public class SettingsActivity extends AppCompatActivity {
                             public void onResponse(JSONArray response) {
 
 
-
-                                Toast.makeText(SettingsActivity.this,"Password Changed", Toast.LENGTH_LONG).show();
+                                Toast.makeText(SettingsActivity.this, "Password Changed", Toast.LENGTH_LONG).show();
 
                             }
 
@@ -174,35 +167,32 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
 
-    public void LogOutBtn_Click (View view)
-    {
+    public void LogOutBtn_Click(View view) {
         Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
     }
 
 
-    public void DeleteAccBtn (View view)
-    {
+    public void DeleteAccBtn(View view) {
         dialog2.show();
     }
 
-    public void dialogDelAcc()
-    {
+    public void dialogDelAcc() {
         AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
 
         requestQueue = Volley.newRequestQueue(this);
 
-        builder.setTitle("Are you sure you want to delete your account?")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+        builder.setTitle("To delete account you must transfer admin powers")
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         grabGroups();
 
 
-
-
-                }})
+                    }
+                })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -215,7 +205,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public void grabGroups() {
-        String url = GROUP_URL;
+        String url = GROUP_URL + user_id;
         System.out.println(url);
 
         System.out.println("test");
@@ -229,35 +219,17 @@ public class SettingsActivity extends AppCompatActivity {
                     System.out.println("test1");
                     JSONObject o = null;
                     try {
+
                         o = response.getJSONObject(i);
                         Group g = new Group(o.getInt("group_id"), o.getString("group_name"), o.getInt("admin_id"), o.getString("add_date"));
                         groups.add(g);
+
+                        if(i == response.length() - 1)
+                        {
+                            last = 1;
+                        }
                         System.out.println("test2");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-/*
-                for(Group m: groups)
-                {
-                    if(m.getA_id() == user_id)
-                    {
-                        buildDialog1(m.getId(),m.getName());
-
-                    }
-                    else
-                    {
-                        getMemberId(m.getId());
-
-                    }
-                }
-
-                delete(); */
-                for (int i = 0; i < groups.size(); ++i) {
-                    Group g = groups.get(i);
-                    requestQueue = Volley.newRequestQueue(SettingsActivity.this);
-                    if(g.getA_id() == user_id)
-                    {
+                        requestQueue = Volley.newRequestQueue(SettingsActivity.this);
                         AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
                         View mview = getLayoutInflater().inflate(R.layout.dialog, null);
                         builder.setTitle("Choose new Admin for " + g.getName());
@@ -271,14 +243,16 @@ public class SettingsActivity extends AppCompatActivity {
                                     @Override
                                     public void onResponse(JSONArray response) {
 
-                                        for(int i=0; i<response.length();i++){
+                                        for (int i = 0; i < response.length(); i++) {
                                             try {
                                                 JSONObject o = null;
                                                 o = response.getJSONObject(i);
-                                                String groupName = o.get("user_name").toString();
-                                                Integer groupId = o.getInt("user_id");
-                                                adminUsernameList.add(groupName);
-                                                adminIdList.add(groupId);
+
+                                                String userName = o.get("user_name").toString();
+                                                Integer userId = o.getInt("user_id");
+
+                                                adminUsernameList.add(userName);
+                                                adminIdList.add(userId);
                                                 //groupIdList.add(group_id);
                                                 adminAdapter = new ArrayAdapter<String>(SettingsActivity.this,
                                                         android.R.layout.simple_spinner_item, adminUsernameList);
@@ -288,8 +262,7 @@ public class SettingsActivity extends AppCompatActivity {
 
                                                 adminAdapter.notifyDataSetChanged();
 
-                                            }
-                                            catch (JSONException e) {
+                                            } catch (JSONException e) {
                                                 e.printStackTrace();
                                             }
                                         }
@@ -304,10 +277,11 @@ public class SettingsActivity extends AppCompatActivity {
                         spinner.setOnItemSelectedListener(new SettingsActivity.OnSpinnerItemClicked());
                         requestQueue.add(queueRequest);
 
+
                         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                changeAdmin(String.valueOf(spinner.getSelectedItem()),groupid);
+                                changeAdmin(String.valueOf(spinner.getSelectedItem()), g.getId(),last);
 
 
                             }
@@ -323,13 +297,13 @@ public class SettingsActivity extends AppCompatActivity {
                         dialog1.show();
 
 
-
-
-
+                        System.out.println(g.getName());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-
                 }
-                delete();
+
+
 
             }
         }, new Response.ErrorListener() {
@@ -341,9 +315,9 @@ public class SettingsActivity extends AppCompatActivity {
         requestQueue.add(queueRequest);
         requestQueue = Volley.newRequestQueue(this);
     }
+/*
 
-
-    private void buildDialog1( int groupid , String groupName) {
+    private void buildDialog1(int groupid, String groupName) {
         AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
         View mview = getLayoutInflater().inflate(R.layout.dialog, null);
         builder.setTitle("Choose new Admin for " + groupName);
@@ -360,7 +334,7 @@ public class SettingsActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONArray response) {
 
-                        for(int i=0; i<response.length();i++){
+                        for (int i = 0; i < response.length(); i++) {
                             try {
                                 JSONObject o = null;
                                 o = response.getJSONObject(i);
@@ -377,8 +351,7 @@ public class SettingsActivity extends AppCompatActivity {
 
                                 adminAdapter.notifyDataSetChanged();
 
-                            }
-                            catch (JSONException e) {
+                            } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         }
@@ -396,7 +369,7 @@ public class SettingsActivity extends AppCompatActivity {
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                changeAdmin(String.valueOf(spinner.getSelectedItem()),groupid);
+                changeAdmin(String.valueOf(spinner.getSelectedItem()), groupid);
 
             }
         })
@@ -412,6 +385,7 @@ public class SettingsActivity extends AppCompatActivity {
 
 
     }
+*/
     public class OnSpinnerItemClicked implements AdapterView.OnItemSelectedListener {
 
         @Override
@@ -432,12 +406,10 @@ public class SettingsActivity extends AppCompatActivity {
 
         }
     }
-    public void changeAdmin(String newAdmin,int g)
-    {
-        for(int j = 0; j<adminUsernameList.size();j++)
-        {
-            if(adminUsernameList.get(j).equals(newAdmin))
-            {
+
+    public void changeAdmin(String newAdmin, int g,int last) {
+        for (int j = 0; j < adminUsernameList.size(); j++) {
+            if (adminUsernameList.get(j).equals(newAdmin)) {
                 admin = adminIdList.get(j);
             }
         }
@@ -447,12 +419,15 @@ public class SettingsActivity extends AppCompatActivity {
         System.out.println(change);
         requestQueue = Volley.newRequestQueue(SettingsActivity.this);
         StringRequest queueRequest2;
-        queueRequest2 = new StringRequest(Request.Method.GET, change,new Response.Listener<String>() {
+        queueRequest2 = new StringRequest(Request.Method.GET, change, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
-                Toast.makeText(SettingsActivity.this,"Change admin request is executed", Toast.LENGTH_LONG).show();
-                //leave();
+                Toast.makeText(SettingsActivity.this, "Change admin request is executed", Toast.LENGTH_LONG).show();
+                if(last ==1)
+                {
+                    finaldialog();
+                }
             }
 
         },
@@ -465,137 +440,52 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
 
-    /*
-    public void getMemberId(int g_id)
-    {
-        String url1 = IS_A_MEMBER + g_id;
-        System.out.println(url1);
-        requestQueue = Volley.newRequestQueue(SettingsActivity.this);
-        JsonArrayRequest queueRequest1;
-        queueRequest1 = new JsonArrayRequest(Request.Method.GET, url1, null, new Response.Listener<JSONArray>() {
+    public void delete() {
+
+
+        String delete = DELETE_ACC + user_id + "/" + user_name + "/" + user_id + "/" + user_id;
+        System.out.println(delete);
+        JsonArrayRequest queueRequest;
+        queueRequest = new JsonArrayRequest(Request.Method.GET, delete, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                String info = "";
+                Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+                Toast.makeText(SettingsActivity.this, "Account Deleted", Toast.LENGTH_LONG).show();
+            }
 
-                for (int i = 0; i < response.length(); ++i) {
-
-                    JSONObject o = null;
-                    try {
-                        o = response.getJSONObject(i);
-                        int member = o.getInt("user_id");
-                        mems.add(member);
-                    }
-                    catch (JSONException e)
-                    {
-                        e.printStackTrace();
-                    }
-
-                }
-
-                for(Integer i: mems) {
-                    if (i.intValue() == user_id) {
-                        leave(g_id);
-
-                    }
-                }
-
-
-            }},
-                error -> Toast.makeText(SettingsActivity.this, "Unable to communicate with server", Toast.LENGTH_LONG).show());
-        requestQueue.add(queueRequest1);
-    }
-
-    public void leave(int groupid)
-    {
-        String leave = LEAVE + user_id + "/" + groupid;
-        System.out.println(leave);
-        requestQueue = Volley.newRequestQueue(SettingsActivity.this);
-        StringRequest queueRequest;
-        queueRequest = new StringRequest(Request.Method.GET ,leave, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Toast.makeText(SettingsActivity.this,"Leave request is executed", Toast.LENGTH_LONG).show();
-
-                groups.remove(groupid);
-            }},
+        },
                 error -> Toast.makeText(SettingsActivity.this, "Unable to communicate with server", Toast.LENGTH_LONG).show()
-
         );
         requestQueue.add(queueRequest);
     }
 
-    public void addButtons()
-    {
-        String url = GROUP_URL;
-        System.out.println(url);
+    public void finaldialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
+
         requestQueue = Volley.newRequestQueue(this);
-        System.out.println("test");
-        JsonArrayRequest queueRequest;
 
-        queueRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                for (int i = 0; i < response.length(); ++i) {
-                    System.out.println("test1");
-                    JSONObject o = null;
-
-                    try {
-                        o = response.getJSONObject(i);
-                        final Group g = new Group(o.getInt("group_id"), o.getString("group_name"), o.getInt("admin_id"), o.getString("add_date"));
-                        System.out.println(g.getName());
-                        System.out.println(g.getId());
-                        groups.add(g);
-
+        builder.setTitle("Are you sure you want to delete your account?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        delete();
 
 
                     }
-                    catch (JSONException e) {
-                        e.printStackTrace();
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
                     }
+                });
 
 
-                }
-                for (Group m : groups) {
-                    System.out.println(m.getName());
-                }
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(SettingsActivity.this, "Unable to communicate with the server", Toast.LENGTH_LONG).show();
-            }
-        });
-
-
-        requestQueue.add(queueRequest);
+        dialog2 = builder.create();
+        dialog2.show();
     }
-
-    */
-
-public void delete()
-{
-
-
-    String delete = DELETE_ACC + user_id +"/"+ user_name +"/" + user_id +"/"+ user_id ;
-    System.out.println(delete);
-    JsonArrayRequest queueRequest;
-    queueRequest = new JsonArrayRequest(Request.Method.GET, delete, null, new Response.Listener<JSONArray>() {
-        @Override
-        public void onResponse(JSONArray response) {
-            Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
-            startActivity(intent);
-            finish();
-            Toast.makeText(SettingsActivity.this,"Account Deleted", Toast.LENGTH_LONG).show();
-        }
-
-    },
-            error -> Toast.makeText(SettingsActivity.this, "Unable to communicate with server", Toast.LENGTH_LONG).show()
-    );
-    requestQueue.add(queueRequest);
-}
-
-
 }
 
 
