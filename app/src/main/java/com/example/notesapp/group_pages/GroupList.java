@@ -50,7 +50,7 @@ public class GroupList extends AppCompatActivity {
     LinearLayout layout;
     String user_name;
     int user_id, groupid;
-    ArrayList<Integer> mems;
+    ArrayList<Integer> memberID;
     AlertDialog dialog;
 
 
@@ -65,7 +65,7 @@ public class GroupList extends AppCompatActivity {
 
             //The key argument here must match that used in the other activity
         }
-        mems = new ArrayList<>();
+        memberID = new ArrayList<>();
         groups = new ArrayList<Group>();
         alreadyRequested = new ArrayList<Integer>();
         checkIfRequested();
@@ -267,6 +267,10 @@ public class GroupList extends AppCompatActivity {
                             Toast.makeText(GroupList.this, "Group name already in use", Toast.LENGTH_SHORT).show();
 
                         }
+                        else if(name.getText().toString().trim().length() == 0)
+                        {
+                            Toast.makeText(GroupList.this, "Please enter group name", Toast.LENGTH_SHORT).show();
+                        }
                         else{
                             addGroup(name.getText().toString());
                         }
@@ -372,14 +376,14 @@ public void onErrorResponse(VolleyError error) {
                         boolean isMember = false;
                         o = response.getJSONObject(i);
                         int member = o.getInt("user_id");
-                        mems.add(member);
+                        memberID.add(member);
 
                         final View view = getLayoutInflater().inflate(R.layout.row_group, null);
                         Button b = view.findViewById(R.id.button_group_name);
                         Button join = view.findViewById(R.id.join_group);
 
                         b.setText(g.getName());
-                        for(Integer id: mems) {
+                        for(Integer id: memberID) {
                             if (id.intValue() == user_id) {
                                 isMember = true;
                             }

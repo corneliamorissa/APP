@@ -76,8 +76,8 @@ public class Group_main_page extends AppCompatActivity  {
     ArrayAdapter<String> adminAdapter;
     ArrayList<Integer> adminIdList = new ArrayList<>();
     ArrayList<String> adminUsernameList = new ArrayList<>();
-    ArrayList<Integer> mems;
-    ArrayList<String> mems_name;
+    ArrayList<Integer> memberID;
+    ArrayList<String> memberNames;
     FloatingActionButton settings;
     int test;
     Button join_btn;
@@ -101,8 +101,8 @@ public class Group_main_page extends AppCompatActivity  {
         groupPict = findViewById(R.id.imageView3);
         Bundle extras = getIntent().getExtras();
         test = 0;
-        mems = new ArrayList<>();
-        mems_name = new ArrayList<>();
+        memberID = new ArrayList<>();
+        memberNames = new ArrayList<>();
 
         if (extras != null) {
             groupName = extras.getString("group name");
@@ -453,7 +453,7 @@ public class Group_main_page extends AppCompatActivity  {
         leave2.setVisibility(View.INVISIBLE);
         photo.setVisibility(View.INVISIBLE);
 
-        if(i == 0)
+        if(i == 0)//this int is used to let the softwsre know wether the use is admin or memebr
         {
             delete2.setVisibility(View.VISIBLE);
             delete2.setOnClickListener(new View.OnClickListener() {
@@ -574,7 +574,7 @@ public class Group_main_page extends AppCompatActivity  {
                         try {
                             o = response.getJSONObject(i);
                             member = o.getInt("user_id");
-                            mems.add(member);
+                            memberID.add(member);
                         }
                         catch (JSONException e)
                         {
@@ -583,7 +583,7 @@ public class Group_main_page extends AppCompatActivity  {
 
                     }
 
-                    for(Integer i: mems)
+                    for(Integer i: memberID)
                     {
                         if(i.intValue() == userid)
                         {

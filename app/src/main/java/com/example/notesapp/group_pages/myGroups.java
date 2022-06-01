@@ -259,6 +259,10 @@ public class myGroups extends AppCompatActivity {
                             Toast.makeText(myGroups.this, "Group name already in use", Toast.LENGTH_SHORT).show();
 
                         }
+                        else if(name.getText().toString().trim().length() == 0)
+                        {
+                            Toast.makeText(myGroups.this, "Please enter group name", Toast.LENGTH_SHORT).show();
+                        }
                         else{
                             addGroup(name.getText().toString());
                         }
