@@ -237,12 +237,14 @@ public class myGroups extends AppCompatActivity {
 
         final EditText name = view.findViewById(R.id.nameEdit);
 
+
         builder.setView(view);
         builder.setTitle("Create Group")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         boolean duplicates  = false;
+
 
                         for(Group g : allGroups)
                         {
@@ -289,6 +291,7 @@ public class myGroups extends AppCompatActivity {
         StringRequest queueRequest = new StringRequest(Request.Method.GET,url,new Response.Listener<String>(){
             @Override
             public void onResponse(String response) {
+                getGroupId(name);
                 Intent refresh = new Intent(myGroups.this, myGroups.class);
                 refresh.putExtra("user name", user_name).putExtra("user id", user_id).putExtra("my groups", true).putExtra("main page", mainPage);
                 startActivity(refresh); //Start the same Activity
@@ -311,10 +314,7 @@ public class myGroups extends AppCompatActivity {
     {
         requestQueue = Volley.newRequestQueue(this);
         String url2 = JOIN_URL+ g_id + "/" + user_id ;
-        System.out.println(url2);
-
-
-        System.out.println("test");
+        System.out.println("adding admin as member ="+url2);
 
         StringRequest queueRequest2;
 
@@ -337,7 +337,7 @@ public class myGroups extends AppCompatActivity {
     {
 
         String url1 = GROUPID_URL + name;
-        System.out.println(url1);
+        System.out.println("get group id ="+url1);
         requestQueue = Volley.newRequestQueue(myGroups.this);
         JsonArrayRequest queueRequest1;
         queueRequest1 = new JsonArrayRequest(Request.Method.GET, url1, null, new Response.Listener<JSONArray>() {
@@ -351,7 +351,7 @@ public class myGroups extends AppCompatActivity {
                     try {
                         boolean isMember = false;
                         o = response.getJSONObject(i);
-                        addToMember(o.getInt("group id"));
+                        addToMember(o.getInt("group_id"));
 
 
 
@@ -367,6 +367,5 @@ public class myGroups extends AppCompatActivity {
                 error -> Toast.makeText(myGroups.this, "Unable to communicate with server", Toast.LENGTH_LONG).show());
         requestQueue.add(queueRequest1);
     }
-
 
 }

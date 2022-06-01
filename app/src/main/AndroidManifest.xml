@@ -8,9 +8,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/logo_pixit"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/logo_pixit_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NotesApp">
         <activity
@@ -31,9 +31,7 @@
         <activity
             android:name=".image_pages.UserDocument"
             android:exported="false" />
-        <activity
-            android:name=".CreateGroupActivity"
-            android:exported="false" />
+
         <activity
             android:name=".topic_pages.Topic_Activity"
             android:exported="false" />
